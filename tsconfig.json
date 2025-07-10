@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/TrackingTi.me-e2e"
+    },
+    {
+      "path": "./apps/TrackingTi.me"
+    }
+  ]
+}
