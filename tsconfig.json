@@ -4,10 +4,13 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/TrackingTi.me-e2e"
+      "path": "./apps/tracker/app"
     },
     {
-      "path": "./apps/TrackingTi.me"
+      "path": "./apps/tracker/e2e"
+    },
+    {
+      "path": "./libs/tracker/data"
     }
   ]
 }

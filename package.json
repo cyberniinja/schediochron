@@ -1,5 +1,5 @@
 {
-  "name": "@tracking-ti.me/source",
+  "name": "@schediochron/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {},
@@ -10,6 +10,8 @@
     "react-dom": "19.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
     "@eslint/compat": "^1.1.1",
     "@eslint/eslintrc": "^2.1.1",
     "@eslint/js": "^9.8.0",
@@ -20,12 +22,14 @@
     "@nx/js": "21.2.2",
     "@nx/next": "21.2.2",
     "@nx/playwright": "21.2.2",
+    "@nx/react": "21.2.2",
     "@nx/workspace": "21.2.2",
     "@playwright/test": "^1.36.0",
     "@swc-node/register": "~1.9.1",
     "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/node": "^20.0.0",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
     "eslint": "^9.8.0",
@@ -44,6 +48,7 @@
     "typescript-eslint": "^8.29.0"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ]
 }
