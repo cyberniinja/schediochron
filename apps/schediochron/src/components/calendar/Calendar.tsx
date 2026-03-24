@@ -46,7 +46,7 @@ const getWeekArray = (year: number, month: number): Date[][] => {
 };
 
 export function Calendar() {
-  const [now, setNow] = useState<Date>(new Date());
+  const [now] = useState<Date>(new Date());
   const daysArray = getWeekArray(now.getFullYear(), now.getMonth());
 
   return (

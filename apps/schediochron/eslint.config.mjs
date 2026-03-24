@@ -5,8 +5,14 @@ export default [
   ...baseConfig,
   ...nx.configs['flat/react'],
   {
+    settings: {
+      react: {
+        version: '19',
+      },
+    },
+  },
+  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
     rules: {},
   },
 ];
