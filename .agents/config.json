@@ -1,0 +1,46 @@
+{
+  "workspace": {
+    "name": "schediochron",
+    "type": "nx-monorepo",
+    "language": "typescript",
+    "packageManager": "bun"
+  },
+  "projects": [
+    {
+      "name": "schediochron",
+      "type": "react-app",
+      "path": "apps/schediochron",
+      "description": "Main React application using Vite"
+    },
+    {
+      "name": "schediochron-e2e",
+      "type": "playwright-e2e",
+      "path": "apps/schediochron-e2e",
+      "description": "End-to-end tests using Playwright"
+    }
+  ],
+  "build": {
+    "command": "npx nx build",
+    "description": "Build all projects"
+  },
+  "dev": {
+    "command": "npx nx serve schediochron",
+    "description": "Start development server"
+  },
+  "test": {
+    "command": "npx nx test",
+    "description": "Run all tests"
+  },
+  "lint": {
+    "command": "npx nx lint",
+    "description": "Lint all projects"
+  },
+  "typecheck": {
+    "command": "npx nx typecheck",
+    "description": "Type check all projects"
+  },
+  "e2e": {
+    "command": "npx nx e2e schediochron-e2e",
+    "description": "Run end-to-end tests"
+  }
+}
