@@ -16,6 +16,34 @@ bun install
 npx nx serve schediochron
 ```
 
+### Secrets
+
+This project uses FontAwesome Pro, which requires an auth token. Secrets are managed with [direnv](https://direnv.net/), which automatically loads per-project environment variables without polluting your shell profile.
+
+1. Install direnv and add the hook to your shell:
+   ```bash
+   brew install direnv
+   echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc  # or ~/.bashrc
+   source ~/.zshrc
+   ```
+
+2. Copy `.envrc.example` to `.envrc` and fill in your token:
+   ```bash
+   cp .envrc.example .envrc
+   # edit .envrc and add your FontAwesome token
+   direnv allow
+   ```
+
+3. Copy `bunfig.toml.example` to `bunfig.toml` — it reads the token from the environment:
+   ```bash
+   cp bunfig.toml.example bunfig.toml
+   ```
+
+4. Install dependencies:
+   ```bash
+   bun install
+   ```
+
 ## Issues
 
 ### Creating Issues

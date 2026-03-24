@@ -1,0 +1,6 @@
+# Copy this file to .envrc and fill in your values.
+# direnv will automatically load it when you cd into this directory.
+# Install direnv: https://direnv.net
+
+# FontAwesome token — get yours at https://fontawesome.com/account
+export FONTAWESOME_TOKEN="<your-fontawesome-token>"
