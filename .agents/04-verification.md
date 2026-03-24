@@ -24,9 +24,11 @@
 
 ### 3. Check Code Quality
 
-- Run type checking (`npx nx typecheck`)
-- Run linting (`npx nx lint`)
-- Run formatting check (`npx prettier --check .`)
+- Run type checking (`bun nx typecheck`)
+- Run linting (`bun nx lint`)
+- Run formatting check (`bunx prettier --check .`)
+- Run a production build (`bun nx build`) — catches errors that type checking alone may miss
+- **Check for case-sensitive imports**: macOS is case-insensitive so broken imports pass locally but fail on Linux CI. Verify that all import paths exactly match the file/directory names on disk (e.g., `import './Layout.scss'` not `import './layout.scss'`).
 - Fix any issues found and re-verify
 
 ### 4. Review Code Style
@@ -53,10 +55,12 @@ Save a file named `verification.md` in the task folder (e.g., `.agents/42-add-pr
 ## Checklist
 
 - [ ] All requirements from `comprehension.md` verified as met
-- [ ] Full test suite passes (`npx nx test`)
+- [ ] Full test suite passes (`bun nx test`)
 - [ ] E2E tests pass (if applicable)
-- [ ] Type checking passes (`npx nx typecheck`)
-- [ ] Linting passes (`npx nx lint`)
+- [ ] Type checking passes (`bun nx typecheck`)
+- [ ] Linting passes (`bun nx lint`)
+- [ ] Production build succeeds (`bun nx build`)
+- [ ] All import paths are case-correct (match actual filenames on disk)
 - [ ] Code formatting is correct
 - [ ] Code style follows project conventions
 - [ ] No regressions introduced
