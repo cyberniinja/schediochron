@@ -1,7 +1,8 @@
 import { StrictMode } from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
-import App from './app/app';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Layout } from './components/layout/Layout';
+import { HomePage } from './pages/HomePage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,7 +11,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <Layout footer="© 2024 Elias Mjøen">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   </StrictMode>
 );

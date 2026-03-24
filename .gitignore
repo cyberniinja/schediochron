@@ -1,4 +1,6 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+.npmrc
+bunfig.toml
 
 # compiled output
 dist
@@ -42,6 +44,7 @@ Thumbs.db
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+.copilot/
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*

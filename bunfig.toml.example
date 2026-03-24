@@ -1,0 +1,5 @@
+# Copy this file to bunfig.toml and fill in your FontAwesome token.
+# Get your token at: https://fontawesome.com/account
+[install.scopes]
+awesome.me = { url = "https://npm.fontawesome.com/", _authToken = "<your-fontawesome-token>"}
+fortawesome = { url = "https://npm.fontawesome.com/", _authToken = "<your-fontawesome-token>"}
