@@ -43,7 +43,7 @@
 
 ## Expected Output
 
-Save a file named `verification.md` in the task folder (e.g., `.agents/42-add-profile-component/verification.md`) containing:
+Save a file named `verification.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/verification.md`) containing:
 
 - Requirements checklist — each requirement from `comprehension.md` marked as met or not met
 - Test results (all tests, not just new ones)
@@ -64,7 +64,7 @@ Save a file named `verification.md` in the task folder (e.g., `.agents/42-add-pr
 - [ ] Code formatting is correct
 - [ ] Code style follows project conventions
 - [ ] No regressions introduced
-- [ ] `verification.md` saved in the task folder
+- [ ] `verification.md` saved in the issue folder
 - [ ] Ready to move to Phase 5 (Reporting)
 
 ## When to Go Back

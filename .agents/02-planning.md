@@ -43,7 +43,7 @@
 
 ## Expected Output
 
-Save a file named `planning.md` in the task folder (e.g., `.agents/42-add-profile-component/planning.md`) containing:
+Save a file named `planning.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/planning.md`) containing:
 
 - The proposed approaches with trade-offs
 - The developer's chosen approach and reasoning
@@ -63,7 +63,7 @@ Save a file named `planning.md` in the task folder (e.g., `.agents/42-add-profil
 - [ ] Files to modify listed
 - [ ] Risks identified and mitigations planned
 - [ ] Tests planned — what to test and where
-- [ ] `planning.md` saved in the task folder
+- [ ] `planning.md` saved in the issue folder
 - [ ] Ready to move to Phase 3 (Implementation)
 
 ## When to Go Back
