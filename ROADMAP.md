@@ -27,9 +27,11 @@ Schediochron is composed of independently usable packages:
 | `@schediochron/core` | Baseline interfaces, data models, and core business logic |
 | `@schediochron/sql` | PostgreSQL (and SQL-compatible) database adapter |
 | `@schediochron/mongo` | MongoDB database adapter |
-| `@schediochron/react` | React component library |
-| `@schediochron/vue` | Vue component library |
-| `@schediochron/api` | REST API server |
+| `@schediochron/react-components` | React component library — reusable UI components (calendar, time entry, etc.) for use in any React application |
+| `@schediochron/react-app` | Full React frontend application — a ready-to-run web UI built on `@schediochron/react-components`, requiring `@schediochron/api` to function |
+| `@schediochron/vue-components` | Vue component library — equivalent of `react-components` for Vue applications |
+| `@schediochron/vue-app` | Full Vue frontend application |
+| `@schediochron/api` | REST API server — the backend all frontend applications communicate with |
 | `@schediochron/cli` | Command-line interface |
 | `@schediochron/mcp` | MCP (Model Context Protocol) server |
 
@@ -44,38 +46,38 @@ Pre-configured bundles and Docker images will be provided for common stacks to g
 
 ---
 
-## Milestones
+## Phases
 
-### v0.2 — Architecture Foundation
+### Phase 1: Architecture Foundation
 Establish the modular monorepo structure that everything else builds on.
 
 - Restructure monorepo around the package architecture above
 - Extract `@schediochron/core` — shared data models and interfaces
-- Refactor the current React prototype into `@schediochron/react` as a proper component library
+- Refactor the current React prototype into `@schediochron/react-components` (component library) and `@schediochron/react-app` (full application)
 
-### v0.3 — First Stack
+### Phase 2: First Stack
 Implement the first complete technology stack: **React + PostgreSQL + REST API**.
 
 - `@schediochron/sql` — PostgreSQL adapter implementing `@schediochron/core` interfaces
 - `@schediochron/api` — REST API server
-- Wire the three packages together into a working, functional time management system
+- Wire `@schediochron/react-app` + `@schediochron/api` + `@schediochron/sql` into a working, functional time management system
 
-### v0.4 — Configuration & Composition
+### Phase 3: Configuration & Composition
 Define how Schediochron modules are composed into a complete system.
 
 - Design and implement the configuration concept
 - Ship the first full application bundle (React + PostgreSQL + REST API)
 - Document how to assemble a custom stack from individual packages
 
-### v0.5 — Ecosystem Expansion
+### Phase 4: Ecosystem Expansion
 Expand the ecosystem beyond the initial reference stack.
 
 - `@schediochron/mongo` — MongoDB adapter
 - `@schediochron/cli` — CLI for managing time entries and system admin
 - `@schediochron/mcp` — MCP server for AI tooling integration
-- `@schediochron/vue` — Vue component library
+- `@schediochron/vue-components` + `@schediochron/vue-app` — Vue equivalents
 
-### v1.0 — General Availability
+### Phase 5: General Availability
 Production-ready release for teams of all sizes.
 
 - Pre-configured Docker images and quickstart bundles
@@ -89,7 +91,7 @@ Production-ready release for teams of all sizes.
 
 **Version:** 0.1.x (prototype)
 
-The current codebase is a React UI prototype demonstrating the calendar-based time tracking interface. It has no data persistence or backend. It will be refactored into `@schediochron/react` in v0.2.
+The current codebase is a React UI prototype demonstrating the calendar-based time tracking interface. It has no data persistence or backend. It will be split into `@schediochron/react-components` (component library) and `@schediochron/react-app` (full application) in Phase 1.
 
 ---
 
