@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "apps/schediochron": {
+      "release-type": "node",
+      "package-name": "schediochron",
+      "include-component-in-tag": true,
+      "tag-separator": "@"
+    }
+  }
+}
