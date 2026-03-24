@@ -1,0 +1,168 @@
+# Contributing to Schediochron
+
+Thank you for contributing! This guide covers the conventions and standards for working on this project.
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) installed
+- [Node.js](https://nodejs.org/) (for Nx CLI)
+
+### Setup
+
+```bash
+bun install
+npx nx serve schediochron
+```
+
+## Issues
+
+### Creating Issues
+
+Every task should have a GitHub issue. Issues must include a **type label** (`feature`, `bug`, `chore`, `refactoring`).
+
+#### Feature Request
+
+```markdown
+## Description
+A clear and concise description of the feature.
+
+## Motivation
+Why is this feature needed? What problem does it solve?
+
+## Proposed Solution
+How should this feature work?
+
+## Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
+
+## Additional Context
+Any mockups, screenshots, or references.
+```
+
+#### Bug Report
+
+```markdown
+## Description
+A clear and concise description of the bug.
+
+## Steps to Reproduce
+1. Go to '...'
+2. Click on '...'
+3. See error
+
+## Expected Behaviour
+What should happen.
+
+## Actual Behaviour
+What actually happens.
+
+## Environment
+- Browser:
+- OS:
+
+## Additional Context
+Screenshots, error logs, or stack traces.
+```
+
+#### Chore / Refactoring
+
+```markdown
+## Description
+A clear and concise description of the task.
+
+## Motivation
+Why is this change needed?
+
+## Scope
+What is affected by this change?
+
+## Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
+```
+
+### Issue Labels
+
+| Label         | Usage                              | Colour  |
+| ------------- | ---------------------------------- | ------- |
+| `feature`     | New functionality                  | Green   |
+| `bug`         | Bug fixes                          | Red     |
+| `chore`       | Maintenance, dependencies, tooling | Yellow  |
+| `refactoring` | Code restructuring                 | Blue    |
+
+## Branches
+
+### Naming Convention
+
+```
+{type}/{issueNr}-{issueName}
+```
+
+| Type          | Usage                              | Example                            |
+| ------------- | ---------------------------------- | ---------------------------------- |
+| `feature`     | New functionality                  | `feature/42-add-profile-component` |
+| `bug`         | Bug fixes                          | `bug/17-fix-calendar-rendering`    |
+| `chore`       | Maintenance, dependencies, tooling | `chore/88-update-dependencies`     |
+| `refactoring` | Code restructuring                 | `refactoring/23-extract-layout`    |
+
+## Commits
+
+### Message Format
+
+```
+{type}(#{issueNr}): description
+```
+
+Types: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`, `style`
+
+Example: `feat(#42): add profile component`
+
+### Co-authored Commits
+
+When working with AI agents, include the trailer:
+
+```
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+```
+
+## Versioning
+
+Tags follow monorepo-scoped semantic versioning:
+
+```
+schediochron@{major}.{minor}.{patch}
+```
+
+- **major** — breaking changes
+- **minor** — new features (backward-compatible)
+- **patch** — bug fixes, chores, refactoring
+
+Tagging is handled by CI/CD on merges to `main`.
+
+## Code Quality
+
+All contributions must pass before merging:
+
+```bash
+npx nx test           # Unit/integration tests
+npx nx lint           # Linting
+npx nx typecheck      # Type checking
+npx prettier --check . # Formatting
+```
+
+### Code Standards
+
+- TypeScript strict mode is enforced
+- Use functional React components (no class components)
+- Use hooks for state and side effects
+- Props must be typed with TypeScript interfaces
+- Styles in separate SCSS module files
+- No `console.error` or `console.warn` in production code
+
+## AI Agents
+
+This project includes structured agent workflow documentation in [`.agents/`](.agents/index.md) for AI-assisted development. Agents follow a 5-phase workflow (Comprehension → Planning → Implementation → Verification → Reporting).
