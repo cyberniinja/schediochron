@@ -50,9 +50,9 @@ Starts the agent workflow for a task. This is the entry point for all agent work
    - Run `npx nx typecheck` after changes
 
 3. **Code Quality**
-   - Must pass linting: `npx nx lint`
-   - Must pass testing: `npx nx test`
-   - Code must be formatted: `npx prettier --write <file>`
+   - Must pass linting: `bun nx lint`
+   - Must pass testing: `bun nx test`
+   - Code must be formatted: `bunx prettier --write <file>`
    - No console.error or console.warn in production code
 
 4. **Commit Standards**
@@ -99,40 +99,40 @@ schediochron/
 bun install
 
 # Verify setup
-npx nx graph
+bun nx graph
 ```
 
 ### Development
 ```bash
 # Start dev server (http://localhost:4200)
-npx nx serve schediochron
+bun nx serve schediochron
 
 # Build production bundle
-npx nx build schediochron
+bun nx build schediochron
 
 # Generate new component
-npx nx generate @nx/react:component --project=schediochron --name=MyComponent
+bun nx generate @nx/react:component --project=schediochron --name=MyComponent
 ```
 
 ### Quality Assurance
 ```bash
 # Lint all code
-npx nx lint
+bun nx lint
 
 # Type check all projects
-npx nx typecheck
+bun nx typecheck
 
 # Format code
-npx prettier --write .
+bunx prettier --write .
 
 # Run unit/integration tests
-npx nx test
+bun nx test
 
 # Run E2E tests
-npx nx e2e schediochron-e2e
+bun nx e2e schediochron-e2e
 
 # Run specific test file
-npx nx test --testFile=src/components/MyComponent.spec.tsx
+bun nx test --testFile=src/components/MyComponent.spec.tsx
 ```
 
 ### Git Workflow
@@ -160,11 +160,14 @@ git status
 git add <files>
 
 # Commit with trailer
-git commit -m "feat(#42): description" 
+git commit -m "feat(#42): description"
 
-# Push to remote
+# Push branch and open a pull request (all changes go through PRs)
 git push origin <branch>
+gh pr create --head <branch> --base main --title "feat(#42): description" --body "..."
 ```
+
+> **Note:** Direct pushes to `main` are not allowed. All changes must go through a pull request.
 
 ## Testing Patterns
 
@@ -181,21 +184,21 @@ git push origin <branch>
 ## Error Handling
 
 ### Build Errors
-1. Check TypeScript compilation: `npx nx typecheck`
+1. Check TypeScript compilation: `bun nx typecheck`
 2. Review error messages carefully
 3. Check tsconfig files for strict settings
 4. Ensure all imports are correct
 
 ### Test Failures
-1. Run specific test with verbose output: `npx nx test --verbose`
+1. Run specific test with verbose output: `bun nx test --verbose`
 2. Check test files for setup/teardown issues
 3. Verify dependencies are installed: `bun install`
 4. Check for missing mocks
 
 ### Linting Issues
-1. Run linter to see all issues: `npx nx lint`
-2. Auto-fix where possible: `npx nx lint --fix`
-3. Apply Prettier: `npx prettier --write <file>`
+1. Run linter to see all issues: `bun nx lint`
+2. Auto-fix where possible: `bun nx lint --fix`
+3. Apply Prettier: `bunx prettier --write <file>`
 
 ## Documentation
 

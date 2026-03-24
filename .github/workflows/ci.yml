@@ -26,9 +26,18 @@ jobs:
       - run: bun install --no-cache
         env:
           FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
-      - run: bun playwright install --with-deps
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: bun nx-cloud record -- echo Hello World
-      # When you enable task distribution, run the e2e-ci task instead of e2e
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright/chromium-*
+          key: playwright-chromium-${{ hashFiles('bun.lockb') }}
+
+      - run: bun playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - run: bun playwright install-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
       - run: bun nx run-many -t lint test build typecheck e2e

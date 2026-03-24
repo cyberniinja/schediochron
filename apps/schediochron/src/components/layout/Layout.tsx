@@ -1,4 +1,4 @@
-import './layout.scss';
+import './Layout.scss';
 import { Navbar } from './navbar/Navbar';
 
 export const Layout = ({
