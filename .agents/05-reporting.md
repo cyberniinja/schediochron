@@ -60,7 +60,7 @@ Brief description of what was done.
 
 ## Expected Output
 
-Save a file named `report.md` in the task folder (e.g., `.agents/42-add-profile-component/report.md`) containing the report in the format above.
+Save a file named `report.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/report.md`) containing the report in the format above.
 
 Additionally, present the report summary directly to the developer in the conversation.
 
@@ -71,6 +71,6 @@ Additionally, present the report summary directly to the developer in the conver
 - [ ] Commits listed
 - [ ] Verification results included
 - [ ] Remaining issues noted
-- [ ] `report.md` saved in the task folder
+- [ ] `report.md` saved in the issue folder
 - [ ] Report presented to the developer
 - [ ] Task complete

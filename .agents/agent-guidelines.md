@@ -2,15 +2,15 @@
 
 ## Commands
 
-### `/start-task`
+### `/work-issue`
 
-Starts the agent workflow for a task. This is the entry point for all agent work.
+Starts the agent workflow for an issue. This is the entry point for all agent work.
 
 **Usage:**
 
-- `/start-task` — Start the workflow without context. The agent will ask the developer to describe the task before proceeding.
-- `/start-task #42` — Start work on existing GitHub issue #42. The agent pulls the issue title, description, and labels from GitHub to populate Phase 1.
-- `/start-task Add profile component` — Start work on a new task with a brief description. The agent creates a GitHub issue first, then proceeds with Phase 1.
+- `/work-issue` — Start the workflow without context. The agent will ask the developer to describe the task before proceeding.
+- `/work-issue #42` — Start work on existing GitHub issue #42. The agent pulls the issue title, description, and labels from GitHub to populate Phase 1.
+- `/work-issue Add profile component` — Start work on a new task with a brief description. The agent creates a GitHub issue first, then proceeds with Phase 1.
 
 **What the agent does:**
 
@@ -18,7 +18,7 @@ Starts the agent workflow for a task. This is the entry point for all agent work
    - Ask the developer to describe the task
    - Do **not** create a GitHub issue yet — proceed through comprehension (analyze, clarify, evaluate size) first
    - Once the task is fully understood, create the issue with a clear, concise title and description derived from the comprehension phase
-   - Then create the task folder and branch
+   - Then create the issue folder and branch
 2. If an issue number is provided (`#42`):
    - Fetch the issue details (title, description, labels) from GitHub
    - Derive the task type from the issue label (`feature`, `bug`, `chore`, `refactoring`)
@@ -27,7 +27,7 @@ Starts the agent workflow for a task. This is the entry point for all agent work
    - Use the description as a starting point for comprehension
    - Do **not** create a GitHub issue yet — proceed through comprehension (analyze, clarify, evaluate size) first
    - Once the task is fully understood, create the issue with the appropriate type label via `gh issue create`
-   - Then create the task folder and branch
+   - Then create the issue folder and branch
 4. Proceed to Phase 1 (Comprehension) with the issue context
 
 ## Quick Start for Agents

@@ -37,7 +37,7 @@
 
 ## Expected Output
 
-Save a file named `implementation.md` in the task folder (e.g., `.agents/42-add-profile-component/implementation.md`) containing:
+Save a file named `implementation.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/implementation.md`) containing:
 
 - A log of each step completed, with notes on any deviations from the plan
 - A list of commits made during implementation
@@ -49,7 +49,7 @@ Save a file named `implementation.md` in the task folder (e.g., `.agents/42-add-
 - [ ] Code follows project conventions
 - [ ] Tests implemented as planned in Phase 2
 - [ ] Commits made with clear messages and co-author trailer
-- [ ] `implementation.md` saved in the task folder
+- [ ] `implementation.md` saved in the issue folder
 - [ ] Ready to move to Phase 4 (Verification)
 
 ## When to Go Back

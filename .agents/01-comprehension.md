@@ -4,11 +4,11 @@
 
 ## Expected Input
 
-A `/start-task` command in one of three forms (see `agent-guidelines.md` for details):
+A `/work-issue` command in one of three forms (see `agent-guidelines.md` for details):
 
-- `/start-task #42` — existing issue number
-- `/start-task Add profile component` — short description, no issue yet
-- `/start-task` — no arguments, agent asks the developer
+- `/work-issue #42` — existing issue number
+- `/work-issue Add profile component` — short description, no issue yet
+- `/work-issue` — no arguments, agent asks the developer
 
 ## Behaviour
 
@@ -30,7 +30,7 @@ A `/start-task` command in one of three forms (see `agent-guidelines.md` for det
 
 - Estimate the ballpark size of the change (small, medium, large)
 - If the task is large enough that the resulting changes would be difficult to review (roughly >50 files changed, or fewer if individual file changes are expected to be very large), propose splitting it into smaller subtasks
-- Each subtask should go through its own full workflow (Phases 1–5) with its own task folder
+- Each subtask should go through its own full workflow (Phases 1–5) with its own issue folder
 - Present the proposed subtasks to the developer for approval
 - There can be exceptions if the task cannot sensibly be sliced smaller — document why
 
@@ -44,7 +44,7 @@ A `/start-task` command in one of three forms (see `agent-guidelines.md` for det
 
 ### 5. Set Up Task Infrastructure
 
-- Create a folder inside `.agents/` named `{issueNr}-{issueName}` (e.g., `.agents/42-add-profile-component/`)
+- Create a folder inside `.agents/issues/` named `{issueNr}-{issueName}` (e.g., `.agents/issues/42-add-profile-component/`)
 - Check if the correct branch already exists and switch to it
 - If not, create a new branch: `{type}/{issueNr}-{issueName}`
   - The type is derived from the issue label
@@ -58,7 +58,7 @@ A `/start-task` command in one of three forms (see `agent-guidelines.md` for det
 
 ## Expected Output
 
-Save a file named `comprehension.md` in the task folder (e.g., `.agents/42-add-profile-component/comprehension.md`) containing:
+Save a file named `comprehension.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/comprehension.md`) containing:
 
 - A summary of the task in the agent's own words
 - Clarifying questions and answers from the user
@@ -69,13 +69,13 @@ Save a file named `comprehension.md` in the task folder (e.g., `.agents/42-add-p
 ## Checklist
 
 - [ ] GitHub issue resolved (fetched or created)
-- [ ] Task folder created at `.agents/{issueNr}-{issueName}/`
+- [ ] Issue folder created at `.agents/issues/{issueNr}-{issueName}/`
 - [ ] Task branch created or checked out (`{type}/{issueNr}-{issueName}`)
 - [ ] Task description fully read and understood
 - [ ] Ambiguities identified and clarified with the user
 - [ ] Task size evaluated — split into subtasks if needed
 - [ ] Assumptions documented and confirmed
-- [ ] `comprehension.md` saved in the task folder
+- [ ] `comprehension.md` saved in the issue folder
 - [ ] Ready to move to Phase 2 (Planning)
 
 ## When to Go Back
