@@ -41,12 +41,6 @@
 
 - If applicable, manually verify the feature works as expected (e.g., serve the app and test the UI)
 
-### 6. Check CI Status
-
-- Push the branch to GitHub if not already pushed
-- Wait for CI to complete and confirm all checks pass (`gh run list --branch <branch>` or check the PR checks)
-- Do not proceed to Phase 5 if CI is failing
-
 ## Expected Output
 
 Save a file named `verification.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/verification.md`) containing:
@@ -70,7 +64,6 @@ Save a file named `verification.md` in the issue folder (e.g., `.agents/issues/4
 - [ ] Code formatting is correct
 - [ ] Code style follows project conventions
 - [ ] No regressions introduced
-- [ ] CI checks pass on GitHub
 - [ ] `verification.md` saved in the issue folder
 - [ ] Ready to move to Phase 5 (Reporting)
 

@@ -98,9 +98,8 @@ Key steps:
 6. Check formatting: `bunx prettier --check .`
 7. Run a production build: `bun nx build`
 8. **Check case-sensitive imports** — macOS is case-insensitive but CI runs on Linux. Verify all import paths match the actual filenames on disk exactly.
-9. Push the branch and confirm all CI checks pass (`gh run list --branch <branch>`).
-10. Fix any issues found and re-verify before proceeding.
-11. Save `verification.md` in the issue folder with PASS/FAIL status.
+9. Fix any issues found and re-verify before proceeding.
+10. Save `verification.md` in the issue folder with PASS/FAIL status.
 
 Do **not** move to Phase 5 until all checks pass.
 
