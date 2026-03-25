@@ -76,36 +76,36 @@ cp bunfig.toml.example bunfig.toml
 bun install
 
 # Start the React app dev server (http://localhost:4200)
-npx nx serve schediochron
+bun nx serve schediochron
 ```
 
 ### Common Commands
 
 ```bash
 # Build
-npx nx build schediochron
+bun nx build schediochron
 
 # Run unit/integration tests
-npx nx test schediochron
+bun nx test schediochron
 
 # Run E2E tests
-npx nx e2e schediochron-e2e
+bun nx e2e schediochron-e2e
 
 # Lint
-npx nx lint schediochron
+bun nx lint schediochron
 
 # Type check
-npx nx typecheck schediochron
+bun nx typecheck schediochron
 
 # Format
-npx prettier --write .
+bun prettier --write .
 ```
 
 Once the monorepo grows in Phase 1+, use `nx run-many` to target all packages:
 
 ```bash
-npx nx run-many --target=build --all
-npx nx run-many --target=test --all
+bun nx run-many --target=build --all
+bun nx run-many --target=test --all
 ```
 
 ---
