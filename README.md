@@ -1,80 +1,123 @@
 # Schediochron
 
-A time tracking application built with React, TypeScript, and Vite in an Nx monorepo.
+**Free, open-source, modular, self-hostable time management for any team.**
 
-## Tech Stack
+Teams shouldn't have to pay for time management software. Schediochron provides everything you need to run your own time tracking system — pick only the parts you need, or use a pre-configured starter bundle to get running in minutes.
 
-- **Framework**: React 19
-- **Language**: TypeScript 5.9
-- **Bundler**: Vite 8
-- **Monorepo**: Nx 22
-- **Package Manager**: Bun
-- **Styling**: SCSS Modules
-- **Testing**: Vitest (unit/integration), Playwright (E2E)
-- **Linting**: ESLint, Prettier
+> 📍 See [ROADMAP.md](ROADMAP.md) for the full vision and planned milestones.
+> 📋 Track progress on the [project board →](https://github.com/users/cyberniinja/projects/2)
 
-## Getting Started
+---
+
+## Current Status
+
+**Early prototype (v0.1.x).** The current codebase is a React UI prototype demonstrating the calendar-based time tracking interface. Active development is underway toward a full modular platform — see [ROADMAP.md](ROADMAP.md) for what's coming.
+
+---
+
+## What We're Building
+
+Schediochron is composed of independently usable packages:
+
+| Package | Purpose | Status |
+|---------|---------|--------|
+| `@schediochron/core` | Data models, repository interfaces, and validation logic | 🔜 Phase 1 |
+| `@schediochron/sql` | PostgreSQL database adapter | 🔜 Phase 2 |
+| `@schediochron/mongo` | MongoDB database adapter | 🔜 Phase 4 |
+| `@schediochron/api` | REST API server | 🔜 Phase 2 |
+| `@schediochron/config` | Configuration schema and loader for composing modules | 🔜 Phase 3 |
+| `@schediochron/react-components` | Reusable React UI components (calendar, time entry, etc.) | 🔜 Phase 1 |
+| `@schediochron/react-app` | Full React frontend application | 🚧 Prototype |
+| `@schediochron/vue-components` | Reusable Vue UI components | 🔜 Phase 4 |
+| `@schediochron/vue-app` | Full Vue frontend application | 🔜 Phase 4 |
+| `@schediochron/cli` | Command-line interface | 🔜 Phase 4 |
+| `@schediochron/mcp` | MCP server for AI assistant integration | 🔜 Phase 4 |
+| `@schediochron/starter-pg` | Pre-configured bundle: PostgreSQL + API + React | 🔜 Phase 3 |
+| `@schediochron/starter-mongo` | Pre-configured bundle: MongoDB + API + React | 🔜 Phase 4 |
+
+**Starter bundles** let you run the full stack with a single command. They're organized by backend — choose PostgreSQL or MongoDB, the frontend is included and swappable.
+
+---
+
+## Repository Structure
+
+```
+schediochron/
+├── apps/
+│   ├── schediochron/           # @schediochron/react-app (prototype)
+│   └── schediochron-e2e/       # Playwright E2E tests
+├── packages/                   # Library packages (added in Phase 1+)
+├── docs/
+│   └── adr/                    # Architecture Decision Records
+├── openapi.yaml                # REST API contract (added in Phase 1)
+├── ROADMAP.md                  # Vision and phase breakdown
+├── CONTRIBUTING.md             # Contribution guidelines
+├── .agents/                    # AI agent workflow documentation
+├── nx.json                     # Nx workspace config
+└── tsconfig.base.json          # Shared TypeScript config
+```
+
+---
+
+## Development Setup
 
 ### Prerequisites
 
 - [Bun](https://bun.sh/) installed
-- [Node.js](https://nodejs.org/) (for Nx CLI)
+- A FontAwesome Pro token (see `bunfig.toml.example`)
 
 ### Setup
 
 ```bash
+# Copy Bun config and add your FontAwesome token
+cp bunfig.toml.example bunfig.toml
+
 # Install dependencies
 bun install
 
-# Start the dev server (http://localhost:4200)
+# Start the React app dev server (http://localhost:4200)
 npx nx serve schediochron
 ```
 
 ### Common Commands
 
 ```bash
-# Build for production
+# Build
 npx nx build schediochron
 
 # Run unit/integration tests
-npx nx test
+npx nx test schediochron
 
 # Run E2E tests
 npx nx e2e schediochron-e2e
 
 # Lint
-npx nx lint
+npx nx lint schediochron
 
 # Type check
-npx nx typecheck
+npx nx typecheck schediochron
 
 # Format
 npx prettier --write .
 ```
 
-## Project Structure
+Once the monorepo grows in Phase 1+, use `nx run-many` to target all packages:
 
+```bash
+npx nx run-many --target=build --all
+npx nx run-many --target=test --all
 ```
-schediochron/
-├── apps/
-│   ├── schediochron/           # Main React application
-│   │   ├── src/
-│   │   │   ├── main.tsx        # Entry point
-│   │   │   ├── components/     # React components
-│   │   │   ├── pages/          # Page components
-│   │   │   └── assets/         # Static assets
-│   │   └── project.json        # Nx project config
-│   └── schediochron-e2e/       # Playwright E2E tests
-├── .agents/                    # Agent workflow documentation
-├── nx.json                     # Nx workspace config
-├── tsconfig.base.json          # Shared TypeScript config
-└── eslint.config.mjs           # ESLint config
-```
+
+---
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on issues, branches, commits, code quality, and versioning.
 
-### AI Agents
+This project uses a structured 5-phase agent workflow. See [`.agents/index.md`](.agents/index.md) for details on how to work with AI agents in this repo.
 
-This project includes structured agent workflow documentation in `.agents/`. See [`.agents/index.md`](.agents/index.md) for details.
+---
+
+## License
+
+MIT — free to use, self-host, and modify. See [LICENSE](LICENSE) (coming in Phase 5).

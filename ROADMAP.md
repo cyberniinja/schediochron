@@ -34,8 +34,14 @@ Schediochron is composed of independently usable packages:
 | `@schediochron/api` | REST API server — the backend all frontend applications communicate with |
 | `@schediochron/cli` | Command-line interface |
 | `@schediochron/mcp` | MCP (Model Context Protocol) server |
+| `@schediochron/config` | Configuration schema, validation, and loader for composing modules |
 
-Pre-configured bundles and Docker images will be provided for common stacks to get up and running quickly with sensible defaults.
+**Starter bundles** are organized by backend combination (not frontend tech). Each ships with a default React frontend, swappable via config:
+
+| Starter | Stack |
+|---------|-------|
+| `@schediochron/starter-pg` | PostgreSQL + REST API |
+| `@schediochron/starter-mongo` | MongoDB + REST API |
 
 ---
 
@@ -66,13 +72,15 @@ Implement the first complete technology stack: **React + PostgreSQL + REST API**
 Define how Schediochron modules are composed into a complete system.
 
 - Design and implement the configuration concept
-- Ship the first full application bundle (React + PostgreSQL + REST API)
+- Refactor existing packages to consume `@schediochron/config`
+- Ship the first full application bundle (`@schediochron/starter-pg`)
 - Document how to assemble a custom stack from individual packages
 
 ### Phase 4: Ecosystem Expansion
 Expand the ecosystem beyond the initial reference stack.
 
 - `@schediochron/mongo` — MongoDB adapter
+- `@schediochron/starter-mongo` — MongoDB starter bundle
 - `@schediochron/cli` — CLI for managing time entries and system admin
 - `@schediochron/mcp` — MCP server for AI tooling integration
 - `@schediochron/vue-components` + `@schediochron/vue-app` — Vue equivalents
@@ -83,7 +91,17 @@ Production-ready release for teams of all sizes.
 - Pre-configured Docker images and quickstart bundles
 - Full documentation and onboarding guides for technical and non-technical users
 - Stable public API with versioning guarantees
+- Security hardening review
 - Accessibility compliance
+- Project landing page (GitHub Pages)
+
+### Phase 6: Community & Growth
+Make Schediochron discoverable and easy to adopt.
+
+- Full documentation site (guides, API reference, tutorials)
+- Interactive demo or playground
+- SEO, social presence, and developer community listings
+- Community channels and contribution onboarding
 
 ---
 
