@@ -24,8 +24,6 @@ jobs:
           bun-version: latest
 
       - run: bun install --no-cache
-        env:
-          FONTAWESOME_TOKEN: ${{ secrets.FONTAWESOME_TOKEN }}
 
       - name: Cache Playwright Chromium
         uses: actions/cache@v4
