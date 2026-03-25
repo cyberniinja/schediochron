@@ -47,7 +47,7 @@ Starts the agent workflow for an issue. This is the entry point for all agent wo
 2. **Type Safety First**
    - TypeScript strict mode is enforced
    - Always provide proper type annotations
-   - Run `npx nx typecheck` after changes
+   - Run `bun nx typecheck` after changes
 
 3. **Code Quality**
    - Must pass linting: `bun nx lint`

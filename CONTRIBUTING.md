@@ -7,13 +7,11 @@ Thank you for contributing! This guide covers the conventions and standards for 
 ### Prerequisites
 
 - [Bun](https://bun.sh/) installed
-- [Node.js](https://nodejs.org/) (for Nx CLI)
-
 ### Setup
 
 ```bash
 bun install
-npx nx serve schediochron
+bun nx serve schediochron
 ```
 
 ### Secrets
@@ -176,10 +174,10 @@ Tagging is handled by CI/CD on merges to `main`.
 All contributions must pass before merging:
 
 ```bash
-npx nx test           # Unit/integration tests
-npx nx lint           # Linting
-npx nx typecheck      # Type checking
-npx prettier --check . # Formatting
+bun nx test           # Unit/integration tests
+bun nx lint           # Linting
+bun nx typecheck      # Type checking
+bun prettier --check . # Formatting
 ```
 
 ### Code Standards

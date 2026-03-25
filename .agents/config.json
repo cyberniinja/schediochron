@@ -20,27 +20,27 @@
     }
   ],
   "build": {
-    "command": "npx nx build",
+    "command": "bun nx build",
     "description": "Build all projects"
   },
   "dev": {
-    "command": "npx nx serve schediochron",
+    "command": "bun nx serve schediochron",
     "description": "Start development server"
   },
   "test": {
-    "command": "npx nx test",
+    "command": "bun nx test",
     "description": "Run all tests"
   },
   "lint": {
-    "command": "npx nx lint",
+    "command": "bun nx lint",
     "description": "Lint all projects"
   },
   "typecheck": {
-    "command": "npx nx typecheck",
+    "command": "bun nx typecheck",
     "description": "Type check all projects"
   },
   "e2e": {
-    "command": "npx nx e2e schediochron-e2e",
+    "command": "bun nx e2e schediochron-e2e",
     "description": "Run end-to-end tests"
   }
 }

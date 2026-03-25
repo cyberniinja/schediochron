@@ -18,8 +18,8 @@
 
 ### 2. Run All Tests
 
-- Run the full test suite (`npx nx test`), not only the tests created during this task
-- Run E2E tests if applicable (`npx nx e2e schediochron-e2e`)
+- Run the full test suite (`bun nx test`), not only the tests created during this task
+- Run E2E tests if applicable (`bun nx e2e schediochron-e2e`)
 - Ensure no existing tests have been broken by the changes
 
 ### 3. Check Code Quality

@@ -57,39 +57,39 @@ Schediochron is an Nx monorepo containing a React application with Playwright E2
 
 ```bash
 # Start dev server
-npx nx serve schediochron
+bun nx serve schediochron
 
 # Build for production
-npx nx build schediochron
+bun nx build schediochron
 ```
 
 ### Testing & Quality
 
 ```bash
 # Run tests
-npx nx test
+bun nx test
 
 # Run E2E tests
-npx nx e2e schediochron-e2e
+bun nx e2e schediochron-e2e
 
 # Lint code
-npx nx lint
+bun nx lint
 
 # Type check
-npx nx typecheck
+bun nx typecheck
 ```
 
 ### Utilities
 
 ```bash
 # View project graph
-npx nx graph
+bun nx graph
 
 # Show available tasks for a project
-npx nx show project schediochron
+bun nx show project schediochron
 
 # List all projects
-npx nx list
+bun nx list
 ```
 
 ## Code Style & Conventions
