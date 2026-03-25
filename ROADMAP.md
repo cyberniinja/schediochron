@@ -1,0 +1,102 @@
+# Schediochron Roadmap
+
+> **Track progress on the [Schediochron Roadmap project board →](https://github.com/users/cyberniinja/projects/2)**
+
+---
+
+## Vision
+
+Schediochron is a **free, open-source, modular, self-hostable time management platform** for any team.
+
+The problem we're solving: teams are paying a lot of money for time management software they could run themselves for free. Schediochron aims to make setting up a complete time management system as easy as possible — no vendor lock-in, no subscriptions, no compromises.
+
+**Guiding principles:**
+- **Modular by design** — pick only the parts you need
+- **Open source (MIT)** — free forever
+- **Developer-first** — easy to self-host, integrate, and extend
+- **Accessible to all** — quickstart bundles for non-technical teams (coming later)
+
+---
+
+## Module Architecture
+
+Schediochron is composed of independently usable packages:
+
+| Package | Purpose |
+|---------|---------|
+| `@schediochron/core` | Baseline interfaces, data models, and core business logic |
+| `@schediochron/sql` | PostgreSQL (and SQL-compatible) database adapter |
+| `@schediochron/mongo` | MongoDB database adapter |
+| `@schediochron/react-components` | React component library — reusable UI components (calendar, time entry, etc.) for use in any React application |
+| `@schediochron/react-app` | Full React frontend application — a ready-to-run web UI built on `@schediochron/react-components`, requiring `@schediochron/api` to function |
+| `@schediochron/vue-components` | Vue component library — equivalent of `react-components` for Vue applications |
+| `@schediochron/vue-app` | Full Vue frontend application |
+| `@schediochron/api` | REST API server — the backend all frontend applications communicate with |
+| `@schediochron/cli` | Command-line interface |
+| `@schediochron/mcp` | MCP (Model Context Protocol) server |
+
+Pre-configured bundles and Docker images will be provided for common stacks to get up and running quickly with sensible defaults.
+
+---
+
+## Audience
+
+- **Primary (now):** Developers and technical teams who want to self-host a time management system
+- **Future:** Non-technical teams via pre-built quickstart bundles and hosted guides
+
+---
+
+## Phases
+
+### Phase 1: Architecture Foundation
+Establish the modular monorepo structure that everything else builds on.
+
+- Restructure monorepo around the package architecture above
+- Extract `@schediochron/core` — shared data models and interfaces
+- Refactor the current React prototype into `@schediochron/react-components` (component library) and `@schediochron/react-app` (full application)
+
+### Phase 2: First Stack
+Implement the first complete technology stack: **React + PostgreSQL + REST API**.
+
+- `@schediochron/sql` — PostgreSQL adapter implementing `@schediochron/core` interfaces
+- `@schediochron/api` — REST API server
+- Wire `@schediochron/react-app` + `@schediochron/api` + `@schediochron/sql` into a working, functional time management system
+
+### Phase 3: Configuration & Composition
+Define how Schediochron modules are composed into a complete system.
+
+- Design and implement the configuration concept
+- Ship the first full application bundle (React + PostgreSQL + REST API)
+- Document how to assemble a custom stack from individual packages
+
+### Phase 4: Ecosystem Expansion
+Expand the ecosystem beyond the initial reference stack.
+
+- `@schediochron/mongo` — MongoDB adapter
+- `@schediochron/cli` — CLI for managing time entries and system admin
+- `@schediochron/mcp` — MCP server for AI tooling integration
+- `@schediochron/vue-components` + `@schediochron/vue-app` — Vue equivalents
+
+### Phase 5: General Availability
+Production-ready release for teams of all sizes.
+
+- Pre-configured Docker images and quickstart bundles
+- Full documentation and onboarding guides for technical and non-technical users
+- Stable public API with versioning guarantees
+- Accessibility compliance
+
+---
+
+## Current State
+
+**Version:** 0.1.x (prototype)
+
+The current codebase is a React UI prototype demonstrating the calendar-based time tracking interface. It has no data persistence or backend. It will be split into `@schediochron/react-components` (component library) and `@schediochron/react-app` (full application) in Phase 1.
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to get involved.
+Issues and feature requests are tracked on [GitHub Issues](https://github.com/cyberniinja/schediochron/issues).
+The full roadmap is maintained on the [project board](https://github.com/users/cyberniinja/projects/2).
