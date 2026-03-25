@@ -93,6 +93,15 @@ Production-ready release for teams of all sizes.
 - Stable public API with versioning guarantees
 - Security hardening review
 - Accessibility compliance
+- Project landing page (GitHub Pages)
+
+### Phase 6: Community & Growth
+Make Schediochron discoverable and easy to adopt.
+
+- Full documentation site (guides, API reference, tutorials)
+- Interactive demo or playground
+- SEO, social presence, and developer community listings
+- Community channels and contribution onboarding
 
 ---
 
