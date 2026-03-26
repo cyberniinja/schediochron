@@ -22,6 +22,7 @@
     "@nx/playwright": "22.6.0",
     "@nx/react": "22.6.0",
     "@nx/vite": "22.6.0",
+    "@nx/vitest": "22.6.0",
     "@nx/web": "22.6.0",
     "@nx/workspace": "22.6.0",
     "@playwright/test": "^1.58.2",
@@ -46,6 +47,7 @@
     "eslint-plugin-react-hooks": "7.0.1",
     "jiti": "2.6.1",
     "jsdom": "~29.0.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "22.6.0",
     "prettier": "^3.8.1",
     "sass": "^1.98.0",
@@ -56,7 +58,8 @@
     "vitest": "^4.1.0"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "trustedDependencies": [
     "@parcel/watcher",
