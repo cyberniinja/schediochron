@@ -1,7 +1,7 @@
 ---
 name: plan-issue
 description: Phase 2 — Research the codebase, design approaches, get the developer's decision, and produce a detailed implementation plan.
-argument-hint: "[issue-folder-name]"
+argument-hint: '[issue-folder-name]'
 ---
 
 # Plan Issue (Phase 2)
@@ -33,6 +33,7 @@ cat .agents/.planning-active 2>/dev/null || echo "WARNING: No planning lock foun
 ```
 
 If no lock is found, warn the developer:
+
 > "Planning lock not found. Did you run `comprehend-issue` first?
 > Activate it manually: `echo 'Phase 2 (plan-issue): {issue-folder}' > .agents/.planning-active`"
 
@@ -43,6 +44,7 @@ Read `.agents/issues/{issue-folder}/comprehension.md` to load the task context.
 ### Step 1: Research the Codebase
 
 Explore the codebase to understand related files and conventions:
+
 - Locate files and modules relevant to the task
 - Understand existing patterns, conventions, and data flow
 - Review related tests to understand expected behaviour
@@ -51,6 +53,7 @@ Explore the codebase to understand related files and conventions:
 ### Step 2: Design Approaches
 
 Identify 2–3 viable implementation strategies. For each:
+
 - Describe the approach clearly
 - Document trade-offs (complexity, maintainability, performance, test surface)
 - Identify potential risks
@@ -64,6 +67,7 @@ Do not proceed until the developer has made a decision.
 ### Step 4: Break Down into Steps
 
 Based on the chosen approach:
+
 - Create an ordered list of implementation steps
 - Identify dependencies between steps
 - List files to be created, modified, or deleted

@@ -46,27 +46,27 @@ Enforced by skill instructions: **do not write or edit source files while the lo
 
 ### Phase Skills
 
-| Skill | File | Phase | Description |
-|-------|------|-------|-------------|
-| `work-issue` | [.agents/skills/work-issue.md](.agents/skills/work-issue.md) | Entry point | Start the 5-phase workflow with an issue number, description, or no args |
-| `comprehend-issue` | [.agents/skills/comprehend-issue.md](.agents/skills/comprehend-issue.md) | Phase 1 | Understand the task, clarify requirements, activate planning lock |
-| `plan-issue` | [.agents/skills/plan-issue.md](.agents/skills/plan-issue.md) | Phase 2 | Design approaches, get developer decision, produce implementation plan |
-| `implement-issue` | [.agents/skills/implement-issue.md](.agents/skills/implement-issue.md) | Phase 3 | Deactivate lock, execute the plan, write code, commit |
-| `verify-issue` | [.agents/skills/verify-issue.md](.agents/skills/verify-issue.md) | Phase 4 | Run tests, type checks, lint, build — save PASS/FAIL report |
-| `report-issue` | [.agents/skills/report-issue.md](.agents/skills/report-issue.md) | Phase 5 | Compile report, open pull request |
-| `unlock` | [.agents/skills/unlock.md](.agents/skills/unlock.md) | Utility | Remove a stale planning lock |
+| Skill              | File                                                                     | Phase       | Description                                                              |
+| ------------------ | ------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------ |
+| `work-issue`       | [.agents/skills/work-issue.md](.agents/skills/work-issue.md)             | Entry point | Start the 5-phase workflow with an issue number, description, or no args |
+| `comprehend-issue` | [.agents/skills/comprehend-issue.md](.agents/skills/comprehend-issue.md) | Phase 1     | Understand the task, clarify requirements, activate planning lock        |
+| `plan-issue`       | [.agents/skills/plan-issue.md](.agents/skills/plan-issue.md)             | Phase 2     | Design approaches, get developer decision, produce implementation plan   |
+| `implement-issue`  | [.agents/skills/implement-issue.md](.agents/skills/implement-issue.md)   | Phase 3     | Deactivate lock, execute the plan, write code, commit                    |
+| `verify-issue`     | [.agents/skills/verify-issue.md](.agents/skills/verify-issue.md)         | Phase 4     | Run tests, type checks, lint, build — save PASS/FAIL report              |
+| `report-issue`     | [.agents/skills/report-issue.md](.agents/skills/report-issue.md)         | Phase 5     | Compile report, open pull request                                        |
+| `unlock`           | [.agents/skills/unlock.md](.agents/skills/unlock.md)                     | Utility     | Remove a stale planning lock                                             |
 
 ### Utility Skills
 
-| Skill | File | Description |
-|-------|------|-------------|
-| `quick-implement` | [.agents/skills/quick-implement.md](.agents/skills/quick-implement.md) | Fast path for 1–5 file changes with a brief planning note |
-| `review-code` | [.agents/skills/review-code.md](.agents/skills/review-code.md) | Review staged/branch/PR changes, produce annotatable `review.md` |
-| `request-change` | [.agents/skills/request-change.md](.agents/skills/request-change.md) | Document a targeted change request (planning-lock protected) |
-| `apply-change-request` | [.agents/skills/apply-change-request.md](.agents/skills/apply-change-request.md) | Execute a reviewed `change-request-N.md` |
-| `address-review-findings` | [.agents/skills/address-review-findings.md](.agents/skills/address-review-findings.md) | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations from `review.md` |
-| `discuss-issue` | [.agents/skills/discuss-issue.md](.agents/skills/discuss-issue.md) | Refine `comprehension.md` through Q&A without restarting Phase 1 |
-| `analyze-codebase` | [.agents/skills/analyze-codebase.md](.agents/skills/analyze-codebase.md) | Generate codebase analysis with mermaid diagrams |
+| Skill                     | File                                                                                   | Description                                                      |
+| ------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `quick-implement`         | [.agents/skills/quick-implement.md](.agents/skills/quick-implement.md)                 | Fast path for 1–5 file changes with a brief planning note        |
+| `review-code`             | [.agents/skills/review-code.md](.agents/skills/review-code.md)                         | Review staged/branch/PR changes, produce annotatable `review.md` |
+| `request-change`          | [.agents/skills/request-change.md](.agents/skills/request-change.md)                   | Document a targeted change request (planning-lock protected)     |
+| `apply-change-request`    | [.agents/skills/apply-change-request.md](.agents/skills/apply-change-request.md)       | Execute a reviewed `change-request-N.md`                         |
+| `address-review-findings` | [.agents/skills/address-review-findings.md](.agents/skills/address-review-findings.md) | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations from `review.md`   |
+| `discuss-issue`           | [.agents/skills/discuss-issue.md](.agents/skills/discuss-issue.md)                     | Refine `comprehension.md` through Q&A without restarting Phase 1 |
+| `analyze-codebase`        | [.agents/skills/analyze-codebase.md](.agents/skills/analyze-codebase.md)               | Generate codebase analysis with mermaid diagrams                 |
 
 ## Workflow
 
@@ -105,25 +105,25 @@ address-review-findings {folder}      ← applies annotations + verifies + commi
 
 ## Supporting Documentation
 
-| File | Purpose |
-|------|---------|
-| [.agents/workflow.md](.agents/workflow.md) | Workflow diagrams and phase-gate model |
+| File                                                       | Purpose                                             |
+| ---------------------------------------------------------- | --------------------------------------------------- |
+| [.agents/workflow.md](.agents/workflow.md)                 | Workflow diagrams and phase-gate model              |
 | [.agents/agent-guidelines.md](.agents/agent-guidelines.md) | Commit standards, branch naming, code quality rules |
-| [.agents/codebase.md](.agents/codebase.md) | Technical reference for the Schediochron codebase |
-| [.agents/config.json](.agents/config.json) | Machine-readable workspace configuration |
+| [.agents/codebase.md](.agents/codebase.md)                 | Technical reference for the Schediochron codebase   |
+| [.agents/config.json](.agents/config.json)                 | Machine-readable workspace configuration            |
 
 ## Templates
 
 Issue folder artifacts use templates from `.agents/templates/`:
 
-| Template | Used by | Output |
-|----------|---------|--------|
-| `comprehension.md` | `comprehend-issue`, `discuss-issue` | Requirements, assumptions, task size |
-| `planning.md` | `plan-issue`, `quick-implement` | Approaches, chosen approach, steps, files, tests |
-| `implementation.md` | `implement-issue`, `quick-implement` | Step log, commits, deviations |
-| `verification.md` | `verify-issue` | Requirements checklist, quality check results |
-| `report.md` | `report-issue` | Summary, commits, PR body |
-| `change-request.md` | `request-change` | Change description, affected components, steps, criteria |
-| `review-findings.md` | `review-code` | Findings with `[FIX]`/`[SKIP]`/`[MANUAL]` annotation slots |
+| Template             | Used by                              | Output                                                     |
+| -------------------- | ------------------------------------ | ---------------------------------------------------------- |
+| `comprehension.md`   | `comprehend-issue`, `discuss-issue`  | Requirements, assumptions, task size                       |
+| `planning.md`        | `plan-issue`, `quick-implement`      | Approaches, chosen approach, steps, files, tests           |
+| `implementation.md`  | `implement-issue`, `quick-implement` | Step log, commits, deviations                              |
+| `verification.md`    | `verify-issue`                       | Requirements checklist, quality check results              |
+| `report.md`          | `report-issue`                       | Summary, commits, PR body                                  |
+| `change-request.md`  | `request-change`                     | Change description, affected components, steps, criteria   |
+| `review-findings.md` | `review-code`                        | Findings with `[FIX]`/`[SKIP]`/`[MANUAL]` annotation slots |
 
 Codebase analysis output (from `analyze-codebase`) goes to `.agents/analysis/{YYYY-MM-DD}-{topic}.md`.

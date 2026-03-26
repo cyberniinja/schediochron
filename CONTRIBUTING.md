@@ -227,13 +227,13 @@ work-issue              ← describe the task interactively
 
 Each phase is **user-initiated** — the skill completes a phase and tells you which to invoke next.
 
-| Phase | Skill | Deliverable |
-|-------|-------|-------------|
-| 1 — Comprehension | `comprehend-issue [#N \| description]` | `comprehension.md`, planning lock active |
-| 2 — Planning | `plan-issue {folder}` | `planning.md` |
-| 3 — Implementation | `implement-issue {folder}` | Code changes, `implementation.md` |
-| 4 — Verification | `verify-issue {folder}` | `verification.md` (PASS/FAIL) |
-| 5 — Reporting | `report-issue {folder}` | `report.md`, pull request |
+| Phase              | Skill                                  | Deliverable                              |
+| ------------------ | -------------------------------------- | ---------------------------------------- |
+| 1 — Comprehension  | `comprehend-issue [#N \| description]` | `comprehension.md`, planning lock active |
+| 2 — Planning       | `plan-issue {folder}`                  | `planning.md`                            |
+| 3 — Implementation | `implement-issue {folder}`             | Code changes, `implementation.md`        |
+| 4 — Verification   | `verify-issue {folder}`                | `verification.md` (PASS/FAIL)            |
+| 5 — Reporting      | `report-issue {folder}`                | `report.md`, pull request                |
 
 ### Planning Lock
 
@@ -244,15 +244,15 @@ To remove a stale lock: run the `unlock` skill.
 
 ### Utility Skills
 
-| Skill | Description |
-|-------|-------------|
-| `quick-implement {folder} "{desc}"` | Fast path for 1–5 file tasks |
-| `review-code {folder} [--staged\|--branch\|--pr]` | Code review → annotatable `review.md` |
-| `request-change {folder}` | Document a targeted change (planning-lock protected) |
-| `apply-change-request {folder} {N}` | Execute a reviewed change request |
-| `address-review-findings {folder}` | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations |
-| `discuss-issue {folder}` | Refine requirements without restarting Phase 1 |
-| `analyze-codebase {topic}` | Generate codebase analysis with mermaid diagrams |
+| Skill                                             | Description                                          |
+| ------------------------------------------------- | ---------------------------------------------------- |
+| `quick-implement {folder} "{desc}"`               | Fast path for 1–5 file tasks                         |
+| `review-code {folder} [--staged\|--branch\|--pr]` | Code review → annotatable `review.md`                |
+| `request-change {folder}`                         | Document a targeted change (planning-lock protected) |
+| `apply-change-request {folder} {N}`               | Execute a reviewed change request                    |
+| `address-review-findings {folder}`                | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations        |
+| `discuss-issue {folder}`                          | Refine requirements without restarting Phase 1       |
+| `analyze-codebase {topic}`                        | Generate codebase analysis with mermaid diagrams     |
 
 ### Tool-Specific Setup (Optional)
 
@@ -263,4 +263,3 @@ copy skills to your tool's expected directory (both are gitignored):
 - **Claude Code**: `.claude/commands/`
 
 See [AGENTS.md](AGENTS.md) for the full skill index and more details.
-

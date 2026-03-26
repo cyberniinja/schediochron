@@ -7,29 +7,30 @@ Invoke them however your tool supports it: slash commands, natural language, or 
 
 ### Phase Skills
 
-| Phase | Skill | Description |
-|-------|-------|-------------|
-| Entry | `work-issue [#N \| description]` | Start the 5-phase workflow |
-| 1 | `comprehend-issue [#N \| description]` | Understand task, activate planning lock |
-| 2 | `plan-issue {folder}` | Design approach, produce plan |
-| 3 | `implement-issue {folder}` | Execute plan, write code, commit |
-| 4 | `verify-issue {folder}` | Run checks, save PASS/FAIL report |
-| 5 | `report-issue {folder}` | Compile report, open PR |
-| — | `unlock` | Remove a stale planning lock |
+| Phase | Skill                                  | Description                             |
+| ----- | -------------------------------------- | --------------------------------------- |
+| Entry | `work-issue [#N \| description]`       | Start the 5-phase workflow              |
+| 1     | `comprehend-issue [#N \| description]` | Understand task, activate planning lock |
+| 2     | `plan-issue {folder}`                  | Design approach, produce plan           |
+| 3     | `implement-issue {folder}`             | Execute plan, write code, commit        |
+| 4     | `verify-issue {folder}`                | Run checks, save PASS/FAIL report       |
+| 5     | `report-issue {folder}`                | Compile report, open PR                 |
+| —     | `unlock`                               | Remove a stale planning lock            |
 
 ### Utility Skills
 
-| Skill | Arguments | Description |
-|-------|-----------|-------------|
-| `request-change` | `{folder}` | Document a targeted change request (planning-lock protected) |
-| `apply-change-request` | `{folder} {N}` | Execute a reviewed change-request-N.md |
-| `review-code` | `{folder} [--staged\|--branch\|--pr]` | Review changes → `review.md` |
-| `address-review-findings` | `{folder}` | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations |
-| `quick-implement` | `{folder} "{desc}"` | Fast path for 1–5 file changes |
-| `discuss-issue` | `{folder}` | Refine `comprehension.md` through Q&A |
-| `analyze-codebase` | `{topic} [--area {path}]` | Generate codebase analysis with mermaid diagrams |
+| Skill                     | Arguments                             | Description                                                  |
+| ------------------------- | ------------------------------------- | ------------------------------------------------------------ |
+| `request-change`          | `{folder}`                            | Document a targeted change request (planning-lock protected) |
+| `apply-change-request`    | `{folder} {N}`                        | Execute a reviewed change-request-N.md                       |
+| `review-code`             | `{folder} [--staged\|--branch\|--pr]` | Review changes → `review.md`                                 |
+| `address-review-findings` | `{folder}`                            | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations                |
+| `quick-implement`         | `{folder} "{desc}"`                   | Fast path for 1–5 file changes                               |
+| `discuss-issue`           | `{folder}`                            | Refine `comprehension.md` through Q&A                        |
+| `analyze-codebase`        | `{topic} [--area {path}]`             | Generate codebase analysis with mermaid diagrams             |
 
 **Utility planning lock rules:**
+
 - `request-change` activates the lock; `apply-change-request` clears it — never touch source between these two
 - `quick-implement` uses a mini planning lock; cleared before source changes
 - All other utilities do not modify the planning lock
@@ -44,6 +45,7 @@ Invoke them however your tool supports it: slash commands, natural language, or 
 ## Quick Start for Agents
 
 ### Prerequisites
+
 - Understand Nx monorepo structure
 - Familiar with React, TypeScript, and Vite
 - Know basic git workflow
@@ -105,6 +107,7 @@ schediochron/
 ## Common Commands for Agents
 
 ### Setup & Initialization
+
 ```bash
 # Install dependencies
 bun install
@@ -114,6 +117,7 @@ bun nx graph
 ```
 
 ### Development
+
 ```bash
 # Start dev server (http://localhost:4200)
 bun nx serve schediochron
@@ -126,6 +130,7 @@ bun nx generate @nx/react:component --project=schediochron --name=MyComponent
 ```
 
 ### Quality Assurance
+
 ```bash
 # Lint all code
 bun nx lint
@@ -152,14 +157,15 @@ bun nx test --testFile=src/components/MyComponent.spec.tsx
 
 Branches must follow the convention: `{type}/{issueNr}-{issueName}`
 
-| Type           | Usage                              | Example                            |
-| -------------- | ---------------------------------- | ---------------------------------- |
-| `feature`      | New functionality                  | `feature/42-add-profile-component` |
-| `bug`          | Bug fixes                          | `bug/17-fix-calendar-rendering`    |
-| `chore`        | Maintenance, dependencies, tooling | `chore/88-update-dependencies`     |
-| `refactoring`  | Code restructuring                 | `refactoring/23-extract-layout`    |
+| Type          | Usage                              | Example                            |
+| ------------- | ---------------------------------- | ---------------------------------- |
+| `feature`     | New functionality                  | `feature/42-add-profile-component` |
+| `bug`         | Bug fixes                          | `bug/17-fix-calendar-rendering`    |
+| `chore`       | Maintenance, dependencies, tooling | `chore/88-update-dependencies`     |
+| `refactoring` | Code restructuring                 | `refactoring/23-extract-layout`    |
 
 #### Commands
+
 ```bash
 # Create and checkout branch
 git checkout -b feature/42-add-profile-component
@@ -183,11 +189,13 @@ gh pr create --head <branch> --base main --title "feat(#42): description" --body
 ## Testing Patterns
 
 ### Unit/Integration Tests (Vitest)
+
 - Location: `**/*.spec.ts(x)` or `**/*.test.ts(x)`
 - Use Testing Library for React component tests
 - Mock external dependencies
 
 ### E2E Tests (Playwright)
+
 - Location: `apps/schediochron-e2e/src/**/*.spec.ts`
 - Test user flows, not implementation details
 - Use page objects pattern for maintainability
@@ -195,18 +203,21 @@ gh pr create --head <branch> --base main --title "feat(#42): description" --body
 ## Error Handling
 
 ### Build Errors
+
 1. Check TypeScript compilation: `bun nx typecheck`
 2. Review error messages carefully
 3. Check tsconfig files for strict settings
 4. Ensure all imports are correct
 
 ### Test Failures
+
 1. Run specific test with verbose output: `bun nx test --verbose`
 2. Check test files for setup/teardown issues
 3. Verify dependencies are installed: `bun install`
 4. Check for missing mocks
 
 ### Linting Issues
+
 1. Run linter to see all issues: `bun nx lint`
 2. Auto-fix where possible: `bun nx lint --fix`
 3. Apply Prettier: `bunx prettier --write <file>`

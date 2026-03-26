@@ -1,7 +1,7 @@
 ---
 name: quick-implement
 description: Fast path for small, well-understood tasks (1–5 files). Skips the full 5-phase workflow. Uses a brief planning note and a mini planning lock for consistency, then implements.
-argument-hint: "[issue-folder] \"[brief description]\""
+argument-hint: '[issue-folder] "[brief description]"'
 ---
 
 # Quick Implement
@@ -20,11 +20,13 @@ while still maintaining a brief planning record.
 ## When to Use
 
 Use `quick-implement` when:
+
 - The task touches 1–5 files
 - The change is clear and well-understood (no research needed)
 - You don't want to go through the full comprehension → planning → implementation flow
 
 Use the full 5-phase workflow (`work-issue`) instead when:
+
 - The task is ambiguous or requires investigation
 - More than ~5 files are affected
 - The task has architectural implications
@@ -49,6 +51,7 @@ mkdir -p .agents/issues/{issue-folder}
 ### Step 3: Write planning.md
 
 Write a brief `.agents/issues/{issue-folder}/planning.md` with:
+
 - **Description**: what will be implemented
 - **Affected files**: list of files to be created or modified
 - **Steps**: numbered list of implementation steps

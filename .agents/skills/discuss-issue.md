@@ -1,7 +1,7 @@
 ---
 name: discuss-issue
 description: Refine an existing comprehension.md through further Q&A without restarting Phase 1. Only modifies comprehension.md — does not change planning.md or any source files.
-argument-hint: "[issue-folder]"
+argument-hint: '[issue-folder]'
 ---
 
 # Discuss Issue
@@ -20,6 +20,7 @@ You are a requirements refiner. Your job is to help the developer update an exis
 ## When to Use
 
 Use `discuss-issue` when:
+
 - New information has surfaced after Phase 1 completed
 - Requirements have shifted and comprehension.md needs updating
 - You want to explore edge cases or clarify scope without invalidating the plan yet
@@ -45,6 +46,7 @@ Briefly summarise (3–5 bullet points) what comprehension.md currently says.
 Ask: "What has changed or needs clarifying?"
 
 Common reasons to discuss:
+
 - New requirements or constraints have been introduced
 - An edge case was discovered during implementation
 - The scope has changed (expanded or reduced)

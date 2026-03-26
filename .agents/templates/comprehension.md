@@ -8,27 +8,27 @@
 
 > Explicit requirements from the issue description and discussion.
 
-- 
+-
 
 ## Clarifying Questions & Answers
 
 > Questions asked of the developer and their responses.
 
 | Question | Answer |
-|----------|--------|
-| | |
+| -------- | ------ |
+|          |        |
 
 ## Assumptions
 
 > Documented assumptions made where requirements were not explicit.
 
-- 
+-
 
 ## Task Size Assessment
 
 **Size**: Small / Medium / Large
 
-**Reasoning**: 
+**Reasoning**:
 
 ## Subtask Breakdown
 

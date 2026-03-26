@@ -1,7 +1,7 @@
 ---
 name: report-issue
 description: Phase 5 — Compile the task report, summarise results, and open a pull request.
-argument-hint: "[issue-folder-name]"
+argument-hint: '[issue-folder-name]'
 ---
 
 # Report Issue (Phase 5)
@@ -26,6 +26,7 @@ Read `.agents/issues/{issue-folder}/verification.md`. If it shows FAIL, stop and
 developer to complete Phase 4 first.
 
 Read:
+
 - `.agents/issues/{issue-folder}/comprehension.md`
 - `.agents/issues/{issue-folder}/planning.md`
 - `.agents/issues/{issue-folder}/implementation.md`
@@ -41,6 +42,7 @@ git log --oneline main..HEAD
 ### Step 2: Compile Report
 
 Use `.agents/templates/report.md` as a template. Fill in all sections:
+
 - **Summary**: what was accomplished in one paragraph
 - **Changes Made**: grouped list of changes
 - **Commits**: all commits made during this task

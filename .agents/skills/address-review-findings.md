@@ -1,7 +1,7 @@
 ---
 name: address-review-findings
 description: Apply developer-annotated [FIX]/[SKIP]/[MANUAL] findings from a review.md file.
-argument-hint: "[issue-folder]"
+argument-hint: '[issue-folder]'
 ---
 
 # Address Review Findings
@@ -33,16 +33,17 @@ Guard: if the file has no `[FIX]` or `[MANUAL]` annotations, report "nothing to 
 
 For each finding, check the `Annotation:` field:
 
-| Annotation | Action |
-|------------|--------|
-| `[FIX]` | Apply the suggested fix from the finding's "Suggested Fix" section |
-| `[SKIP]` | Log as skipped, do nothing |
-| `[MANUAL: {instructions}]` | Apply using the custom instructions instead of the suggested fix |
-| _(empty)_ | Warn and treat as `[SKIP]` |
+| Annotation                 | Action                                                             |
+| -------------------------- | ------------------------------------------------------------------ |
+| `[FIX]`                    | Apply the suggested fix from the finding's "Suggested Fix" section |
+| `[SKIP]`                   | Log as skipped, do nothing                                         |
+| `[MANUAL: {instructions}]` | Apply using the custom instructions instead of the suggested fix   |
+| _(empty)_                  | Warn and treat as `[SKIP]`                                         |
 
 ### Step 3: Apply [FIX] Findings
 
 For each `[FIX]` finding:
+
 - Locate the file and line referenced
 - Apply the suggested fix
 - Note what was changed
@@ -50,6 +51,7 @@ For each `[FIX]` finding:
 ### Step 4: Apply [MANUAL] Findings
 
 For each `[MANUAL: {instructions}]` finding:
+
 - Locate the file and line referenced
 - Apply the change described in the custom instructions
 - If the instructions are ambiguous, prefer the conservative interpretation and note what you chose
@@ -62,6 +64,7 @@ bun nx run-many -t test --filter={affected-package}
 ```
 
 If verification fails:
+
 - Report the failure clearly with the error output
 - Do NOT revert changes
 - Do NOT update review.md status
@@ -83,6 +86,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ### Step 8: Report
 
 Summarise:
+
 - Which findings were applied / skipped
 - Verification result
 - Commit SHA

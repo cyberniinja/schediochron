@@ -1,7 +1,7 @@
 ---
 name: work-issue
 description: Entry point for the 5-phase development workflow. Accepts an issue number, a short description, or no arguments. Runs Phase 1 (Comprehension) and guides the developer through the remaining phases.
-argument-hint: "[issue-number | description]"
+argument-hint: '[issue-number | description]'
 ---
 
 # Work Issue (Workflow Entry Point)
@@ -60,6 +60,7 @@ Follow the `comprehend-issue` skill exactly. Key steps:
 ### Planning Lock
 
 The planning lock (`.agents/.planning-active`) prevents source file edits during Phases 1 and 2:
+
 - Enforced by skill instructions — do not write or edit source files while the lock is active
 - Cleared automatically when Phase 3 (`implement-issue`) begins
 - To manually clear a stale lock: run the `unlock` skill

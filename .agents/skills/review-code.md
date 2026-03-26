@@ -1,7 +1,7 @@
 ---
 name: review-code
 description: Review code changes and produce a structured review.md with annotatable findings. Works with staged changes, branch diffs, or PR diffs.
-argument-hint: "[issue-folder] [--staged | --branch {branch} | --pr {number}]"
+argument-hint: '[issue-folder] [--staged | --branch {branch} | --pr {number}]'
 ---
 
 # Review Code
@@ -27,17 +27,18 @@ You are a code reviewer. Your job is to review a set of code changes and produce
 
 ### Step 1: Obtain the Diff
 
-| Flag | Command |
-|------|---------|
-| `--staged` | `git diff --cached` |
+| Flag                | Command                    |
+| ------------------- | -------------------------- |
+| `--staged`          | `git diff --cached`        |
 | `--branch {branch}` | `git diff main...{branch}` |
-| `--pr {number}` | `gh pr diff {number}` |
+| `--pr {number}`     | `gh pr diff {number}`      |
 
 If the diff is empty, report that and stop.
 
 ### Step 2: Review the Diff
 
 Analyse for:
+
 - **Bugs**: logic errors, off-by-one, null/undefined dereferences, unhandled promise rejections
 - **Type safety**: TypeScript errors, `any` usage without justification, missing return types on exports
 - **Test coverage**: untested happy paths, missing error cases, broken existing tests
@@ -50,6 +51,7 @@ Do NOT flag: formatting, minor style preferences, or anything handled automatica
 ### Step 3: Write review.md
 
 Use `.agents/templates/review-findings.md` as the structure. For each finding:
+
 - Assign severity: `critical` | `major` | `minor` | `info`
 - Provide file + line reference
 - Write a clear description of the problem
@@ -61,6 +63,7 @@ Write to: `.agents/issues/{issue-folder}/review.md`
 ### Step 4: Report
 
 Summarise the finding count by severity and tell the developer:
+
 - Review written to `review.md`
 - They should annotate each finding with `[FIX]`, `[SKIP]`, or `[MANUAL: instructions]`
 - When done, run: `address-review-findings {issue-folder}`

@@ -11,10 +11,10 @@
 
 Annotate each finding with ONE of:
 
-| Annotation | Meaning |
-|------------|---------|
-| `[FIX]` | Apply this fix automatically |
-| `[SKIP]` | Ignore — not applicable or intentional |
+| Annotation               | Meaning                                  |
+| ------------------------ | ---------------------------------------- |
+| `[FIX]`                  | Apply this fix automatically             |
+| `[SKIP]`                 | Ignore — not applicable or intentional   |
 | `[MANUAL: instructions]` | Apply with the given custom instructions |
 
 Then run `/address-review-findings` (Claude Code) or `/agent address-review-findings` (Copilot CLI)
@@ -31,9 +31,11 @@ to execute all `[FIX]` and `[MANUAL]` items in one pass.
 **Annotation**: <!-- Add [FIX], [SKIP], or [MANUAL: ...] here -->
 
 **Description**:
+
 <!-- What is the problem? -->
 
 **Suggested Fix**:
+
 <!-- How should it be fixed? -->
 
 ---
@@ -55,8 +57,8 @@ to execute all `[FIX]` and `[MANUAL]` items in one pass.
 ## Summary
 
 | Severity | Count | Annotated |
-|----------|-------|-----------|
-| Critical | 0 | — |
-| Major | 0 | — |
-| Minor | 0 | — |
-| Info | 0 | — |
+| -------- | ----- | --------- |
+| Critical | 0     | —         |
+| Major    | 0     | —         |
+| Minor    | 0     | —         |
+| Info     | 0     | —         |

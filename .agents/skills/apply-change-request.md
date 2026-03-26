@@ -1,7 +1,7 @@
 ---
 name: apply-change-request
 description: Execute a reviewed change-request-N.md file. Reads the change request, deactivates the planning lock, and implements the changes.
-argument-hint: "[issue-folder] [N]"
+argument-hint: '[issue-folder] [N]'
 ---
 
 # Apply Change Request
@@ -32,6 +32,7 @@ If not provided, scan `.agents/issues/` for a change request with status `review
 Read `.agents/issues/{issue-folder}/change-request-{N}.md`.
 
 Guard checks:
+
 - If status is `draft` → stop: tell the developer to review and update status to `reviewed` first
 - If status is `applied` → stop: report it has already been applied
 
@@ -47,6 +48,7 @@ Implementation begins now.
 
 Follow the Implementation Steps section of the change request exactly.
 For each step:
+
 - Make the required source changes
 - Note what was changed
 
@@ -62,6 +64,7 @@ bun nx run-many -t test --filter={affected-package}
 ```
 
 If verification fails:
+
 - Report the failure clearly with the error output
 - Do NOT revert changes (the developer needs to see what was attempted)
 - Do NOT update the change request status
@@ -83,6 +86,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ### Step 7: Report
 
 Summarise:
+
 - What was changed and in which files
 - Verification results
 - Commit SHA

@@ -1,7 +1,7 @@
 ---
 name: implement-issue
 description: Phase 3 — Deactivate the planning lock, execute the implementation plan step by step, write code, and commit.
-argument-hint: "[issue-folder-name]"
+argument-hint: '[issue-folder-name]'
 ---
 
 # Implement Issue (Phase 3)
@@ -32,6 +32,7 @@ cat .agents/.planning-active 2>/dev/null
 ```
 
 Read:
+
 - `.agents/issues/{issue-folder}/comprehension.md` — requirements reference
 - `.agents/issues/{issue-folder}/planning.md` — the plan to execute
 
@@ -51,6 +52,7 @@ The planning lock is now off. Source file editing is permitted.
 ### Step 2: Execute the Plan
 
 Work through each step in `planning.md` in order:
+
 - Respect step dependencies — do not start a step until its prerequisites are complete
 - Write functional components with TypeScript strict typing
 - Use SCSS modules for styles
@@ -61,6 +63,7 @@ Work through each step in `planning.md` in order:
 ### Step 3: Implement Tests
 
 Write tests as planned in Phase 2:
+
 - Unit/integration tests: `**/*.spec.ts(x)` or `**/*.test.ts(x)` using Vitest + Testing Library
 - E2E tests: `apps/schediochron-e2e/src/**/*.spec.ts` using Playwright
 
@@ -76,6 +79,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
 
 Commit type mapping:
+
 - `feature` label → `feat`
 - `bug` label → `fix`
 - `chore` label → `chore`
@@ -87,6 +91,7 @@ Use `.agents/templates/implementation.md` as a template. Save the completed log 
 `.agents/issues/{issue-folder}/implementation.md`
 
 The log should contain:
+
 - Each step completed, with notes on any deviations from the plan
 - All commits made during implementation
 - Any issues encountered and how they were resolved

@@ -36,15 +36,15 @@ Each phase is **user-initiated** — the agent completes a phase and tells the d
 
 Each phase is started by invoking the corresponding skill. Skill files live in `.agents/skills/`.
 
-| Phase | Skill | Description |
-|-------|-------|-------------|
-| Entry | `work-issue [#N \| description]` | Start the workflow with an issue number or description |
-| 1 — Comprehension | `comprehend-issue [#N \| description]` | Understand task, activate planning lock |
-| 2 — Planning | `plan-issue {folder}` | Design approach, produce plan |
-| 3 — Implementation | `implement-issue {folder}` | Execute plan, write code, commit |
-| 4 — Verification | `verify-issue {folder}` | Run checks, save PASS/FAIL report |
-| 5 — Reporting | `report-issue {folder}` | Compile report, open PR |
-| Utility | `unlock` | Remove a stale planning lock |
+| Phase              | Skill                                  | Description                                            |
+| ------------------ | -------------------------------------- | ------------------------------------------------------ |
+| Entry              | `work-issue [#N \| description]`       | Start the workflow with an issue number or description |
+| 1 — Comprehension  | `comprehend-issue [#N \| description]` | Understand task, activate planning lock                |
+| 2 — Planning       | `plan-issue {folder}`                  | Design approach, produce plan                          |
+| 3 — Implementation | `implement-issue {folder}`             | Execute plan, write code, commit                       |
+| 4 — Verification   | `verify-issue {folder}`                | Run checks, save PASS/FAIL report                      |
+| 5 — Reporting      | `report-issue {folder}`                | Compile report, open PR                                |
+| Utility            | `unlock`                               | Remove a stale planning lock                           |
 
 Invoke skills however your tool supports it: slash commands, natural language, planning mode, or
 agent mode. See `AGENTS.md` for the full skill index and tool-specific setup guidance.
@@ -60,13 +60,13 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 ## Quick Reference
 
-| Phase                 | Purpose                             | Deliverable                               |
-| --------------------- | ----------------------------------- | ----------------------------------------- |
-| 1️⃣ **Comprehension**  | Understand requirements and context | `comprehension.md`, planning lock active  |
-| 2️⃣ **Planning**       | Design the approach and strategy    | `planning.md`                             |
-| 3️⃣ **Implementation** | Execute the plan and make changes   | Code changes, `implementation.md`         |
-| 4️⃣ **Verification**   | Test and validate all changes       | `verification.md` (PASS/FAIL)             |
-| 5️⃣ **Reporting**      | Summarize results and open PR       | `report.md`, pull request                 |
+| Phase                 | Purpose                             | Deliverable                              |
+| --------------------- | ----------------------------------- | ---------------------------------------- |
+| 1️⃣ **Comprehension**  | Understand requirements and context | `comprehension.md`, planning lock active |
+| 2️⃣ **Planning**       | Design the approach and strategy    | `planning.md`                            |
+| 3️⃣ **Implementation** | Execute the plan and make changes   | Code changes, `implementation.md`        |
+| 4️⃣ **Verification**   | Test and validate all changes       | `verification.md` (PASS/FAIL)            |
+| 5️⃣ **Reporting**      | Summarize results and open PR       | `report.md`, pull request                |
 
 ## When to Use This Workflow
 

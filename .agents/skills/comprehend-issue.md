@@ -1,7 +1,7 @@
 ---
 name: comprehend-issue
 description: Phase 1 — Understand the task, clarify requirements, create the GitHub issue and issue folder, and activate the planning lock.
-argument-hint: "[issue-number | description]"
+argument-hint: '[issue-number | description]'
 ---
 
 # Comprehend Issue (Phase 1)
@@ -75,6 +75,7 @@ echo "Phase 1 (comprehend-issue): {issueNr}-{issueName}" > .agents/.planning-act
 ```
 
 The planning lock prevents source file edits during Phases 1 and 2:
+
 - The lock is enforced by skill instructions — do not write or edit source files while
   `.agents/.planning-active` exists
 - The lock is cleared automatically when Phase 3 (`implement-issue`) begins
@@ -88,6 +89,7 @@ Use `.agents/templates/comprehension.md` as a template. Save the completed docum
 `.agents/issues/{issueNr}-{issueName}/comprehension.md`
 
 The document should contain:
+
 - A summary of the task in your own words
 - Clarifying questions and answers from the developer
 - Documented assumptions (confirmed with the developer)

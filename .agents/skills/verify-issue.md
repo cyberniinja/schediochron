@@ -1,7 +1,7 @@
 ---
 name: verify-issue
 description: Phase 4 — Run tests, type checks, lint, and build to validate the implementation. Save verification.md with PASS/FAIL status.
-argument-hint: "[issue-folder-name]"
+argument-hint: '[issue-folder-name]'
 ---
 
 # Verify Issue (Phase 4)
@@ -24,6 +24,7 @@ The issue folder name (e.g. `42-add-dark-mode-toggle`).
 ## Pre-flight Check
 
 Read:
+
 - `.agents/issues/{issue-folder}/comprehension.md` — requirements to verify against
 - `.agents/issues/{issue-folder}/planning.md` — planned approach and tests
 - `.agents/issues/{issue-folder}/implementation.md` — what was built
@@ -69,6 +70,7 @@ actual filenames on disk (e.g. `import './Layout.scss'` not `import './layout.sc
 ### Step 4: Code Style Review
 
 Confirm the code follows project conventions from `.agents/agent-guidelines.md`:
+
 - No unnecessary code, comments, or debug artifacts
 - Naming conventions consistent with the codebase
 - Component patterns correct (functional components, typed props, SCSS modules)
@@ -84,6 +86,7 @@ Use `.agents/templates/verification.md` as a template. Save the completed docume
 `.agents/issues/{issue-folder}/verification.md`
 
 The document should contain:
+
 - Requirements checklist — each requirement marked as met or not met
 - Test results (all tests, not just new ones)
 - Type check, lint, and formatting results

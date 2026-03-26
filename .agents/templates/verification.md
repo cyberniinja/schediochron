@@ -4,31 +4,31 @@
 
 > Each requirement from `comprehension.md` marked as met or not met.
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| | ✅ Met / ❌ Not met | |
+| Requirement | Status              | Notes |
+| ----------- | ------------------- | ----- |
+|             | ✅ Met / ❌ Not met |       |
 
 ## Quality Checks
 
-| Check | Command | Status | Notes |
-|-------|---------|--------|-------|
-| Unit/integration tests | `bun nx test` | ✅ / ❌ | |
-| E2E tests | `bun nx e2e schediochron-e2e` | ✅ / ❌ / N/A | |
-| Type checking | `bun nx typecheck` | ✅ / ❌ | |
-| Linting | `bun nx lint` | ✅ / ❌ | |
-| Formatting | `bunx prettier --check .` | ✅ / ❌ | |
-| Production build | `bun nx build` | ✅ / ❌ | |
-| Case-sensitive imports | Manual check | ✅ / ❌ | |
+| Check                  | Command                       | Status        | Notes |
+| ---------------------- | ----------------------------- | ------------- | ----- |
+| Unit/integration tests | `bun nx test`                 | ✅ / ❌       |       |
+| E2E tests              | `bun nx e2e schediochron-e2e` | ✅ / ❌ / N/A |       |
+| Type checking          | `bun nx typecheck`            | ✅ / ❌       |       |
+| Linting                | `bun nx lint`                 | ✅ / ❌       |       |
+| Formatting             | `bunx prettier --check .`     | ✅ / ❌       |       |
+| Production build       | `bun nx build`                | ✅ / ❌       |       |
+| Case-sensitive imports | Manual check                  | ✅ / ❌       |       |
 
 ## Code Style Review
 
 > Notes on code style, naming conventions, component patterns.
 
-- 
+-
 
 ## Issues Found & Resolved
 
-- 
+-
 
 ## Overall Status
 

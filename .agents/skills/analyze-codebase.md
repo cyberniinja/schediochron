@@ -1,7 +1,7 @@
 ---
 name: analyze-codebase
 description: Generate a comprehensive analysis of a feature, area, or dataflow in the codebase. Produces a standalone markdown document with mermaid diagrams.
-argument-hint: "[topic] [--area {path}]"
+argument-hint: '[topic] [--area {path}]'
 ---
 
 # Analyze Codebase
@@ -33,6 +33,7 @@ before making changes.
 ### Step 1: Explore the Area
 
 Use grep, glob, and file reads to understand the topic. Focus on:
+
 - Entry points (API routes, event handlers, scheduled jobs, exports)
 - Data models and types
 - Key business logic
@@ -59,13 +60,14 @@ Structure:
 **Scope**: {area or "whole codebase"}
 
 ## Overview
+
 <!-- What this area does and why it exists (3–5 sentences) -->
 
 ## Architecture
 
 \`\`\`mermaid
 graph TD
-  ...
+...
 \`\`\`
 
 <!-- Explanation of the architecture diagram -->
@@ -74,15 +76,15 @@ graph TD
 
 \`\`\`mermaid
 sequenceDiagram / flowchart LR / etc.
-  ...
+...
 \`\`\`
 
 <!-- Explanation of how data moves through the system -->
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
+| File           | Purpose      |
+| -------------- | ------------ |
 | `path/to/file` | What it does |
 
 ## Entry Points
@@ -105,5 +107,6 @@ sequenceDiagram / flowchart LR / etc.
 ### Step 4: Report
 
 Tell the developer:
+
 - The file path
 - A 3-sentence executive summary of the key findings

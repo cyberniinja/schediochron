@@ -4,15 +4,15 @@
 
 > Record each step from `planning.md` as it is completed.
 
-| Step | Status | Notes / Deviations |
-|------|--------|--------------------|
-| 1. | ✅ Done / ⏭ Skipped / ❌ Failed | |
+| Step | Status                           | Notes / Deviations |
+| ---- | -------------------------------- | ------------------ |
+| 1.   | ✅ Done / ⏭ Skipped / ❌ Failed |                    |
 
 ## Deviations from Plan
 
 > Any changes to the planned approach and why.
 
-- 
+-
 
 ## Commits
 
@@ -22,7 +22,7 @@
 
 > Problems found during implementation and how they were resolved.
 
-- 
+-
 
 ## Checklist
 
