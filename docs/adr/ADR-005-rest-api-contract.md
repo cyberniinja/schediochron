@@ -22,12 +22,12 @@ that file.
 
 The API contract is derived from the following accepted ADRs:
 
-| ADR | Subject |
-| --- | ------- |
-| [ADR-001](./ADR-001-time-entry-model.md) | Time entry data model |
-| [ADR-002](./ADR-002-user-model.md) | User data model |
-| [ADR-003](./ADR-003-authentication-flow.md) | Authentication flow |
-| [ADR-004](./ADR-004-team-model.md) | Team data model |
+| ADR                                         | Subject               |
+| ------------------------------------------- | --------------------- |
+| [ADR-001](./ADR-001-time-entry-model.md)    | Time entry data model |
+| [ADR-002](./ADR-002-user-model.md)          | User data model       |
+| [ADR-003](./ADR-003-authentication-flow.md) | Authentication flow   |
+| [ADR-004](./ADR-004-team-model.md)          | Team data model       |
 
 ---
 
@@ -89,33 +89,33 @@ This is defined once in `components/schemas/ErrorResponse` and referenced throug
 
 ### Endpoint Conventions
 
-| Convention | Rule |
-| ---------- | ---- |
-| Path casing | kebab-case (e.g. `/time-entries`, `/auth/refresh`) |
-| Resource IDs | Path parameter `:id` (UUID v4); validated at runtime |
-| List responses | Plain JSON arrays (no pagination wrapper for MVP) |
-| Empty success | `204 No Content` with no body (logout, delete, password reset) |
-| Created resource | `201 Created` with the created resource as response body |
-| Timestamps | ISO 8601 UTC strings (e.g. `"2026-03-26T10:00:00Z"`) |
-| Seconds in timestamps | Always zeroed — minute precision (ADR-001) |
+| Convention            | Rule                                                           |
+| --------------------- | -------------------------------------------------------------- |
+| Path casing           | kebab-case (e.g. `/time-entries`, `/auth/refresh`)             |
+| Resource IDs          | Path parameter `:id` (UUID v4); validated at runtime           |
+| List responses        | Plain JSON arrays (no pagination wrapper for MVP)              |
+| Empty success         | `204 No Content` with no body (logout, delete, password reset) |
+| Created resource      | `201 Created` with the created resource as response body       |
+| Timestamps            | ISO 8601 UTC strings (e.g. `"2026-03-26T10:00:00Z"`)           |
+| Seconds in timestamps | Always zeroed — minute precision (ADR-001)                     |
 
 ### Authorisation Summary
 
-| Endpoint group | Who can call |
-| -------------- | ------------ |
-| `POST /auth/*` | Anyone (unauthenticated) |
-| `GET /users` | Admin only |
-| `GET /users/:id` | Admin or the user themselves |
-| `PATCH /users/:id` | Admin or the user themselves |
-| `PATCH /users/:id/password` | Admin only |
-| `GET /time-entries` | Member sees own entries; admin can pass `userId` param |
-| `POST /time-entries`, `POST /time-entries/start` | Any authenticated user |
-| `POST /time-entries/stop` | Any authenticated user (stops their own running entry) |
-| `GET/PATCH/DELETE /time-entries/:id` | Owner of the entry or admin |
-| `GET/POST /teams` | Any authenticated user |
-| `GET/PATCH/DELETE /teams/:id` | Team admin (for write ops); team member (for read) |
-| `POST/DELETE /teams/:id/members` | Team admin |
-| `GET /reports/hours` | Admin or the user whose data is requested |
+| Endpoint group                                   | Who can call                                           |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| `POST /auth/*`                                   | Anyone (unauthenticated)                               |
+| `GET /users`                                     | Admin only                                             |
+| `GET /users/:id`                                 | Admin or the user themselves                           |
+| `PATCH /users/:id`                               | Admin or the user themselves                           |
+| `PATCH /users/:id/password`                      | Admin only                                             |
+| `GET /time-entries`                              | Member sees own entries; admin can pass `userId` param |
+| `POST /time-entries`, `POST /time-entries/start` | Any authenticated user                                 |
+| `POST /time-entries/stop`                        | Any authenticated user (stops their own running entry) |
+| `GET/PATCH/DELETE /time-entries/:id`             | Owner of the entry or admin                            |
+| `GET/POST /teams`                                | Any authenticated user                                 |
+| `GET/PATCH/DELETE /teams/:id`                    | Team admin (for write ops); team member (for read)     |
+| `POST/DELETE /teams/:id/members`                 | Team admin                                             |
+| `GET /reports/hours`                             | Admin or the user whose data is requested              |
 
 Authorisation rules are documented here for implementer reference. They are not expressible in
 OpenAPI 3.1 path definitions and are enforced at the application layer.

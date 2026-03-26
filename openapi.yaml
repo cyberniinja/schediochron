@@ -1,8 +1,8 @@
-openapi: "3.1.0"
+openapi: '3.1.0'
 
 info:
   title: Schediochron API
-  version: "0.1.0"
+  version: '0.1.0'
   description: |
     REST API for Schediochron — a free, open-source, self-hostable time management platform.
 
@@ -52,26 +52,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RegisterRequest"
+              $ref: '#/components/schemas/RegisterRequest'
       responses:
-        "201":
+        '201':
           description: User created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "400":
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
           description: Validation failure (username format, password too short, etc.)
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
           description: Username or email already taken
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /auth/login:
     post:
@@ -87,26 +87,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LoginRequest"
+              $ref: '#/components/schemas/LoginRequest'
       responses:
-        "200":
+        '200':
           description: Authentication successful
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthResponse"
-        "400":
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
           description: Missing or malformed request body
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
           description: Invalid username or password
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /auth/refresh:
     post:
@@ -123,26 +123,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RefreshRequest"
+              $ref: '#/components/schemas/RefreshRequest'
       responses:
-        "200":
+        '200':
           description: Token refresh successful
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenPair"
-        "400":
+                $ref: '#/components/schemas/TokenPair'
+        '400':
           description: Missing or malformed request body
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
           description: Refresh token not found, expired, or already revoked
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /auth/logout:
     post:
@@ -158,22 +158,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LogoutRequest"
+              $ref: '#/components/schemas/LogoutRequest'
       responses:
-        "204":
+        '204':
           description: Logout successful — refresh token revoked
-        "400":
+        '400':
           description: Missing or malformed request body
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
           description: Refresh token not found (treat as already logged out — 204 also acceptable)
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   # ---------- Users ---------------------------------------------------------
 
@@ -184,18 +184,18 @@ paths:
       summary: List all users
       description: Returns all user accounts on the instance. Admin only.
       responses:
-        "200":
+        '200':
           description: List of users
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 
   /users/{id}:
     get:
@@ -204,20 +204,20 @@ paths:
       summary: Get a user by ID
       description: Returns the user with the given ID. Accessible by admins or the user themselves.
       parameters:
-        - $ref: "#/components/parameters/UserId"
+        - $ref: '#/components/parameters/UserId'
       responses:
-        "200":
+        '200':
           description: User found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Users]
@@ -227,38 +227,38 @@ paths:
         Updates `displayName`, `email`, and/or `role` for the given user.
         Accessible by admins or the user themselves. Only admins may change `role`.
       parameters:
-        - $ref: "#/components/parameters/UserId"
+        - $ref: '#/components/parameters/UserId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateUserRequest"
+              $ref: '#/components/schemas/UpdateUserRequest'
       responses:
-        "200":
+        '200':
           description: User updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "400":
+                $ref: '#/components/schemas/User'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: Email already taken by another user
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /users/{id}/password:
     patch:
@@ -270,28 +270,28 @@ paths:
         token with `role = "admin"`. All existing refresh tokens for the target user
         are revoked on success, forcing re-authentication.
       parameters:
-        - $ref: "#/components/parameters/UserId"
+        - $ref: '#/components/parameters/UserId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPasswordResetRequest"
+              $ref: '#/components/schemas/AdminPasswordResetRequest'
       responses:
-        "204":
+        '204':
           description: Password updated — all refresh tokens for the user revoked
-        "400":
+        '400':
           description: Validation failure (e.g. password too short)
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   # ---------- Time Entries --------------------------------------------------
 
@@ -316,20 +316,20 @@ paths:
           required: false
           description: Filter by entry status
           schema:
-            $ref: "#/components/schemas/TimeEntryStatus"
+            $ref: '#/components/schemas/TimeEntryStatus'
       responses:
-        "200":
+        '200':
           description: List of time entries
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TimeEntry"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                  $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 
     post:
       tags: [Time Entries]
@@ -344,28 +344,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateTimeEntryRequest"
+              $ref: '#/components/schemas/CreateTimeEntryRequest'
       responses:
-        "201":
+        '201':
           description: Time entry created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TimeEntry"
-        "400":
+                $ref: '#/components/schemas/TimeEntry'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
           description: Overlaps an existing entry or user already has a running entry
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /time-entries/start:
     post:
@@ -380,22 +380,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/StartTimeEntryRequest"
+              $ref: '#/components/schemas/StartTimeEntryRequest'
       responses:
-        "201":
+        '201':
           description: Running entry started
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TimeEntry"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "409":
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
           description: User already has a running time entry
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /time-entries/stop:
     post:
@@ -412,28 +412,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/StopTimeEntryRequest"
+              $ref: '#/components/schemas/StopTimeEntryRequest'
       responses:
-        "200":
+        '200':
           description: Entry stopped and completed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TimeEntry"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
           description: No running entry found for this user
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
           description: Resulting completed entry overlaps an existing entry
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /time-entries/{id}:
     get:
@@ -442,20 +442,20 @@ paths:
       summary: Get a time entry by ID
       description: Returns the time entry with the given ID. Accessible by the entry owner or an admin.
       parameters:
-        - $ref: "#/components/parameters/EntryId"
+        - $ref: '#/components/parameters/EntryId'
       responses:
-        "200":
+        '200':
           description: Time entry found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TimeEntry"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Time Entries]
@@ -466,38 +466,38 @@ paths:
         are optional. Re-validates invariants and overlap rules after update (ADR-001).
         Accessible by the entry owner or an admin.
       parameters:
-        - $ref: "#/components/parameters/EntryId"
+        - $ref: '#/components/parameters/EntryId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateTimeEntryRequest"
+              $ref: '#/components/schemas/UpdateTimeEntryRequest'
       responses:
-        "200":
+        '200':
           description: Time entry updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TimeEntry"
-        "400":
+                $ref: '#/components/schemas/TimeEntry'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: Updated entry overlaps an existing entry
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
     delete:
       tags: [Time Entries]
@@ -505,16 +505,16 @@ paths:
       summary: Delete a time entry
       description: Permanently deletes the time entry. Accessible by the entry owner or an admin.
       parameters:
-        - $ref: "#/components/parameters/EntryId"
+        - $ref: '#/components/parameters/EntryId'
       responses:
-        "204":
+        '204':
           description: Time entry deleted
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   # ---------- Teams ---------------------------------------------------------
 
@@ -525,16 +525,16 @@ paths:
       summary: List teams
       description: Returns all teams the authenticated user belongs to (member or admin).
       responses:
-        "200":
+        '200':
           description: List of teams
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Team"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                  $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
     post:
       tags: [Teams]
@@ -548,22 +548,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateTeamRequest"
+              $ref: '#/components/schemas/CreateTeamRequest'
       responses:
-        "201":
+        '201':
           description: Team created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Team"
-        "400":
+                $ref: '#/components/schemas/Team'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /teams/{id}:
     get:
@@ -572,20 +572,20 @@ paths:
       summary: Get a team by ID
       description: Returns the team with the given ID. Accessible by any team member.
       parameters:
-        - $ref: "#/components/parameters/TeamId"
+        - $ref: '#/components/parameters/TeamId'
       responses:
-        "200":
+        '200':
           description: Team found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Team"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Teams]
@@ -593,32 +593,32 @@ paths:
       summary: Update a team
       description: Updates the team `name`. Team admin only.
       parameters:
-        - $ref: "#/components/parameters/TeamId"
+        - $ref: '#/components/parameters/TeamId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateTeamRequest"
+              $ref: '#/components/schemas/UpdateTeamRequest'
       responses:
-        "200":
+        '200':
           description: Team updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Team"
-        "400":
+                $ref: '#/components/schemas/Team'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     delete:
       tags: [Teams]
@@ -628,22 +628,22 @@ paths:
         Permanently deletes the team. Team admin only. Blocked (`409 Conflict`) if
         the team has members other than the requesting admin.
       parameters:
-        - $ref: "#/components/parameters/TeamId"
+        - $ref: '#/components/parameters/TeamId'
       responses:
-        "204":
+        '204':
           description: Team deleted
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: Team still has other members — remove them first
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /teams/{id}/members:
     post:
@@ -654,38 +654,38 @@ paths:
         Adds the specified user to the team's `memberIds`. Team admin only. No invite
         flow — direct assignment (ADR-004).
       parameters:
-        - $ref: "#/components/parameters/TeamId"
+        - $ref: '#/components/parameters/TeamId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AddTeamMemberRequest"
+              $ref: '#/components/schemas/AddTeamMemberRequest'
       responses:
-        "200":
+        '200':
           description: Member added — returns updated team
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Team"
-        "400":
+                $ref: '#/components/schemas/Team'
+        '400':
           description: Validation failure
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: User is already a member of this team
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   /teams/{id}/members/{userId}:
     delete:
@@ -697,7 +697,7 @@ paths:
         Team admin only. Blocked if removing the user would leave the team with no
         admins (ADR-004).
       parameters:
-        - $ref: "#/components/parameters/TeamId"
+        - $ref: '#/components/parameters/TeamId'
         - name: userId
           in: path
           required: true
@@ -706,24 +706,24 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: Member removed — returns updated team
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Team"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "409":
+                $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
           description: Cannot remove the last admin from the team
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
 
   # ---------- Reports -------------------------------------------------------
 
@@ -774,24 +774,24 @@ paths:
             type: string
             format: date
       responses:
-        "200":
+        '200':
           description: Hours report — daily breakdown
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/HoursReportDay"
-        "400":
+                  $ref: '#/components/schemas/HoursReportDay'
+        '400':
           description: Invalid query parameters
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 
 # ---------------------------------------------------------------------------
 # Components
@@ -845,21 +845,21 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: '#/components/schemas/ErrorResponse'
 
     Forbidden:
       description: Caller does not have permission to perform this operation
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: '#/components/schemas/ErrorResponse'
 
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ErrorResponse"
+            $ref: '#/components/schemas/ErrorResponse'
 
   # ---------- Schemas -------------------------------------------------------
 
@@ -884,18 +884,18 @@ components:
           type: string
           minLength: 3
           maxLength: 50
-          pattern: "^[a-zA-Z0-9_-]+$"
+          pattern: '^[a-zA-Z0-9_-]+$'
           description: Unique system-wide; immutable after creation
         displayName:
-          type: ["string", "null"]
+          type: ['string', 'null']
           maxLength: 100
           description: Shown in UI instead of username when present
         email:
-          type: ["string", "null"]
+          type: ['string', 'null']
           format: email
           description: Optional; unique system-wide when present
         role:
-          $ref: "#/components/schemas/UserRole"
+          $ref: '#/components/schemas/UserRole'
         createdAt:
           type: string
           format: date-time
@@ -912,7 +912,8 @@ components:
 
     TimeEntry:
       type: object
-      required: [id, userId, startTime, endTime, status, note, createdAt, updatedAt]
+      required:
+        [id, userId, startTime, endTime, status, note, createdAt, updatedAt]
       description: A time tracking entry (ADR-001). `duration` is not stored — compute on demand.
       properties:
         id:
@@ -928,13 +929,13 @@ components:
           format: date-time
           description: ISO 8601 UTC; seconds always zeroed (minute precision)
         endTime:
-          type: ["string", "null"]
+          type: ['string', 'null']
           format: date-time
           description: ISO 8601 UTC; seconds zeroed; null when entry is running
         status:
-          $ref: "#/components/schemas/TimeEntryStatus"
+          $ref: '#/components/schemas/TimeEntryStatus'
         note:
-          type: ["string", "null"]
+          type: ['string', 'null']
           maxLength: 255
           description: Optional note; null if not provided; empty string not allowed
         createdAt:
@@ -997,7 +998,7 @@ components:
       description: Successful authentication response — user data + token pair
       properties:
         user:
-          $ref: "#/components/schemas/User"
+          $ref: '#/components/schemas/User'
         accessToken:
           type: string
           description: Short-lived signed JWT
@@ -1021,7 +1022,7 @@ components:
         entries:
           type: array
           items:
-            $ref: "#/components/schemas/TimeEntry"
+            $ref: '#/components/schemas/TimeEntry'
           description: All completed time entries that fall on this date
 
     ErrorResponse:
@@ -1045,7 +1046,7 @@ components:
           type: string
           minLength: 3
           maxLength: 50
-          pattern: "^[a-zA-Z0-9_-]+$"
+          pattern: '^[a-zA-Z0-9_-]+$'
           description: Unique system-wide; immutable after creation
         password:
           type: string
@@ -1089,15 +1090,15 @@ components:
       description: All fields optional; at least one must be provided
       properties:
         displayName:
-          type: ["string", "null"]
+          type: ['string', 'null']
           maxLength: 100
           description: Set to null to remove the display name
         email:
-          type: ["string", "null"]
+          type: ['string', 'null']
           format: email
           description: Set to null to remove the email address
         role:
-          $ref: "#/components/schemas/UserRole"
+          $ref: '#/components/schemas/UserRole'
           description: Admin only — cannot be changed by the user themselves
 
     AdminPasswordResetRequest:
@@ -1136,11 +1137,11 @@ components:
           format: date-time
           description: ISO 8601 UTC; seconds will be zeroed
         endTime:
-          type: ["string", "null"]
+          type: ['string', 'null']
           format: date-time
           description: ISO 8601 UTC; seconds will be zeroed; must be after startTime
         note:
-          type: ["string", "null"]
+          type: ['string', 'null']
           maxLength: 255
           description: Set to null to remove the note
 
@@ -1158,7 +1159,7 @@ components:
       description: Optional body for stopping a running time entry
       properties:
         note:
-          type: ["string", "null"]
+          type: ['string', 'null']
           maxLength: 255
           description: Optional note to set or overwrite at clock-out
 
