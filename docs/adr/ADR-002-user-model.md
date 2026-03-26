@@ -34,16 +34,16 @@ providing an email address.
 
 ### Field Specification
 
-| Field         | Type                         | Nullable | Constraints                                                      |
-| ------------- | ---------------------------- | -------- | ---------------------------------------------------------------- |
-| `id`          | `string` (UUID v4)           | No       | Immutable after creation                                         |
-| `username`    | `string`                     | No       | Unique system-wide; immutable after creation; see format rules   |
-| `displayName` | `string` \| null             | Yes      | Shown in UI instead of `username` when present; max 100 chars    |
-| `email`       | `string` \| null             | Yes      | Unique system-wide when present; enables self-service pwd reset  |
-| `role`        | `"admin"` \| `"member"`      | No       | System-level role; see role definitions below                    |
-| `passwordHash`| `string`                     | No       | Output of a password hashing function; never exposed via API     |
-| `createdAt`   | `string` (ISO 8601 UTC)      | No       | Set by persistence layer; immutable                              |
-| `updatedAt`   | `string` (ISO 8601 UTC)      | No       | Updated by persistence layer on every write                      |
+| Field          | Type                    | Nullable | Constraints                                                     |
+| -------------- | ----------------------- | -------- | --------------------------------------------------------------- |
+| `id`           | `string` (UUID v4)      | No       | Immutable after creation                                        |
+| `username`     | `string`                | No       | Unique system-wide; immutable after creation; see format rules  |
+| `displayName`  | `string` \| null        | Yes      | Shown in UI instead of `username` when present; max 100 chars   |
+| `email`        | `string` \| null        | Yes      | Unique system-wide when present; enables self-service pwd reset |
+| `role`         | `"admin"` \| `"member"` | No       | System-level role; see role definitions below                   |
+| `passwordHash` | `string`                | No       | Output of a password hashing function; never exposed via API    |
+| `createdAt`    | `string` (ISO 8601 UTC) | No       | Set by persistence layer; immutable                             |
+| `updatedAt`    | `string` (ISO 8601 UTC) | No       | Updated by persistence layer on every write                     |
 
 ### Role Definitions
 
@@ -65,13 +65,13 @@ Implementers of `@schediochron/core` should use these names and types verbatim.
 export type UserRole = 'admin' | 'member';
 
 export interface User {
-  id: string;          // UUID v4
-  username: string;    // unique, immutable
+  id: string; // UUID v4
+  username: string; // unique, immutable
   displayName: string | null;
   email: string | null;
   role: UserRole;
-  createdAt: string;   // ISO 8601 UTC
-  updatedAt: string;   // ISO 8601 UTC
+  createdAt: string; // ISO 8601 UTC
+  updatedAt: string; // ISO 8601 UTC
 }
 ```
 
@@ -84,14 +84,14 @@ returned by the API.
 
 ### Per-field constraints
 
-| Field         | Rule                                                                                      |
-| ------------- | ----------------------------------------------------------------------------------------- |
-| `id`          | Valid UUID v4                                                                             |
-| `username`    | 3–50 characters; only alphanumeric, hyphens, and underscores; case-insensitive uniqueness |
-| `displayName` | UTF-8 string, 1–100 characters; empty string is **not** allowed — use `null`              |
-| `email`       | Valid RFC 5321 email address; case-insensitive uniqueness; empty string not allowed       |
-| `role`        | One of `"admin"`, `"member"`                                                              |
-| `passwordHash`| Non-empty string produced by the chosen hashing library; algorithm left to implementer   |
+| Field          | Rule                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| `id`           | Valid UUID v4                                                                             |
+| `username`     | 3–50 characters; only alphanumeric, hyphens, and underscores; case-insensitive uniqueness |
+| `displayName`  | UTF-8 string, 1–100 characters; empty string is **not** allowed — use `null`              |
+| `email`        | Valid RFC 5321 email address; case-insensitive uniqueness; empty string not allowed       |
+| `role`         | One of `"admin"`, `"member"`                                                              |
+| `passwordHash` | Non-empty string produced by the chosen hashing library; algorithm left to implementer    |
 
 ### Password hashing
 

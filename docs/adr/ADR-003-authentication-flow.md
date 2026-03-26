@@ -34,10 +34,10 @@ work directly from this document.
 
 Authentication uses a **dual-token JWT scheme**:
 
-| Token           | Purpose                                          | Storage          |
-| --------------- | ------------------------------------------------ | ---------------- |
-| Access token    | Short-lived; included in every API request       | Client-side only |
-| Refresh token   | Long-lived; used to obtain a new access token    | Server-side + client-side |
+| Token         | Purpose                                       | Storage                   |
+| ------------- | --------------------------------------------- | ------------------------- |
+| Access token  | Short-lived; included in every API request    | Client-side only          |
+| Refresh token | Long-lived; used to obtain a new access token | Server-side + client-side |
 
 **Access tokens** are signed JWTs. They carry the user's `id`, `username`, and `role` as claims.
 They are stateless — the server does not store them.
@@ -51,11 +51,11 @@ new one and invalidate the old); rotation is recommended but left as an implemen
 
 ```typescript
 interface AccessTokenPayload {
-  sub: string;      // user id (UUID v4)
+  sub: string; // user id (UUID v4)
   username: string;
-  role: UserRole;   // "admin" | "member" — see ADR-002
-  iat: number;      // issued-at (Unix timestamp)
-  exp: number;      // expiry (Unix timestamp); TTL is configurable
+  role: UserRole; // "admin" | "member" — see ADR-002
+  iat: number; // issued-at (Unix timestamp)
+  exp: number; // expiry (Unix timestamp); TTL is configurable
 }
 ```
 
@@ -83,7 +83,7 @@ required for MVP.
 
 ```typescript
 {
-  user: User;            // see ADR-002 (passwordHash excluded)
+  user: User; // see ADR-002 (passwordHash excluded)
   accessToken: string;
   refreshToken: string;
 }
@@ -91,10 +91,10 @@ required for MVP.
 
 **Errors**:
 
-| Status | Condition |
-| ------ | --------- |
+| Status | Condition                                                      |
+| ------ | -------------------------------------------------------------- |
 | `400`  | Validation failure (username format, password too short, etc.) |
-| `409`  | `username` or `email` already taken |
+| `409`  | `username` or `email` already taken                            |
 
 ---
 
@@ -115,7 +115,7 @@ Authenticates an existing user with username and password.
 
 ```typescript
 {
-  user: User;            // see ADR-002 (passwordHash excluded)
+  user: User; // see ADR-002 (passwordHash excluded)
   accessToken: string;
   refreshToken: string;
 }
@@ -123,9 +123,9 @@ Authenticates an existing user with username and password.
 
 **Errors**:
 
-| Status | Condition |
-| ------ | --------- |
-| `400`  | Missing or malformed request body |
+| Status | Condition                                                         |
+| ------ | ----------------------------------------------------------------- |
+| `400`  | Missing or malformed request body                                 |
 | `401`  | Invalid username or password (do not distinguish between the two) |
 
 ---
@@ -147,15 +147,15 @@ Exchanges a valid refresh token for a new access token.
 ```typescript
 {
   accessToken: string;
-  refreshToken: string;  // may be a new token if rotation is implemented, or the same token
+  refreshToken: string; // may be a new token if rotation is implemented, or the same token
 }
 ```
 
 **Errors**:
 
-| Status | Condition |
-| ------ | --------- |
-| `400`  | Missing or malformed request body |
+| Status | Condition                                            |
+| ------ | ---------------------------------------------------- |
+| `400`  | Missing or malformed request body                    |
 | `401`  | Refresh token not found, expired, or already revoked |
 
 ---
@@ -173,13 +173,13 @@ stateless); its remaining TTL is the effective logout grace period.
 }
 ```
 
-**Success** (`204 No Content`): *(empty body)*
+**Success** (`204 No Content`): _(empty body)_
 
 **Errors**:
 
-| Status | Condition |
-| ------ | --------- |
-| `400`  | Missing or malformed request body |
+| Status | Condition                                                                                  |
+| ------ | ------------------------------------------------------------------------------------------ |
+| `400`  | Missing or malformed request body                                                          |
 | `401`  | Refresh token not found (treat as already logged out — acceptable to return `204` instead) |
 
 ---
@@ -193,20 +193,20 @@ Allows an `admin` to set a new password for any user. Requires a valid access to
 
 ```typescript
 {
-  newPassword: string;   // min 8 characters
+  newPassword: string; // min 8 characters
 }
 ```
 
-**Success** (`204 No Content`): *(empty body)*
+**Success** (`204 No Content`): _(empty body)_
 
 **Errors**:
 
-| Status | Condition |
-| ------ | --------- |
-| `400`  | Validation failure |
+| Status | Condition                       |
+| ------ | ------------------------------- |
+| `400`  | Validation failure              |
 | `401`  | Missing or invalid access token |
-| `403`  | Caller is not an admin |
-| `404`  | User not found |
+| `403`  | Caller is not an admin          |
+| `404`  | User not found                  |
 
 > **Side effect**: all existing refresh tokens for the target user should be revoked on password
 > reset, forcing re-authentication.
@@ -220,7 +220,7 @@ design: Schediochron does not require operators to collect email addresses.
 
 The consequence for authentication:
 
-- **Users with `email` set**: a self-service password reset flow (e.g. email link) *may* be
+- **Users with `email` set**: a self-service password reset flow (e.g. email link) _may_ be
   implemented in a future release.
 - **Users without `email`**: self-service password reset is **not possible** in MVP. An admin
   must use the admin password reset endpoint on their behalf.
