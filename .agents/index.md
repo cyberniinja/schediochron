@@ -138,15 +138,45 @@ A: Don't move forward. Fix issues and re-verify before reporting.
 
 ```
 .agents/
-├── workflow.md                Main workflow overview
-├── 01-comprehension.md        Understand the task
-├── 02-planning.md             Design the approach
-├── 03-implementation.md       Execute the plan
-├── 04-verification.md         Test & validate
-├── 05-reporting.md            Communicate results
-├── agent-guidelines.md        General best practices
+├── workflow.md                Phase-command model, planning lock, diagrams
+├── 01-comprehension.md        Phase 1: understand the task, activate planning lock
+├── 02-planning.md             Phase 2: design the approach
+├── 03-implementation.md       Phase 3: deactivate lock, execute the plan
+├── 04-verification.md         Phase 4: test & validate
+├── 05-reporting.md            Phase 5: compile report, open PR
+├── agent-guidelines.md        Commit standards, branch naming, code quality rules
 ├── codebase.md                Technical reference
-└── config.json                Machine-readable config
+├── config.json                Machine-readable workspace config
+├── templates/
+│   ├── comprehension.md       Phase 1 output template
+│   ├── planning.md            Phase 2 output template
+│   ├── implementation.md      Phase 3 output template
+│   ├── verification.md        Phase 4 output template
+│   └── report.md              Phase 5 output template
+└── issues/
+    └── {issueNr}-{issueName}/ Issue work folder (created per task)
+
+.github/agents/
+├── work-issue.agent.md        Entry point agent (Phase 1 + coordinator)
+├── comprehend-issue.agent.md  Phase 1 standalone agent
+├── plan-issue.agent.md        Phase 2 standalone agent
+├── implement-issue.agent.md   Phase 3 standalone agent
+├── verify-issue.agent.md      Phase 4 standalone agent
+├── report-issue.agent.md      Phase 5 standalone agent
+└── unlock.agent.md            Remove stale planning lock
+
+.claude/
+├── settings.json              Claude Code hook configuration
+├── commands/
+│   ├── comprehend-issue.md    /comprehend-issue slash command (Phase 1)
+│   ├── plan-issue.md          /plan-issue slash command (Phase 2)
+│   ├── implement-issue.md     /implement-issue slash command (Phase 3)
+│   ├── verify-issue.md        /verify-issue slash command (Phase 4)
+│   ├── report-issue.md        /report-issue slash command (Phase 5)
+│   └── unlock.md              /unlock slash command
+└── hooks/
+    ├── plan-guard.js          PreToolUse hook: hard planning lock enforcement
+    └── statusline.js          Status line: model | directory | context usage
 ```
 
 ## 🎓 Summary
@@ -162,8 +192,3 @@ This workflow provides a structured approach to handling tasks:
 | 5️⃣ **Reporting**      | Communicate results   |
 
 Follow this workflow for consistent, high-quality results.
-
----
-
-**Last Updated**: March 19, 2026  
-**Applies To**: All agents working on Schediochron

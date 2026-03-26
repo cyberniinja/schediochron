@@ -2,6 +2,14 @@
 
 **Goal**: Communicate the results of the task clearly and concisely to the developer.
 
+## How to Invoke
+
+| Tool | Command |
+|------|---------|
+| Copilot CLI | `/agent report-issue` |
+| Claude Code | `/report-issue {issueNr}-{issueName}` |
+| Other tools | "Start Phase 5: report issue {issueNr}-{issueName}" |
+
 ## Expected Input
 
 - The completed `comprehension.md` from Phase 1

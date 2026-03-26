@@ -2,43 +2,68 @@
 
 This document outlines the standardized workflow that agents should follow when handling tasks in the Schediochron project. Each task progresses through 5 phases: **Comprehension → Planning → Implementation → Verification → Reporting**.
 
+Each phase is **user-initiated** — the agent completes a phase and tells the developer which command to run next. The developer controls when each phase begins.
+
 ## Workflow Overview
 
 ```
 ┌─────────────────┐
-│ 1. COMPREHENSION│ ← Understand the task
+│ 1. COMPREHENSION│ ← /work-issue or /comprehend-issue
 └────────┬────────┘
-         │
+         │ developer invokes Phase 2
          ▼
 ┌─────────────────┐
-│    2. PLANNING  │ ← Determine approach
-└────────┬────────┘
-         │
+│    2. PLANNING  │ ← /plan-issue
+└────────┬────────┘         PLANNING LOCK ACTIVE (Phases 1 & 2)
+         │ developer invokes Phase 3
          ▼
 ┌──────────────────┐
-│ 3. IMPLEMENTATION│ ← Execute the plan
+│ 3. IMPLEMENTATION│ ← /implement-issue  (lock deactivated at start)
 └────────┬─────────┘
-         │
+         │ developer invokes Phase 4
          ▼
 ┌──────────────────┐
-│  4. VERIFICATION │ ← Test and validate
+│  4. VERIFICATION │ ← /verify-issue
 └────────┬─────────┘
-         │
+         │ developer invokes Phase 5
          ▼
 ┌──────────────────┐
-│   5. REPORTING   │ ← Communicate results
+│   5. REPORTING   │ ← /report-issue
 └──────────────────┘
 ```
 
+## Phase Commands
+
+Each phase is started with an explicit command by the developer:
+
+| Phase | Copilot CLI | Claude Code | Other tools |
+|-------|-------------|-------------|-------------|
+| 1 — Comprehension | `/agent work-issue` or `/agent comprehend-issue` | `/work-issue` or `/comprehend-issue` | "Start Phase 1: comprehend issue #N" |
+| 2 — Planning | `/agent plan-issue` | `/plan-issue {folder}` | "Start Phase 2: plan issue {folder}" |
+| 3 — Implementation | `/agent implement-issue` | `/implement-issue {folder}` | "Start Phase 3: implement issue {folder}" |
+| 4 — Verification | `/agent verify-issue` | `/verify-issue {folder}` | "Start Phase 4: verify issue {folder}" |
+| 5 — Reporting | `/agent report-issue` | `/report-issue {folder}` | "Start Phase 5: report issue {folder}" |
+| Unlock | `/agent unlock` | `/unlock` | "Unlock the planning guard" |
+
+## Planning Lock
+
+Phases 1 and 2 activate a **planning lock** that prevents source file edits:
+
+- **Lock file**: `.agents/.planning-active` (created by Phase 1, cleared by Phase 3)
+- **Claude Code**: hard enforcement via PreToolUse hook (`.claude/hooks/plan-guard.js`) — writes to source files are blocked at the tool level
+- **Copilot CLI / other tools**: soft enforcement via agent instructions — agents must not write source files while the lock file exists
+- **Allowed during planning**: reads, Explore agents, writes to `.agents/issues/{issue-folder}/` only
+- **Stale lock**: use `/unlock` (Claude Code), `/agent unlock` (Copilot CLI), or delete `.agents/.planning-active` manually
+
 ## Quick Reference
 
-| Phase                 | Purpose                             | Duration  | Deliverable                               |
-| --------------------- | ----------------------------------- | --------- | ----------------------------------------- |
-| 1️⃣ **Comprehension**  | Understand requirements and context | 5-15 min  | Clear understanding, questions identified |
-| 2️⃣ **Planning**       | Design the approach and strategy    | 5-20 min  | Plan document, task breakdown             |
-| 3️⃣ **Implementation** | Execute the plan and make changes   | Variable  | Code changes, documentation updates       |
-| 4️⃣ **Verification**   | Test and validate all changes       | 10-30 min | Test results, validation report           |
-| 5️⃣ **Reporting**      | Summarize results and next steps    | 5-10 min  | Summary, commit messages, hand-off notes  |
+| Phase                 | Purpose                             | Deliverable                               |
+| --------------------- | ----------------------------------- | ----------------------------------------- |
+| 1️⃣ **Comprehension**  | Understand requirements and context | `comprehension.md`, planning lock active  |
+| 2️⃣ **Planning**       | Design the approach and strategy    | `planning.md`                             |
+| 3️⃣ **Implementation** | Execute the plan and make changes   | Code changes, `implementation.md`         |
+| 4️⃣ **Verification**   | Test and validate all changes       | `verification.md` (PASS/FAIL)             |
+| 5️⃣ **Reporting**      | Summarize results and open PR       | `report.md`, pull request                 |
 
 ## When to Use This Workflow
 
