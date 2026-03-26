@@ -19,6 +19,17 @@
   },
 
   "customizations": {
+    "codespaces": {
+      "repositories": {
+        "cyberniinja/schediochron": {
+          "permissions": {
+            "pull_requests": "write",
+            "contents": "write",
+            "issues": "write"
+          }
+        }
+      }
+    },
     "vscode": {
       "extensions": [
         "GitHub.copilot",
