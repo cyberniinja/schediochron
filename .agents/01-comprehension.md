@@ -2,13 +2,15 @@
 
 **Goal**: Fully understand the task before writing any code.
 
-## Expected Input
+## How to Invoke
 
-A `/work-issue` command in one of three forms (see `agent-guidelines.md` for details):
+| Tool | Command |
+|------|---------|
+| Copilot CLI | `/agent work-issue` or `/agent comprehend-issue` |
+| Claude Code | `/work-issue` or `/comprehend-issue` |
+| Other tools | "Start Phase 1: comprehend issue #42" |
 
-- `/work-issue #42` — existing issue number
-- `/work-issue Add profile component` — short description, no issue yet
-- `/work-issue` — no arguments, agent asks the developer
+Accepts an issue number (`#42`), a short description, or no arguments (agent asks).
 
 ## Behaviour
 
@@ -50,7 +52,20 @@ A `/work-issue` command in one of three forms (see `agent-guidelines.md` for det
   - The type is derived from the issue label
   - See `agent-guidelines.md` for the full branch naming reference
 
-### 6. Document Understanding
+### 6. Activate the Planning Lock
+
+Create the planning lock marker to prevent source file edits during Phases 1 and 2:
+
+```bash
+echo "Phase 1 (comprehend-issue): {issueNr}-{issueName}" > .agents/.planning-active
+```
+
+- **Claude Code**: the lock is enforced by a hard PreToolUse hook (`.claude/hooks/plan-guard.js`) — source file writes will be blocked automatically
+- **Copilot CLI / other tools**: the lock is enforced by agent instructions — do not write or edit source files while `.agents/.planning-active` exists
+- The lock is cleared automatically when Phase 3 (`implement-issue`) begins
+- To manually clear a stale lock: use `/unlock` (Claude Code), `/agent unlock` (Copilot CLI), or delete `.agents/.planning-active` directly
+
+### 7. Document Understanding
 
 - Summarize the task in your own words
 - Note any assumptions made and confirm them with the developer
@@ -58,7 +73,7 @@ A `/work-issue` command in one of three forms (see `agent-guidelines.md` for det
 
 ## Expected Output
 
-Save a file named `comprehension.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/comprehension.md`) containing:
+Save a file named `comprehension.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/comprehension.md`) using `.agents/templates/comprehension.md` as a template. The file should contain:
 
 - A summary of the task in the agent's own words
 - Clarifying questions and answers from the user
@@ -75,8 +90,20 @@ Save a file named `comprehension.md` in the issue folder (e.g., `.agents/issues/
 - [ ] Ambiguities identified and clarified with the user
 - [ ] Task size evaluated — split into subtasks if needed
 - [ ] Assumptions documented and confirmed
-- [ ] `comprehension.md` saved in the issue folder
-- [ ] Ready to move to Phase 2 (Planning)
+- [ ] Planning lock activated (`.agents/.planning-active`)
+- [ ] `comprehension.md` saved in the issue folder using the template
+- [ ] Developer told to invoke Phase 2 when ready
+- [ ] **Stopped here** — do not proceed to Phase 2 without explicit developer instruction
+
+## Next Phase
+
+Tell the developer:
+```
+When ready, start Phase 2:
+  Copilot CLI:  /agent plan-issue
+  Claude Code:  /plan-issue {issueNr}-{issueName}
+  Other tools:  "Start Phase 2: plan issue {issueNr}-{issueName}"
+```
 
 ## When to Go Back
 

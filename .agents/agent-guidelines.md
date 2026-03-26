@@ -2,33 +2,46 @@
 
 ## Commands
 
-### `/work-issue`
+### Phase Commands
 
-Starts the agent workflow for an issue. This is the entry point for all agent work.
+Each phase is a separate command. Agents complete one phase and wait for the developer to initiate the next.
 
-**Usage:**
+| Phase | Copilot CLI | Claude Code | Other tools |
+|-------|-------------|-------------|-------------|
+| 1 — Comprehension | `/agent work-issue` or `/agent comprehend-issue` | `/work-issue` or `/comprehend-issue` | "Start Phase 1: comprehend issue #N" |
+| 2 — Planning | `/agent plan-issue` | `/plan-issue {folder}` | "Start Phase 2: plan issue {folder}" |
+| 3 — Implementation | `/agent implement-issue` | `/implement-issue {folder}` | "Start Phase 3: implement issue {folder}" |
+| 4 — Verification | `/agent verify-issue` | `/verify-issue {folder}` | "Start Phase 4: verify issue {folder}" |
+| 5 — Reporting | `/agent report-issue` | `/report-issue {folder}` | "Start Phase 5: report issue {folder}" |
+| Unlock | `/agent unlock` | `/unlock` | "Unlock the planning guard" |
 
-- `/work-issue` — Start the workflow without context. The agent will ask the developer to describe the task before proceeding.
-- `/work-issue #42` — Start work on existing GitHub issue #42. The agent pulls the issue title, description, and labels from GitHub to populate Phase 1.
-- `/work-issue Add profile component` — Start work on a new task with a brief description. The agent creates a GitHub issue first, then proceeds with Phase 1.
+### Utility Commands
 
-**What the agent does:**
+Outside the phase sequence, utility commands handle targeted changes and code review:
 
-1. If no arguments are provided:
-   - Ask the developer to describe the task
-   - Do **not** create a GitHub issue yet — proceed through comprehension (analyze, clarify, evaluate size) first
-   - Once the task is fully understood, create the issue with a clear, concise title and description derived from the comprehension phase
-   - Then create the issue folder and branch
-2. If an issue number is provided (`#42`):
-   - Fetch the issue details (title, description, labels) from GitHub
-   - Derive the task type from the issue label (`feature`, `bug`, `chore`, `refactoring`)
-   - If no type label exists, ask the developer to classify it
-3. If a short description is provided (no issue number):
-   - Use the description as a starting point for comprehension
-   - Do **not** create a GitHub issue yet — proceed through comprehension (analyze, clarify, evaluate size) first
-   - Once the task is fully understood, create the issue with the appropriate type label via `gh issue create`
-   - Then create the issue folder and branch
-4. Proceed to Phase 1 (Comprehension) with the issue context
+| Utility | Copilot CLI | Claude Code |
+|---------|-------------|-------------|
+| Request Change | `/agent request-change` | `/request-change {folder}` |
+| Apply Change Request | `/agent apply-change-request` | `/apply-change-request {folder} {N}` |
+| Review Code | `/agent review-code` | `/review-code {folder}` |
+| Address Findings | `/agent address-review-findings` | `/address-review-findings {folder}` |
+| Quick Implement | `/agent quick-implement` | `/quick-implement {folder} "{desc}"` |
+| Discuss Issue | `/agent discuss-issue` | `/discuss-issue {folder}` |
+| Analyze Codebase | `/agent analyze-codebase` | `/analyze-codebase {topic}` |
+
+**Utility planning lock rules:**
+- `request-change` activates the lock; `apply-change-request` clears it — never touch source between these two
+- `quick-implement` uses a mini planning lock; cleared before source changes
+- All other utilities do not modify the planning lock
+
+
+
+- **Do not write or edit source files** while the lock file exists
+- Only write to `.agents/issues/{issue-folder}/` during planning
+- Use only Explore agents for codebase research during planning phases
+- The lock is activated at the start of Phase 1 and cleared at the start of Phase 3
+
+If you encounter a stale lock (planning phase was interrupted), use the unlock command to clear it.
 
 ## Quick Start for Agents
 

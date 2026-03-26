@@ -2,6 +2,14 @@
 
 **Goal**: Validate that the implementation meets all requirements and quality standards.
 
+## How to Invoke
+
+| Tool | Command |
+|------|---------|
+| Copilot CLI | `/agent verify-issue` |
+| Claude Code | `/verify-issue {issueNr}-{issueName}` |
+| Other tools | "Start Phase 4: verify issue {issueNr}-{issueName}" |
+
 ## Expected Input
 
 - The completed `comprehension.md` from Phase 1 (requirements reference)
@@ -52,6 +60,8 @@ Save a file named `verification.md` in the issue folder (e.g., `.agents/issues/4
 - Any issues found and how they were resolved
 - Overall verification status: **PASS** or **FAIL**
 
+Use `.agents/templates/verification.md` as a template.
+
 ## Checklist
 
 - [ ] All requirements from `comprehension.md` verified as met
@@ -64,10 +74,21 @@ Save a file named `verification.md` in the issue folder (e.g., `.agents/issues/4
 - [ ] Code formatting is correct
 - [ ] Code style follows project conventions
 - [ ] No regressions introduced
-- [ ] `verification.md` saved in the issue folder
-- [ ] Ready to move to Phase 5 (Reporting)
+- [ ] `verification.md` saved in the issue folder using the template
+- [ ] Developer told to invoke Phase 5 when ready (only if PASS)
+- [ ] **Stopped here** — do not proceed to Phase 5 without explicit developer instruction
 
 ## When to Go Back
 
 - If verification fails, return to Phase 3 to fix issues, then re-verify.
 - Do not proceed to Phase 5 until all checks pass.
+
+## Next Phase
+
+Tell the developer (only if PASS):
+```
+When ready, start Phase 5:
+  Copilot CLI:  /agent report-issue
+  Claude Code:  /report-issue {issueNr}-{issueName}
+  Other tools:  "Start Phase 5: report issue {issueNr}-{issueName}"
+```

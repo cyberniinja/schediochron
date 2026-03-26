@@ -2,10 +2,19 @@
 
 **Goal**: Design the approach and plan the implementation before writing code.
 
+## How to Invoke
+
+| Tool | Command |
+|------|---------|
+| Copilot CLI | `/agent plan-issue` |
+| Claude Code | `/plan-issue {issueNr}-{issueName}` |
+| Other tools | "Start Phase 2: plan issue {issueNr}-{issueName}" |
+
 ## Expected Input
 
 - The completed `comprehension.md` from Phase 1
 - A confirmed understanding of the task requirements
+- Planning lock active (`.agents/.planning-active`)
 
 ## Behaviour
 
@@ -41,9 +50,18 @@
 - Specify what each test should cover
 - Include test files in the list of files to be created
 
+## Planning Lock
+
+The planning lock remains active during Phase 2. **Do not modify source files** — only write to `.agents/issues/{issue-folder}/`. Planning artifacts must be saved inside the issue folder.
+
+If the lock is missing, activate it before proceeding:
+```bash
+echo "Phase 2 (plan-issue): {issueNr}-{issueName}" > .agents/.planning-active
+```
+
 ## Expected Output
 
-Save a file named `planning.md` in the issue folder (e.g., `.agents/issues/42-add-profile-component/planning.md`) containing:
+Save a file named `planning.md` in the issue folder using `.agents/templates/planning.md` as a template. The file should contain:
 
 - The proposed approaches with trade-offs
 - The developer's chosen approach and reasoning
@@ -63,9 +81,17 @@ Save a file named `planning.md` in the issue folder (e.g., `.agents/issues/42-ad
 - [ ] Files to modify listed
 - [ ] Risks identified and mitigations planned
 - [ ] Tests planned — what to test and where
-- [ ] `planning.md` saved in the issue folder
-- [ ] Ready to move to Phase 3 (Implementation)
+- [ ] Planning lock still active (`.agents/.planning-active`)
+- [ ] `planning.md` saved in the issue folder using the template
+- [ ] Developer told to invoke Phase 3 when ready
+- [ ] **Stopped here** — do not proceed to Phase 3 without explicit developer instruction
 
-## When to Go Back
+## Next Phase
 
-- If research reveals that the task requirements are unclear or incomplete, return to Phase 1 and re-clarify with the user.
+Tell the developer:
+```
+When ready, start Phase 3:
+  Copilot CLI:  /agent implement-issue
+  Claude Code:  /implement-issue {issueNr}-{issueName}
+  Other tools:  "Start Phase 3: implement issue {issueNr}-{issueName}"
+```

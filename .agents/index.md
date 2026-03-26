@@ -114,7 +114,7 @@ USER REQUEST
 ## ❓ Common Questions
 
 **Q: Do I have to follow all 5 phases?**  
-A: Generally yes. Exceptions can be made for very small tasks with explicit approval.
+A: For new features and bug fixes, yes. For small well-understood tasks (1–5 files), use `/quick-implement` instead.
 
 **Q: What if I get stuck on a phase?**  
 A: Review the phase guide, check troubleshooting section, ask for help.
@@ -138,15 +138,63 @@ A: Don't move forward. Fix issues and re-verify before reporting.
 
 ```
 .agents/
-├── workflow.md                Main workflow overview
-├── 01-comprehension.md        Understand the task
-├── 02-planning.md             Design the approach
-├── 03-implementation.md       Execute the plan
-├── 04-verification.md         Test & validate
-├── 05-reporting.md            Communicate results
-├── agent-guidelines.md        General best practices
+├── workflow.md                Phase-command model, planning lock, diagrams
+├── 01-comprehension.md        Phase 1: understand the task, activate planning lock
+├── 02-planning.md             Phase 2: design the approach
+├── 03-implementation.md       Phase 3: deactivate lock, execute the plan
+├── 04-verification.md         Phase 4: test & validate
+├── 05-reporting.md            Phase 5: compile report, open PR
+├── agent-guidelines.md        Commit standards, branch naming, code quality rules
 ├── codebase.md                Technical reference
-└── config.json                Machine-readable config
+├── config.json                Machine-readable workspace config
+├── templates/
+│   ├── comprehension.md       Phase 1 output template
+│   ├── planning.md            Phase 2 output template
+│   ├── implementation.md      Phase 3 output template
+│   ├── verification.md        Phase 4 output template
+│   ├── report.md              Phase 5 output template
+│   ├── change-request.md      Change request template (request-change utility)
+│   └── review-findings.md     Review findings template with [FIX]/[SKIP]/[MANUAL] slots
+├── issues/
+│   └── {issueNr}-{issueName}/ Issue work folder (created per task)
+└── analysis/
+    └── {YYYY-MM-DD}-{topic}.md Codebase analysis output (analyze-codebase utility)
+
+.github/agents/
+├── work-issue.agent.md               Entry point agent (Phase 1 + coordinator)
+├── comprehend-issue.agent.md         Phase 1 standalone agent
+├── plan-issue.agent.md               Phase 2 standalone agent
+├── implement-issue.agent.md          Phase 3 standalone agent
+├── verify-issue.agent.md             Phase 4 standalone agent
+├── report-issue.agent.md             Phase 5 standalone agent
+├── unlock.agent.md                   Remove stale planning lock
+├── request-change.agent.md           Document a targeted change request
+├── apply-change-request.agent.md     Execute a reviewed change-request-N.md
+├── review-code.agent.md              Vendor-agnostic code review → review.md
+├── address-review-findings.agent.md  Apply [FIX]/[SKIP]/[MANUAL] findings
+├── quick-implement.agent.md          Fast path for 1–5 file changes
+├── discuss-issue.agent.md            Refine comprehension.md through Q&A
+└── analyze-codebase.agent.md         Codebase analysis with mermaid diagrams
+
+.claude/
+├── settings.json              Claude Code hook configuration
+├── commands/
+│   ├── comprehend-issue.md    /comprehend-issue slash command (Phase 1)
+│   ├── plan-issue.md          /plan-issue slash command (Phase 2)
+│   ├── implement-issue.md     /implement-issue slash command (Phase 3)
+│   ├── verify-issue.md        /verify-issue slash command (Phase 4)
+│   ├── report-issue.md        /report-issue slash command (Phase 5)
+│   ├── unlock.md              /unlock slash command
+│   ├── request-change.md      /request-change slash command
+│   ├── apply-change-request.md /apply-change-request slash command
+│   ├── review-code.md         /review-code slash command
+│   ├── address-review-findings.md /address-review-findings slash command
+│   ├── quick-implement.md     /quick-implement slash command
+│   ├── discuss-issue.md       /discuss-issue slash command
+│   └── analyze-codebase.md    /analyze-codebase slash command
+└── hooks/
+    ├── plan-guard.js          PreToolUse hook: hard planning lock enforcement
+    └── statusline.js          Status line: model | directory | context usage
 ```
 
 ## 🎓 Summary
@@ -162,8 +210,3 @@ This workflow provides a structured approach to handling tasks:
 | 5️⃣ **Reporting**      | Communicate results   |
 
 Follow this workflow for consistent, high-quality results.
-
----
-
-**Last Updated**: March 19, 2026  
-**Applies To**: All agents working on Schediochron

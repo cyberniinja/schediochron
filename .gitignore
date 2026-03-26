@@ -52,3 +52,8 @@ test-output
 
 # Agent issue folders (per-issue workflow artifacts — developer-only, not committed)
 .agents/issues/
+.agents/analysis/
+
+# Agent planning lock (runtime files)
+.agents/.planning-active
+.agents/.planning-block-count
