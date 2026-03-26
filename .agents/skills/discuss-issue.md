@@ -29,6 +29,10 @@ Use `discuss-issue` when:
 
 - `{issue-folder}` — the issue folder name under `.agents/issues/`
 
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{issue-folder}'. Available issue folders:" — list the
+output of `ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Process
 
 ### Step 1: Read comprehension.md

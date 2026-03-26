@@ -15,7 +15,7 @@ All workflow skills live in `.agents/skills/` — self-contained, tool-agnostic 
 | ------------------------------------------ | ------------------------------------------------------------------- |
 | [../AGENTS.md](../AGENTS.md)               | **Central skill index** — all 14 skills with descriptions and links |
 | [workflow.md](workflow.md)                 | Phase-gate model, planning lock, workflow diagrams                  |
-| [agent-guidelines.md](agent-guidelines.md) | Commit standards, branch naming, code quality rules                 |
+| [../AGENTS.md](../AGENTS.md) | **Also**: Agent Development Reference — commit standards, branch naming, QA commands |
 | [codebase.md](codebase.md)                 | Technical reference for the Schediochron codebase                   |
 | [config.json](config.json)                 | Machine-readable workspace configuration                            |
 
@@ -38,7 +38,7 @@ skill to invoke next.
 .agents/
 ├── index.md               This file
 ├── workflow.md            Phase-gate model and workflow diagrams
-├── agent-guidelines.md    Commit standards, branch naming, code quality rules
+├── (agent-guidelines.md merged into AGENTS.md § Agent Development Reference)
 ├── codebase.md            Technical reference
 ├── config.json            Machine-readable workspace config
 ├── skills/

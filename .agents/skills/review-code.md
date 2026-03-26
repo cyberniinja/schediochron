@@ -23,6 +23,10 @@ You are a code reviewer. Your job is to review a set of code changes and produce
 - Optionally one of: `--staged`, `--branch {branch}`, `--pr {number}`
 - Defaults to `--staged` if no source flag is given
 
+If an explicit folder argument was provided but no matching folder exists under `.agents/issues/`,
+tell the developer: "No folder found matching '{issue-folder}'. Available issue folders:" — list
+the output of `ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Process
 
 ### Step 1: Obtain the Diff

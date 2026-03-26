@@ -25,6 +25,10 @@ You are a change-request executor. Your job is to implement the steps in a revie
 
 If not provided, scan `.agents/issues/` for a change request with status `reviewed`.
 
+If an explicit folder argument was provided but no matching folder exists under `.agents/issues/`,
+tell the developer: "No folder found matching '{issue-folder}'. Available issue folders:" — list
+the output of `ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Process
 
 ### Step 1: Read the Change Request

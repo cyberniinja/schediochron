@@ -21,6 +21,12 @@ and confirm every requirement from Phase 1 has been addressed.
 
 The issue folder name (e.g. `42-add-dark-mode-toggle`).
 
+If not provided, scan `.agents/issues/` and use the most recently modified folder.
+
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{arg}'. Available issue folders:" — list the output of
+`ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Pre-flight Check
 
 Read:
@@ -69,7 +75,7 @@ actual filenames on disk (e.g. `import './Layout.scss'` not `import './layout.sc
 
 ### Step 4: Code Style Review
 
-Confirm the code follows project conventions from `.agents/agent-guidelines.md`:
+Confirm the code follows project conventions from `AGENTS.md` (Agent Development Reference):
 
 - No unnecessary code, comments, or debug artifacts
 - Naming conventions consistent with the codebase

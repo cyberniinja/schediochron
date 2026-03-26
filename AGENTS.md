@@ -105,12 +105,11 @@ address-review-findings {folder}      ← applies annotations + verifies + commi
 
 ## Supporting Documentation
 
-| File                                                       | Purpose                                             |
-| ---------------------------------------------------------- | --------------------------------------------------- |
-| [.agents/workflow.md](.agents/workflow.md)                 | Workflow diagrams and phase-gate model              |
-| [.agents/agent-guidelines.md](.agents/agent-guidelines.md) | Commit standards, branch naming, code quality rules |
-| [.agents/codebase.md](.agents/codebase.md)                 | Technical reference for the Schediochron codebase   |
-| [.agents/config.json](.agents/config.json)                 | Machine-readable workspace configuration            |
+| File                               | Purpose                                           |
+| ---------------------------------- | ------------------------------------------------- |
+| [.agents/workflow.md](.agents/workflow.md)     | Workflow diagrams and phase-gate model            |
+| [.agents/codebase.md](.agents/codebase.md)     | Technical reference for the Schediochron codebase |
+| [.agents/config.json](.agents/config.json)     | Machine-readable workspace configuration          |
 
 ## Templates
 
@@ -127,3 +126,78 @@ Issue folder artifacts use templates from `.agents/templates/`:
 | `review-findings.md` | `review-code`                        | Findings with `[FIX]`/`[SKIP]`/`[MANUAL]` annotation slots |
 
 Codebase analysis output (from `analyze-codebase`) goes to `.agents/analysis/{YYYY-MM-DD}-{topic}.md`.
+
+## Agent Development Reference
+
+### Commit & Branch Standards
+
+**Commit format**: `{type}(#{issueNr}): description`
+
+Always include the co-author trailer:
+
+```
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+```
+
+**Type mapping**: `feature` → `feat` | `bug` → `fix` | `chore` → `chore` | `refactoring` → `refactor`
+
+**Branch naming**: `{type}/{issueNr}-{issueName}` (e.g. `refactoring/96-replace-agent-files`)
+
+| Type          | Usage                              |
+| ------------- | ---------------------------------- |
+| `feature`     | New functionality                  |
+| `bug`         | Bug fixes                          |
+| `chore`       | Maintenance, dependencies, tooling |
+| `refactoring` | Code restructuring                 |
+
+### Quality Assurance Commands
+
+```bash
+bun nx run-many -t typecheck   # TypeScript type check (all projects)
+bun nx run-many -t test        # Unit/integration tests
+bun nx run-many -t lint        # ESLint
+bun nx run-many -t lint --fix  # Auto-fix lint issues
+bunx prettier --write .        # Format all files
+bun nx e2e schediochron-e2e    # End-to-end tests (Playwright)
+```
+
+### Important Rules
+
+- **TypeScript strict mode** is enforced — always provide proper type annotations
+- **No `console.error` or `console.warn`** in production code
+- **No direct pushes to `main`** — all changes go through a pull request
+- **Always run typecheck + test + lint** before committing
+
+### Project Structure
+
+```
+schediochron/
+├── apps/
+│   ├── schediochron/          # Main React app (Vite + React + TypeScript)
+│   │   └── src/
+│   │       ├── components/    # React components
+│   │       └── pages/         # Page components
+│   └── schediochron-e2e/      # Playwright E2E tests
+├── nx.json                    # Nx workspace config
+├── package.json               # Root package.json (Bun)
+└── tsconfig.base.json         # Shared TypeScript config
+```
+
+### Development Commands
+
+```bash
+bun install                    # Install dependencies
+bun nx serve schediochron      # Dev server (http://localhost:4200)
+bun nx build schediochron      # Production build
+```
+
+### Testing Patterns
+
+- **Unit/integration**: Vitest — files named `*.spec.ts(x)` or `*.test.ts(x)`; use Testing Library for React components
+- **E2E**: Playwright — located in `apps/schediochron-e2e/src/`; test user flows, not implementation details
+
+### When to Ask for Help
+
+- Architectural decisions or scope ambiguity
+- Unclear or conflicting requirements
+- Dependency version conflicts or unusual error messages

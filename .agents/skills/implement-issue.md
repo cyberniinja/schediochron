@@ -23,6 +23,10 @@ The issue folder name (e.g. `42-add-dark-mode-toggle`).
 
 If not provided, check `.agents/.planning-active` to find the current issue.
 
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{arg}'. Available issue folders:" — list the output of
+`ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Pre-flight Check
 
 Load context:
@@ -57,7 +61,7 @@ Work through each step in `planning.md` in order:
 - Write functional components with TypeScript strict typing
 - Use SCSS modules for styles
 - No `console.error` or `console.warn` in production code
-- Follow conventions in `.agents/agent-guidelines.md` and `.agents/codebase.md`
+- Follow conventions in `AGENTS.md` (Agent Development Reference) and `.agents/codebase.md`
 - If a step cannot be completed as planned, stop and consult the developer
 
 ### Step 3: Implement Tests
@@ -100,7 +104,7 @@ The log should contain:
 
 - [ ] Planning lock deactivated (`rm .agents/.planning-active`)
 - [ ] All implementation steps from `planning.md` completed in order
-- [ ] Code follows project conventions from `agent-guidelines.md`
+- [ ] Code follows project conventions from `AGENTS.md` (Agent Development Reference)
 - [ ] Tests implemented as planned in Phase 2
 - [ ] Commits made with clear messages and co-author trailer
 - [ ] `implementation.md` saved in the issue folder using the template

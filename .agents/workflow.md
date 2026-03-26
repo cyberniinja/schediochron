@@ -272,7 +272,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 ## Related Resources
 
 - `.agents/skills/` — Canonical skill files for all phases and utilities
-- `.agents/agent-guidelines.md` — Commit standards, branch naming, code quality rules
+- `AGENTS.md` — Agent Development Reference (commit standards, branch naming, QA commands)
 - `.agents/codebase.md` — Project structure reference
 
 ## Questions?

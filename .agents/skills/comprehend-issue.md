@@ -21,7 +21,12 @@ issue folder, and activate the planning lock.
 
 ## Input Forms
 
-1. `comprehend-issue #42` — existing GitHub issue number
+1. `comprehend-issue #42` or `comprehend-issue 42` — an issue number is provided
+   - First check if a folder starting with `42-` already exists under `.agents/issues/` — if it does, offer to continue from that folder instead of starting fresh
+   - If no folder exists, fetch the issue: `gh issue view {N} --json number,title,body,labels`
+   - If the GitHub API returns an error (issue not found), ask the developer:
+     > "GitHub issue #{N} was not found and no existing folder matches. Did you mean a different issue number, or would you like to start from a description?"
+     Wait for the developer to respond before proceeding.
 2. `comprehend-issue Add dark mode toggle` — short description, no issue yet
 3. `comprehend-issue` — no arguments; ask the developer to describe the task
 
@@ -29,7 +34,7 @@ issue folder, and activate the planning lock.
 
 ### Step 1: Gather Context
 
-- If an issue number is provided: `gh issue view {N} --json number,title,body,labels`
+- If an issue number is provided: check for an existing folder first (see Input Forms above), then `gh issue view {N} --json number,title,body,labels`
 - If a description is provided: use it as the starting point
 - If no arguments: ask the developer to describe the task before doing anything else
 

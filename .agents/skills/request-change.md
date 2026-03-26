@@ -23,6 +23,10 @@ The issue folder name (e.g. `42-fix-login`).
 
 If not provided, scan `.agents/issues/` and use the most recently modified folder.
 
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{arg}'. Available issue folders:" — list the output of
+`ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Process
 
 ### Step 1: Read Context

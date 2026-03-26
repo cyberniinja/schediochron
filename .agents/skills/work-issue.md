@@ -29,8 +29,12 @@ Phase 5 — Reporting       report-issue
 
 Determine the input form and act accordingly:
 
-1. **`work-issue #42`** — an existing GitHub issue number is provided
-   - Fetch the issue: `gh issue view 42 --json number,title,body,labels`
+1. **`work-issue #42`** or **`work-issue 42`** — an issue number is provided
+   - First check if a folder starting with `42-` already exists under `.agents/issues/` — if it does, offer to continue from that folder instead of starting fresh
+   - If no folder exists, fetch the issue: `gh issue view 42 --json number,title,body,labels`
+   - If the GitHub API returns an error (issue not found), ask the developer:
+     > "GitHub issue #42 was not found and no existing folder matches. Did you mean a different issue number, or would you like to start from a description?"
+     Wait for the developer to respond before proceeding.
    - Derive the task type from the issue label (`feature`, `bug`, `chore`, `refactoring`)
    - If no type label exists, ask the developer to classify it
 

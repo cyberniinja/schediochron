@@ -36,6 +36,11 @@ Use the full 5-phase workflow (`work-issue`) instead when:
 - `{issue-folder}` — an existing or new folder name under `.agents/issues/`
 - `{brief description}` (optional) — one sentence describing the task
 
+If an explicit folder argument was provided and it looks like an issue number or partial name but
+no matching folder exists, confirm with the developer before creating a new folder:
+> "No existing folder found matching '{issue-folder}'. Should I create it as a new issue folder, or did you mean an existing one?"
+List available folders (`ls .agents/issues/`) and wait for the developer to confirm.
+
 ## Process
 
 ### Step 1: Collect the Brief

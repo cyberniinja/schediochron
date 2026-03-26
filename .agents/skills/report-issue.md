@@ -20,6 +20,12 @@ what was accomplished, document any deviations, and open a pull request.
 
 The issue folder name (e.g. `42-add-dark-mode-toggle`).
 
+If not provided, scan `.agents/issues/` and use the most recently modified folder.
+
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{arg}'. Available issue folders:" — list the output of
+`ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Pre-flight Check
 
 Read `.agents/issues/{issue-folder}/verification.md`. If it shows FAIL, stop and tell the

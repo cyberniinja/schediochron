@@ -24,6 +24,10 @@ The issue folder name from Phase 1 (e.g. `42-add-dark-mode-toggle`).
 
 If not provided, check `.agents/.planning-active` to find the current issue.
 
+If an explicit argument was provided but no matching folder exists under `.agents/issues/`, tell
+the developer: "No folder found matching '{arg}'. Available issue folders:" — list the output of
+`ls .agents/issues/` — and ask which to use. Wait for confirmation before proceeding.
+
 ## Pre-flight Check
 
 Verify the planning lock is active:
@@ -48,7 +52,7 @@ Explore the codebase to understand related files and conventions:
 - Locate files and modules relevant to the task
 - Understand existing patterns, conventions, and data flow
 - Review related tests to understand expected behaviour
-- Check `.agents/agent-guidelines.md` and `.agents/codebase.md` for project-specific context
+- Check `AGENTS.md` (Agent Development Reference) and `.agents/codebase.md` for project-specific context
 
 ### Step 2: Design Approaches
 

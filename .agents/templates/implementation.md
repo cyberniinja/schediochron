@@ -28,7 +28,7 @@
 
 - [ ] Planning lock deactivated (`.agents/.planning-active` removed)
 - [ ] All implementation steps completed in order
-- [ ] Code follows project conventions (`agent-guidelines.md`)
+- [ ] Code follows project conventions (`AGENTS.md` Agent Development Reference)
 - [ ] Tests implemented as planned
 - [ ] All commits made with correct format and co-author trailer
 - [ ] Ready to move to Phase 4 (Verification)
