@@ -67,6 +67,7 @@ Enforced by skill instructions: **do not write or edit source files while the lo
 | `address-review-findings` | [.agents/skills/address-review-findings.md](.agents/skills/address-review-findings.md) | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations from `review.md`   |
 | `discuss-issue`           | [.agents/skills/discuss-issue.md](.agents/skills/discuss-issue.md)                     | Refine `comprehension.md` through Q&A without restarting Phase 1 |
 | `analyze-codebase`        | [.agents/skills/analyze-codebase.md](.agents/skills/analyze-codebase.md)               | Generate codebase analysis with mermaid diagrams                 |
+| `verify-environment`      | [.agents/skills/verify-environment.md](.agents/skills/verify-environment.md)           | Pre-flight check — tools, deps, typecheck baseline, planning lock |
 
 ## Workflow
 
@@ -126,6 +127,43 @@ Issue folder artifacts use templates from `.agents/templates/`:
 | `review-findings.md` | `review-code`                        | Findings with `[FIX]`/`[SKIP]`/`[MANUAL]` annotation slots |
 
 Codebase analysis output (from `analyze-codebase`) goes to `.agents/analysis/{YYYY-MM-DD}-{topic}.md`.
+
+## Isolated Environments (Codespaces)
+
+The repo includes a `.devcontainer/devcontainer.json` for running agents in isolated, fully-equipped environments via GitHub Codespaces.
+
+### What's pre-configured
+
+- Node 22 + Bun installed
+- GitHub CLI (`gh`) authenticated as the Codespace owner — **no manual login needed**
+- Git identity pre-wired to your GitHub account
+- Playwright Chromium installed for E2E tests
+- Port 4200 forwarded for the dev server
+
+### Recommended session start
+
+```
+verify-environment
+```
+
+Then once healthy:
+
+```
+work-issue #42
+```
+
+The agent will run all phases, pausing at each phase boundary for your confirmation to continue.
+
+### Starting a Codespace
+
+```bash
+gh codespace create --repo <owner>/schediochron --branch <branch>
+gh codespace ssh
+```
+
+Or open in the browser via **Code → Codespaces → New codespace** on GitHub.
+
+---
 
 ## Agent Development Reference
 
