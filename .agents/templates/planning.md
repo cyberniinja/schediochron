@@ -4,64 +4,69 @@
 
 ### Option A: {Name}
 
-**Description**: 
+**Description**:
 
 **Trade-offs**:
-- ✅ 
-- ❌ 
+
+- ✅
+- ❌
 
 ### Option B: {Name}
 
-**Description**: 
+**Description**:
 
 **Trade-offs**:
-- ✅ 
-- ❌ 
+
+- ✅
+- ❌
 
 ## Chosen Approach
 
 **Selected**: Option A / B / …
 
-**Developer reasoning**: 
+**Developer reasoning**:
 
 ## Architectural Decisions
 
 > Questions raised with the developer and their answers.
 
 | Question | Decision |
-|----------|----------|
-| | |
+| -------- | -------- |
+|          |          |
 
 ## Implementation Steps
 
 > Ordered list. Mark dependencies where step N must complete before step M.
 
-1. [ ] 
-2. [ ] 
-3. [ ] 
+1. [ ]
+2. [ ]
+3. [ ]
 
 ## Files
 
 ### Created
-- 
+
+-
 
 ### Modified
-- 
+
+-
 
 ### Deleted
-- 
+
+-
 
 ## Tests
 
 | Test file | What it covers |
-|-----------|---------------|
-| | |
+| --------- | -------------- |
+|           |                |
 
 ## Risks & Mitigations
 
 | Risk | Mitigation |
-|------|-----------|
-| | |
+| ---- | ---------- |
+|      |            |
 
 ## Checklist
 
