@@ -15,9 +15,26 @@ Each phase is a separate command. Agents complete one phase and wait for the dev
 | 5 — Reporting | `/agent report-issue` | `/report-issue {folder}` | "Start Phase 5: report issue {folder}" |
 | Unlock | `/agent unlock` | `/unlock` | "Unlock the planning guard" |
 
-### Planning Lock Convention
+### Utility Commands
 
-During Phases 1 and 2, the planning lock (`.agents/.planning-active`) must be respected:
+Outside the phase sequence, utility commands handle targeted changes and code review:
+
+| Utility | Copilot CLI | Claude Code |
+|---------|-------------|-------------|
+| Request Change | `/agent request-change` | `/request-change {folder}` |
+| Apply Change Request | `/agent apply-change-request` | `/apply-change-request {folder} {N}` |
+| Review Code | `/agent review-code` | `/review-code {folder}` |
+| Address Findings | `/agent address-review-findings` | `/address-review-findings {folder}` |
+| Quick Implement | `/agent quick-implement` | `/quick-implement {folder} "{desc}"` |
+| Discuss Issue | `/agent discuss-issue` | `/discuss-issue {folder}` |
+| Analyze Codebase | `/agent analyze-codebase` | `/analyze-codebase {topic}` |
+
+**Utility planning lock rules:**
+- `request-change` activates the lock; `apply-change-request` clears it — never touch source between these two
+- `quick-implement` uses a mini planning lock; cleared before source changes
+- All other utilities do not modify the planning lock
+
+
 
 - **Do not write or edit source files** while the lock file exists
 - Only write to `.agents/issues/{issue-folder}/` during planning

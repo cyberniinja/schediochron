@@ -44,15 +44,51 @@ Phases 1 and 2 activate a planning lock (`.agents/.planning-active`) that preven
 
 Issue folder artifacts use templates from `.agents/templates/`:
 
-| Template | Phase | Output |
-|----------|-------|--------|
-| `comprehension.md` | 1 | Requirements, assumptions, task size |
-| `planning.md` | 2 | Approaches, chosen approach, steps, files, tests |
-| `implementation.md` | 3 | Step log, commits, deviations |
-| `verification.md` | 4 | Requirements checklist, quality check results |
-| `report.md` | 5 | Summary, commits, PR body |
+| Template | Used by | Output |
+|----------|---------|--------|
+| `comprehension.md` | Phase 1, discuss-issue | Requirements, assumptions, task size |
+| `planning.md` | Phase 2, quick-implement | Approaches, chosen approach, steps, files, tests |
+| `implementation.md` | Phase 3, quick-implement | Step log, commits, deviations |
+| `verification.md` | Phase 4 | Requirements checklist, quality check results |
+| `report.md` | Phase 5 | Summary, commits, PR body |
+| `change-request.md` | request-change | Change description, affected components, steps, criteria |
+| `review-findings.md` | review-code | Findings with `[FIX]`/`[SKIP]`/`[MANUAL]` annotation slots |
+
+Codebase analysis output (from `analyze-codebase`) goes to `.agents/analysis/{YYYY-MM-DD}-{topic}.md`.
+
+## Utility Commands
+
+Utility commands operate outside the phase sequence. They complement the workflow without replacing it.
+
+| Utility | Copilot CLI | Claude Code | Purpose |
+|---------|-------------|-------------|---------|
+| Request Change | `/agent request-change` | `/request-change {folder}` | Document a targeted change request (planning-lock protected) |
+| Apply Change Request | `/agent apply-change-request` | `/apply-change-request {folder} {N}` | Execute a reviewed `change-request-N.md` |
+| Review Code | `/agent review-code` | `/review-code {folder} [--staged\|--branch\|--pr]` | Review changes and produce annotatable `review.md` |
+| Address Findings | `/agent address-review-findings` | `/address-review-findings {folder}` | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations from `review.md` |
+| Quick Implement | `/agent quick-implement` | `/quick-implement {folder} "{description}"` | Fast path for 1–5 file changes (mini planning lock) |
+| Discuss Issue | `/agent discuss-issue` | `/discuss-issue {folder}` | Refine `comprehension.md` through Q&A without restarting |
+| Analyze Codebase | `/agent analyze-codebase` | `/analyze-codebase {topic} [--area {path}]` | Generate codebase analysis with mermaid diagrams |
+
+### Change Request Flow
+
+```
+/request-change {folder}          ← writes change-request-N.md (lock active)
+  ↓  developer reviews + sets status: reviewed
+/apply-change-request {folder} N  ← implements + verifies + commits (lock cleared)
+```
+
+### Review Flow
+
+```
+/review-code {folder}                  ← produces review.md with findings
+  ↓  developer annotates [FIX]/[SKIP]/[MANUAL]
+/address-review-findings {folder}      ← applies annotations + verifies + commits
+```
 
 ## Copilot CLI Agents
+
+### Phase Agents
 
 | File | Purpose |
 |------|---------|
@@ -64,11 +100,25 @@ Issue folder artifacts use templates from `.agents/templates/`:
 | [.github/agents/report-issue.agent.md](.github/agents/report-issue.agent.md) | **report-issue** — Phase 5 standalone agent |
 | [.github/agents/unlock.agent.md](.github/agents/unlock.agent.md) | **unlock** — removes stale planning lock |
 
+### Utility Agents
+
+| File | Purpose |
+|------|---------|
+| [.github/agents/request-change.agent.md](.github/agents/request-change.agent.md) | **request-change** — document a change request (planning-lock protected) |
+| [.github/agents/apply-change-request.agent.md](.github/agents/apply-change-request.agent.md) | **apply-change-request** — execute a reviewed change-request-N.md |
+| [.github/agents/review-code.agent.md](.github/agents/review-code.agent.md) | **review-code** — vendor-agnostic code review → `review.md` |
+| [.github/agents/address-review-findings.agent.md](.github/agents/address-review-findings.agent.md) | **address-review-findings** — apply annotated review findings |
+| [.github/agents/quick-implement.agent.md](.github/agents/quick-implement.agent.md) | **quick-implement** — fast path for 1–5 file changes |
+| [.github/agents/discuss-issue.agent.md](.github/agents/discuss-issue.agent.md) | **discuss-issue** — refine comprehension.md through Q&A |
+| [.github/agents/analyze-codebase.agent.md](.github/agents/analyze-codebase.agent.md) | **analyze-codebase** — codebase analysis with mermaid diagrams |
+
 ## Claude Code Commands
 
-Claude Code users can invoke phases directly with slash commands from `.claude/commands/`:
+Claude Code users can invoke phases and utilities directly with slash commands from `.claude/commands/`:
 
-`/comprehend-issue` · `/plan-issue` · `/implement-issue` · `/verify-issue` · `/report-issue` · `/unlock`
+**Phase commands**: `/comprehend-issue` · `/plan-issue` · `/implement-issue` · `/verify-issue` · `/report-issue` · `/unlock`
+
+**Utility commands**: `/request-change` · `/apply-change-request` · `/review-code` · `/address-review-findings` · `/quick-implement` · `/discuss-issue` · `/analyze-codebase`
 
 The Claude Code setup also includes a hard planning lock via `.claude/hooks/plan-guard.js`.
 
