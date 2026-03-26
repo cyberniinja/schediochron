@@ -7,7 +7,7 @@ ISSUE=$(echo "$CODESPACE_NAME" | grep -oP '^[0-9]+(?=-)')
 
 if [ -n "$ISSUE" ]; then
   echo "🚀 Starting agent for issue #$ISSUE..."
-  copilot --allow-all -i "work-issue #$ISSUE"
+  copilot --allow-all --add-dir /workspaces -i "work-issue #$ISSUE"
 else
-  copilot --allow-all
+  copilot --allow-all --add-dir /workspaces
 fi
