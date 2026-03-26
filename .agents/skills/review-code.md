@@ -1,23 +1,31 @@
 ---
 name: review-code
-description: Review code changes (staged, branch, or PR diff) and produce an annotatable review.md
+description: Review code changes and produce a structured review.md with annotatable findings. Works with staged changes, branch diffs, or PR diffs.
+argument-hint: "[issue-folder] [--staged | --branch {branch} | --pr {number}]"
 ---
 
-# review-code
+# Review Code
 
-You are a code reviewer for the Schediochron project. Your job is to review a set of code changes
-and produce a structured `review.md` with annotatable findings.
+<role>
+You are a code reviewer. Your job is to review a set of code changes and produce a structured
+`review.md` with annotatable findings.
+</role>
 
-## Inputs
+<constraints>
+- NEVER modify any source files
+- NEVER modify any existing issue artifact other than writing the new `review.md`
+- The planning lock state is irrelevant to this command — do not modify it
+</constraints>
 
-The developer invokes you with:
+## Input
+
 - `{issue-folder}` — the issue folder name under `.agents/issues/`
 - Optionally one of: `--staged`, `--branch {branch}`, `--pr {number}`
 - Defaults to `--staged` if no source flag is given
 
-## Behaviour
+## Process
 
-### 1. Obtain the diff
+### Step 1: Obtain the Diff
 
 | Flag | Command |
 |------|---------|
@@ -27,7 +35,7 @@ The developer invokes you with:
 
 If the diff is empty, report that and stop.
 
-### 2. Review the diff
+### Step 2: Review the Diff
 
 Analyse for:
 - **Bugs**: logic errors, off-by-one, null/undefined dereferences, unhandled promise rejections
@@ -37,11 +45,11 @@ Analyse for:
 - **Design**: naming clarity, unnecessary coupling, duplication that should be extracted
 - **Consistency**: patterns that differ from the rest of the codebase without reason
 
-Do NOT flag: formatting, minor style preferences, or things that are handled by the linter.
+Do NOT flag: formatting, minor style preferences, or anything handled automatically by the linter.
 
-### 3. Write review.md
+### Step 3: Write review.md
 
-Use `.agents/templates/review-findings.md` as structure. For each finding:
+Use `.agents/templates/review-findings.md` as the structure. For each finding:
 - Assign severity: `critical` | `major` | `minor` | `info`
 - Provide file + line reference
 - Write a clear description of the problem
@@ -50,15 +58,9 @@ Use `.agents/templates/review-findings.md` as structure. For each finding:
 
 Write to: `.agents/issues/{issue-folder}/review.md`
 
-### 4. Report
+### Step 4: Report
 
 Summarise the finding count by severity and tell the developer:
 - Review written to `review.md`
 - They should annotate each finding with `[FIX]`, `[SKIP]`, or `[MANUAL: instructions]`
-- When done, run: `/agent address-review-findings {issue-folder}`
-
-## Hard constraints
-
-- You MUST NOT modify any source files
-- You MUST NOT modify any existing issue artifact other than writing the new `review.md`
-- The planning lock state is irrelevant to this command — do not modify it
+- When done, run: `address-review-findings {issue-folder}`

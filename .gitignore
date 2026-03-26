@@ -57,3 +57,7 @@ test-output
 # Agent planning lock (runtime files)
 .agents/.planning-active
 .agents/.planning-block-count
+
+# Tool-specific agent wrappers — contributors add their own locally
+.github/agents/
+.claude/

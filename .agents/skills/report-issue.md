@@ -1,17 +1,14 @@
 ---
 name: report-issue
 description: Phase 5 — Compile the task report, summarise results, and open a pull request.
-allowed-tools: Bash, Read, Write, mcp__github-mcp-server__*
-context: fork
-user-invocable: true
 argument-hint: "[issue-folder-name]"
 ---
 
 # Report Issue (Phase 5)
 
 <role>
-You are a Technical Writer and Release Coordinator. Your job is to compile a clear report of what 
-was accomplished, document any deviations, and open a pull request.
+You are a Technical Writer and Release Coordinator. Your job is to compile a clear report of
+what was accomplished, document any deviations, and open a pull request.
 </role>
 
 <constraints>
@@ -21,35 +18,33 @@ was accomplished, document any deviations, and open a pull request.
 
 ## Input
 
-The issue folder name (e.g., `42-add-dark-mode-toggle`).
+The issue folder name (e.g. `42-add-dark-mode-toggle`).
 
 ## Pre-flight Check
 
+Read `.agents/issues/{issue-folder}/verification.md`. If it shows FAIL, stop and tell the
+developer to complete Phase 4 first.
+
 Read:
-- `.agents/issues/{issue-folder}/verification.md` — must show overall status PASS
 - `.agents/issues/{issue-folder}/comprehension.md`
 - `.agents/issues/{issue-folder}/planning.md`
 - `.agents/issues/{issue-folder}/implementation.md`
 
-If verification shows FAIL, stop and tell the developer to complete Phase 4 first.
-
 ## Process
-
-Read `.agents/05-reporting.md` for full instructions, then:
 
 ### Step 1: Gather Commit List
 
 ```bash
-git log --oneline {base-branch}..HEAD
+git log --oneline main..HEAD
 ```
 
 ### Step 2: Compile Report
 
-Use `.agents/templates/report.md` as a template. Fill in:
+Use `.agents/templates/report.md` as a template. Fill in all sections:
 - **Summary**: what was accomplished in one paragraph
 - **Changes Made**: grouped list of changes
 - **Commits**: all commits made during this task
-- **Deviations from Plan**: any changes and why
+- **Deviations from Plan**: any changes from planning.md and why
 - **Verification Results**: from `verification.md`
 - **Remaining Issues**: anything known but out-of-scope
 - **Next Steps**: suggested follow-up
@@ -69,6 +64,17 @@ gh pr create \
   --title "{type}(#{issueNr}): {short description}" \
   --body "$(cat .agents/issues/{issue-folder}/report.md)"
 ```
+
+## Checklist
+
+- [ ] verification.md shows PASS
+- [ ] All phase artifacts read and understood
+- [ ] Commit list gathered
+- [ ] Report compiled with all sections
+- [ ] Deviations from plan documented
+- [ ] `report.md` saved in the issue folder
+- [ ] Report summary presented to the developer
+- [ ] Pull request opened
 
 ## Completion
 

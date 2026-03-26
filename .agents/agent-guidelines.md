@@ -1,47 +1,45 @@
 # Guidelines for AI Agents Working on Schediochron
 
-## Commands
+## Skills
 
-### Phase Commands
+Skills are the canonical invocation units for all phases and utilities. They live in `.agents/skills/`.
+Invoke them however your tool supports it: slash commands, natural language, or agent mode.
 
-Each phase is a separate command. Agents complete one phase and wait for the developer to initiate the next.
+### Phase Skills
 
-| Phase | Copilot CLI | Claude Code | Other tools |
-|-------|-------------|-------------|-------------|
-| 1 — Comprehension | `/agent work-issue` or `/agent comprehend-issue` | `/work-issue` or `/comprehend-issue` | "Start Phase 1: comprehend issue #N" |
-| 2 — Planning | `/agent plan-issue` | `/plan-issue {folder}` | "Start Phase 2: plan issue {folder}" |
-| 3 — Implementation | `/agent implement-issue` | `/implement-issue {folder}` | "Start Phase 3: implement issue {folder}" |
-| 4 — Verification | `/agent verify-issue` | `/verify-issue {folder}` | "Start Phase 4: verify issue {folder}" |
-| 5 — Reporting | `/agent report-issue` | `/report-issue {folder}` | "Start Phase 5: report issue {folder}" |
-| Unlock | `/agent unlock` | `/unlock` | "Unlock the planning guard" |
+| Phase | Skill | Description |
+|-------|-------|-------------|
+| Entry | `work-issue [#N \| description]` | Start the 5-phase workflow |
+| 1 | `comprehend-issue [#N \| description]` | Understand task, activate planning lock |
+| 2 | `plan-issue {folder}` | Design approach, produce plan |
+| 3 | `implement-issue {folder}` | Execute plan, write code, commit |
+| 4 | `verify-issue {folder}` | Run checks, save PASS/FAIL report |
+| 5 | `report-issue {folder}` | Compile report, open PR |
+| — | `unlock` | Remove a stale planning lock |
 
-### Utility Commands
+### Utility Skills
 
-Outside the phase sequence, utility commands handle targeted changes and code review:
-
-| Utility | Copilot CLI | Claude Code |
-|---------|-------------|-------------|
-| Request Change | `/agent request-change` | `/request-change {folder}` |
-| Apply Change Request | `/agent apply-change-request` | `/apply-change-request {folder} {N}` |
-| Review Code | `/agent review-code` | `/review-code {folder}` |
-| Address Findings | `/agent address-review-findings` | `/address-review-findings {folder}` |
-| Quick Implement | `/agent quick-implement` | `/quick-implement {folder} "{desc}"` |
-| Discuss Issue | `/agent discuss-issue` | `/discuss-issue {folder}` |
-| Analyze Codebase | `/agent analyze-codebase` | `/analyze-codebase {topic}` |
+| Skill | Arguments | Description |
+|-------|-----------|-------------|
+| `request-change` | `{folder}` | Document a targeted change request (planning-lock protected) |
+| `apply-change-request` | `{folder} {N}` | Execute a reviewed change-request-N.md |
+| `review-code` | `{folder} [--staged\|--branch\|--pr]` | Review changes → `review.md` |
+| `address-review-findings` | `{folder}` | Apply `[FIX]`/`[SKIP]`/`[MANUAL]` annotations |
+| `quick-implement` | `{folder} "{desc}"` | Fast path for 1–5 file changes |
+| `discuss-issue` | `{folder}` | Refine `comprehension.md` through Q&A |
+| `analyze-codebase` | `{topic} [--area {path}]` | Generate codebase analysis with mermaid diagrams |
 
 **Utility planning lock rules:**
 - `request-change` activates the lock; `apply-change-request` clears it — never touch source between these two
 - `quick-implement` uses a mini planning lock; cleared before source changes
 - All other utilities do not modify the planning lock
 
-
+### Planning Lock
 
 - **Do not write or edit source files** while the lock file exists
 - Only write to `.agents/issues/{issue-folder}/` during planning
-- Use only Explore agents for codebase research during planning phases
 - The lock is activated at the start of Phase 1 and cleared at the start of Phase 3
-
-If you encounter a stale lock (planning phase was interrupted), use the unlock command to clear it.
+- Stale lock: run the `unlock` skill to clear it
 
 ## Quick Start for Agents
 

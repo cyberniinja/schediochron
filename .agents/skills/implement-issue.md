@@ -1,9 +1,6 @@
 ---
 name: implement-issue
-description: Phase 3 — Execute the implementation plan step by step, write code, run commits, and deactivate the planning lock.
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Task, AskUserQuestion, mcp__github-mcp-server__*
-context: fork
-user-invocable: true
+description: Phase 3 — Deactivate the planning lock, execute the implementation plan step by step, write code, and commit.
 argument-hint: "[issue-folder-name]"
 ---
 
@@ -22,13 +19,14 @@ You write quality code, make focused commits, and track progress against the pla
 
 ## Input
 
-The issue folder name (e.g., `42-add-dark-mode-toggle`).
+The issue folder name (e.g. `42-add-dark-mode-toggle`).
 
 If not provided, check `.agents/.planning-active` to find the current issue.
 
 ## Pre-flight Check
 
 Load context:
+
 ```bash
 cat .agents/.planning-active 2>/dev/null
 ```
@@ -41,9 +39,7 @@ Confirm all required planning artifacts exist before proceeding.
 
 ## Process
 
-Read `.agents/03-implementation.md` for full instructions, then:
-
-### Step 1: Deactivate Planning Lock
+### Step 1: Deactivate the Planning Lock
 
 ```bash
 rm -f .agents/.planning-active
@@ -59,6 +55,7 @@ Work through each step in `planning.md` in order:
 - Write functional components with TypeScript strict typing
 - Use SCSS modules for styles
 - No `console.error` or `console.warn` in production code
+- Follow conventions in `.agents/agent-guidelines.md` and `.agents/codebase.md`
 - If a step cannot be completed as planned, stop and consult the developer
 
 ### Step 3: Implement Tests
@@ -70,6 +67,7 @@ Write tests as planned in Phase 2:
 ### Step 4: Commit Logical Units
 
 After each meaningful step, commit:
+
 ```bash
 git add {files}
 git commit -m "{type}(#{issueNr}): {description}
@@ -88,6 +86,21 @@ Commit type mapping:
 Use `.agents/templates/implementation.md` as a template. Save the completed log to:
 `.agents/issues/{issue-folder}/implementation.md`
 
+The log should contain:
+- Each step completed, with notes on any deviations from the plan
+- All commits made during implementation
+- Any issues encountered and how they were resolved
+
+## Checklist
+
+- [ ] Planning lock deactivated (`rm .agents/.planning-active`)
+- [ ] All implementation steps from `planning.md` completed in order
+- [ ] Code follows project conventions from `agent-guidelines.md`
+- [ ] Tests implemented as planned in Phase 2
+- [ ] Commits made with clear messages and co-author trailer
+- [ ] `implementation.md` saved in the issue folder using the template
+- [ ] **Stopped here** — do not proceed to Phase 4 without explicit developer instruction
+
 ## Completion
 
 After saving `implementation.md`, tell the developer:
@@ -98,8 +111,6 @@ Phase 3 complete ✓
 Planning lock deactivated.
 Implementation log: .agents/issues/{issue-folder}/implementation.md
 
-When ready, start Phase 4 with:
-  Claude Code:    /verify-issue {issue-folder}
-  Copilot CLI:    /agent verify-issue
-  Other tools:    "Start Phase 4: verify issue {issue-folder}"
+When ready, start Phase 4:
+  verify-issue {issue-folder}
 ```

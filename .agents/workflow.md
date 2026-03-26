@@ -32,28 +32,31 @@ Each phase is **user-initiated** — the agent completes a phase and tells the d
 └──────────────────┘
 ```
 
-## Phase Commands
+## Phase Skills
 
-Each phase is started with an explicit command by the developer:
+Each phase is started by invoking the corresponding skill. Skill files live in `.agents/skills/`.
 
-| Phase | Copilot CLI | Claude Code | Other tools |
-|-------|-------------|-------------|-------------|
-| 1 — Comprehension | `/agent work-issue` or `/agent comprehend-issue` | `/work-issue` or `/comprehend-issue` | "Start Phase 1: comprehend issue #N" |
-| 2 — Planning | `/agent plan-issue` | `/plan-issue {folder}` | "Start Phase 2: plan issue {folder}" |
-| 3 — Implementation | `/agent implement-issue` | `/implement-issue {folder}` | "Start Phase 3: implement issue {folder}" |
-| 4 — Verification | `/agent verify-issue` | `/verify-issue {folder}` | "Start Phase 4: verify issue {folder}" |
-| 5 — Reporting | `/agent report-issue` | `/report-issue {folder}` | "Start Phase 5: report issue {folder}" |
-| Unlock | `/agent unlock` | `/unlock` | "Unlock the planning guard" |
+| Phase | Skill | Description |
+|-------|-------|-------------|
+| Entry | `work-issue [#N \| description]` | Start the workflow with an issue number or description |
+| 1 — Comprehension | `comprehend-issue [#N \| description]` | Understand task, activate planning lock |
+| 2 — Planning | `plan-issue {folder}` | Design approach, produce plan |
+| 3 — Implementation | `implement-issue {folder}` | Execute plan, write code, commit |
+| 4 — Verification | `verify-issue {folder}` | Run checks, save PASS/FAIL report |
+| 5 — Reporting | `report-issue {folder}` | Compile report, open PR |
+| Utility | `unlock` | Remove a stale planning lock |
+
+Invoke skills however your tool supports it: slash commands, natural language, planning mode, or
+agent mode. See `AGENTS.md` for the full skill index and tool-specific setup guidance.
 
 ## Planning Lock
 
 Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 - **Lock file**: `.agents/.planning-active` (created by Phase 1, cleared by Phase 3)
-- **Claude Code**: hard enforcement via PreToolUse hook (`.claude/hooks/plan-guard.js`) — writes to source files are blocked at the tool level
-- **Copilot CLI / other tools**: soft enforcement via agent instructions — agents must not write source files while the lock file exists
-- **Allowed during planning**: reads, Explore agents, writes to `.agents/issues/{issue-folder}/` only
-- **Stale lock**: use `/unlock` (Claude Code), `/agent unlock` (Copilot CLI), or delete `.agents/.planning-active` manually
+- **Enforcement**: soft enforcement via skill instructions — do not write source files while the lock file exists
+- **Allowed during planning**: reads, codebase exploration, writes to `.agents/issues/{issue-folder}/` only
+- **Stale lock**: run the `unlock` skill, or delete `.agents/.planning-active` manually
 
 ## Quick Reference
 
@@ -94,7 +97,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 **Goal**: Fully understand what needs to be done
 
-**See**: `PHASE-01-COMPREHENSION.md`
+**See**: [`.agents/skills/comprehend-issue.md`](.agents/skills/comprehend-issue.md)
 
 **Key Actions:**
 
@@ -116,7 +119,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 **Goal**: Design the approach before coding
 
-**See**: `PHASE-02-PLANNING.md`
+**See**: [`.agents/skills/plan-issue.md`](.agents/skills/plan-issue.md)
 
 **Key Actions:**
 
@@ -140,7 +143,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 **Goal**: Execute the plan with quality code
 
-**See**: `PHASE-03-IMPLEMENTATION.md`
+**See**: [`.agents/skills/implement-issue.md`](.agents/skills/implement-issue.md)
 
 **Key Actions:**
 
@@ -164,7 +167,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 **Goal**: Ensure all changes work correctly
 
-**See**: `PHASE-04-VERIFICATION.md`
+**See**: [`.agents/skills/verify-issue.md`](.agents/skills/verify-issue.md)
 
 **Key Actions:**
 
@@ -188,7 +191,7 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 **Goal**: Communicate the work and results
 
-**See**: `PHASE-05-REPORTING.md`
+**See**: [`.agents/skills/report-issue.md`](.agents/skills/report-issue.md)
 
 **Key Actions:**
 
@@ -268,8 +271,9 @@ Phases 1 and 2 activate a **planning lock** that prevents source file edits:
 
 ## Related Resources
 
-- `.copilot/agent-guidelines.md` — General working practices
-- `.copilot/codebase.md` — Project structure reference
+- `.agents/skills/` — Canonical skill files for all phases and utilities
+- `.agents/agent-guidelines.md` — Commit standards, branch naming, code quality rules
+- `.agents/codebase.md` — Project structure reference
 
 ## Questions?
 

@@ -1,22 +1,36 @@
 ---
 name: analyze-codebase
-description: Generate a codebase analysis document with architecture and data flow diagrams
+description: Generate a comprehensive analysis of a feature, area, or dataflow in the codebase. Produces a standalone markdown document with mermaid diagrams.
+argument-hint: "[topic] [--area {path}]"
 ---
 
-# analyze-codebase
+# Analyze Codebase
 
-You are a codebase analyst for the Schediochron project. Your job is to generate a comprehensive,
-well-structured analysis of a feature, area, or dataflow — saved as a standalone document.
+<role>
+You are a codebase analyst. Your job is to generate a comprehensive, well-structured analysis
+of a feature, area, or dataflow — saved as a standalone document with mermaid diagrams.
+</role>
 
-## Inputs
+<constraints>
+- NEVER modify any source file
+- NEVER modify any issue folder artifact
+- The planning lock state MUST NOT be changed by this command
+- All mermaid diagrams must be syntactically valid
+</constraints>
 
-The developer invokes you with:
+## When to Use
+
+Not tied to any issue. Useful for onboarding, planning, or understanding a codebase area
+before making changes.
+
+## Input
+
 - `{topic}` — what to analyze, e.g. `authentication`, `scheduling-engine`, `data-flow`
 - `--area {path}` (optional) — narrow the scope to a specific path
 
-## Behaviour
+## Process
 
-### 1. Explore the area
+### Step 1: Explore the Area
 
 Use grep, glob, and file reads to understand the topic. Focus on:
 - Entry points (API routes, event handlers, scheduled jobs, exports)
@@ -25,7 +39,15 @@ Use grep, glob, and file reads to understand the topic. Focus on:
 - Cross-package dependencies (check `package.json` files in `apps/` and `packages/`)
 - Configuration (env vars, feature flags, settings)
 
-### 2. Produce the analysis document
+### Step 2: Create Output Directory
+
+```bash
+mkdir -p .agents/analysis
+```
+
+### Step 3: Produce the Analysis Document
+
+Write to: `.agents/analysis/{YYYY-MM-DD}-{topic}.md`
 
 Structure:
 
@@ -41,19 +63,19 @@ Structure:
 
 ## Architecture
 
-```mermaid
+\`\`\`mermaid
 graph TD
   ...
-```
+\`\`\`
 
 <!-- Explanation of the architecture diagram -->
 
 ## Data Flow
 
-```mermaid
+\`\`\`mermaid
 sequenceDiagram / flowchart LR / etc.
   ...
-```
+\`\`\`
 
 <!-- Explanation of how data moves through the system -->
 
@@ -80,25 +102,8 @@ sequenceDiagram / flowchart LR / etc.
 <!-- Notable patterns, potential issues, areas of complexity, tech debt, etc. -->
 ```
 
-### 3. Create the output directory
-
-```
-mkdir -p .agents/analysis
-```
-
-### 4. Write the document
-
-Write to: `.agents/analysis/{YYYY-MM-DD}-{topic}.md`
-
-### 5. Report
+### Step 4: Report
 
 Tell the developer:
 - The file path
 - A 3-sentence executive summary of the key findings
-
-## Hard constraints
-
-- You MUST NOT modify any source file
-- You MUST NOT modify any issue folder artifact
-- The planning lock state MUST NOT be changed by this command
-- All mermaid diagrams must be syntactically valid

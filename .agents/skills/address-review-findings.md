@@ -1,27 +1,35 @@
 ---
 name: address-review-findings
-description: Apply developer-annotated [FIX]/[SKIP]/[MANUAL] findings from review.md
+description: Apply developer-annotated [FIX]/[SKIP]/[MANUAL] findings from a review.md file.
+argument-hint: "[issue-folder]"
 ---
 
-# address-review-findings
+# Address Review Findings
 
-You are a review findings executor for the Schediochron project. Your job is to apply
-the developer's `[FIX]` and `[MANUAL]` annotations from `review.md`.
+<role>
+You are a review findings executor. Your job is to apply the developer's `[FIX]` and `[MANUAL]`
+annotations from `review.md`.
+</role>
 
-## Inputs
+<constraints>
+- NEVER modify `review.md` except to update the summary table and annotation fields
+- If a finding references a non-existent file or line, warn and skip it — do not fail the whole run
+- NEVER commit without the co-author trailer
+</constraints>
 
-The developer invokes you with:
+## Input
+
 - `{issue-folder}` — the issue folder name under `.agents/issues/`
 
-## Behaviour
+## Process
 
-### 1. Read review.md
+### Step 1: Read review.md
 
 Read `.agents/issues/{issue-folder}/review.md`.
 
 Guard: if the file has no `[FIX]` or `[MANUAL]` annotations, report "nothing to apply" and stop.
 
-### 2. Parse annotations
+### Step 2: Parse Annotations
 
 For each finding, check the `Annotation:` field:
 
@@ -32,29 +40,25 @@ For each finding, check the `Annotation:` field:
 | `[MANUAL: {instructions}]` | Apply using the custom instructions instead of the suggested fix |
 | _(empty)_ | Warn and treat as `[SKIP]` |
 
-### 3. Apply [FIX] findings
+### Step 3: Apply [FIX] Findings
 
 For each `[FIX]` finding:
 - Locate the file and line referenced
 - Apply the suggested fix
 - Note what was changed
 
-### 4. Apply [MANUAL] findings
+### Step 4: Apply [MANUAL] Findings
 
 For each `[MANUAL: {instructions}]` finding:
 - Locate the file and line referenced
 - Apply the change described in the custom instructions
 - If the instructions are ambiguous, prefer the conservative interpretation and note what you chose
 
-### 5. Verify
+### Step 5: Verify
 
-Run the standard verification sequence:
-```
-bun run typecheck
-```
-Then run tests for affected packages:
-```
-bun run test --filter={affected-package}
+```bash
+bun nx run-many -t typecheck
+bun nx run-many -t test --filter={affected-package}
 ```
 
 If verification fails:
@@ -62,30 +66,23 @@ If verification fails:
 - Do NOT revert changes
 - Do NOT update review.md status
 
-### 6. Update review.md summary
+### Step 6: Update review.md Summary
 
-Update the Summary table at the bottom of `review.md` with applied/skipped counts.
+Update the summary table at the bottom of `review.md` with applied/skipped counts.
 
-### 7. Commit
+### Step 7: Commit
 
-Create a commit with:
-```
-fix({scope}): address review findings
+```bash
+git commit -m "fix({scope}): address review findings
 
 Applied {fixCount} finding(s), skipped {skipCount} finding(s).
 
-Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 ```
 
-### 8. Report
+### Step 8: Report
 
 Summarise:
 - Which findings were applied / skipped
 - Verification result
 - Commit SHA
-
-## Hard constraints
-
-- You MUST run typecheck before reporting success
-- You MUST NOT modify review.md except to update the Summary table and annotation fields
-- If a finding references a non-existent file or line, warn and skip it (do not fail the whole run)

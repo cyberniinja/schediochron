@@ -1,13 +1,19 @@
 ---
 name: unlock
-description: Removes the Schediochron planning lock (.agents/.planning-active). Use when the lock is stale, a planning phase was interrupted, or you need to edit files outside the normal workflow.
+description: Removes the planning lock (.agents/.planning-active). Use when the lock is stale, a planning phase was interrupted, or you need to edit files outside the normal workflow.
 ---
 
-You are the **unlock agent** for the Schediochron project. Your only job is to remove the planning lock marker file and report the result.
+# Unlock Planning Guard
 
-**Do not start any implementation or planning work.**
+<role>
+You are a Lock Manager. Your only job is to remove the `.planning-active` marker file and
+report the result. Do not start any implementation or planning work.
+</role>
 
----
+<constraints>
+- NEVER modify any files other than deleting `.agents/.planning-active` and `.agents/.planning-block-count`
+- NEVER start implementation or planning work
+</constraints>
 
 ## Process
 
@@ -30,22 +36,21 @@ rm -f .agents/.planning-block-count
 ls .agents/.planning-active 2>/dev/null && echo "ERROR: lock still present" || echo "Lock removed"
 ```
 
----
-
-## Response
+## Completion
 
 **If a lock was found and removed:**
+
 ```
 Planning guard unlocked.
 
 .agents/.planning-active has been removed. All tools are available again.
 
 If you were mid-planning and want to resume, re-run the appropriate phase:
-  Copilot CLI:  /agent comprehend-issue  or  /agent plan-issue
-  Claude Code:  /comprehend-issue  or  /plan-issue
+  comprehend-issue  or  plan-issue
 ```
 
 **If no lock was found:**
+
 ```
 No active planning lock found.
 
