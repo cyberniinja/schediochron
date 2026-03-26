@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Auto-launched by VS Code on Codespace attach.
-# Reads the issue number from CODESPACE_DISPLAY_NAME if it matches the
-# issue-space convention "#<number>". Falls back to plain copilot otherwise.
+# issue-space sets the display name to "#<N>", which GitHub turns into
+# "<N>-<random>" as the machine name (CODESPACE_NAME). Extract leading digits.
 
-DISPLAY="$CODESPACE_DISPLAY_NAME"
+ISSUE=$(echo "$CODESPACE_NAME" | grep -oP '^[0-9]+(?=-)')
 
-if [[ "$DISPLAY" =~ ^#([0-9]+)$ ]]; then
-  ISSUE="${BASH_REMATCH[1]}"
+if [ -n "$ISSUE" ]; then
   echo "🚀 Starting agent for issue #$ISSUE..."
   copilot --allow-all -i "work-issue #$ISSUE"
 else
