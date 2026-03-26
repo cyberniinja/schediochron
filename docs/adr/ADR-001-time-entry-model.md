@@ -23,16 +23,16 @@ This ADR is the single source of truth for the time entry model. Implementers of
 
 ### Field Specification
 
-| Field        | Type                          | Nullable | Constraints                                                               |
-| ------------ | ----------------------------- | -------- | ------------------------------------------------------------------------- |
-| `id`         | `string` (UUID v4)            | No       | Immutable after creation                                                  |
-| `userId`     | `string` (UUID v4)            | No       | References the owning user; immutable after creation                      |
-| `startTime`  | `string` (ISO 8601 UTC)       | No       | Seconds zeroed — minute precision enforced at input layer                 |
-| `endTime`    | `string` (ISO 8601 UTC) \| null | Yes    | `null` when the entry is running; seconds zeroed when present             |
-| `status`     | `"running"` \| `"completed"`  | No       | Must be consistent with `endTime` (see invariants below)                  |
-| `note`       | `string` \| null              | Yes      | Max 255 characters; `null` if not provided                                |
-| `createdAt`  | `string` (ISO 8601 UTC)       | No       | Set by persistence layer; immutable                                       |
-| `updatedAt`  | `string` (ISO 8601 UTC)       | No       | Updated by persistence layer on every write                               |
+| Field       | Type                            | Nullable | Constraints                                                   |
+| ----------- | ------------------------------- | -------- | ------------------------------------------------------------- |
+| `id`        | `string` (UUID v4)              | No       | Immutable after creation                                      |
+| `userId`    | `string` (UUID v4)              | No       | References the owning user; immutable after creation          |
+| `startTime` | `string` (ISO 8601 UTC)         | No       | Seconds zeroed — minute precision enforced at input layer     |
+| `endTime`   | `string` (ISO 8601 UTC) \| null | Yes      | `null` when the entry is running; seconds zeroed when present |
+| `status`    | `"running"` \| `"completed"`    | No       | Must be consistent with `endTime` (see invariants below)      |
+| `note`      | `string` \| null                | Yes      | Max 255 characters; `null` if not provided                    |
+| `createdAt` | `string` (ISO 8601 UTC)         | No       | Set by persistence layer; immutable                           |
+| `updatedAt` | `string` (ISO 8601 UTC)         | No       | Updated by persistence layer on every write                   |
 
 ### Entry Status Enum
 
