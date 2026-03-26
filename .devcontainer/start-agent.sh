@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Auto-launched by VS Code on Codespace attach.
-# If an ISSUE env var was set at codespace creation time (via issue-space),
-# starts copilot with work-issue. Otherwise starts copilot normally.
+# Reads the issue number from CODESPACE_DISPLAY_NAME if it matches the
+# issue-space convention "#<number>". Falls back to plain copilot otherwise.
 
-if [ -n "$ISSUE" ]; then
+DISPLAY="$CODESPACE_DISPLAY_NAME"
+
+if [[ "$DISPLAY" =~ ^#([0-9]+)$ ]]; then
+  ISSUE="${BASH_REMATCH[1]}"
   echo "🚀 Starting agent for issue #$ISSUE..."
   copilot --allow-all -i "work-issue #$ISSUE"
 else
