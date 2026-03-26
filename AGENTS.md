@@ -48,7 +48,7 @@ Enforced by skill instructions: **do not write or edit source files while the lo
 
 | Skill              | File                                                                     | Phase       | Description                                                              |
 | ------------------ | ------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------ |
-| `work-issue`       | [.agents/skills/work-issue.md](.agents/skills/work-issue.md)             | Entry point | Start the 5-phase workflow with an issue number, description, or no args |
+| `work-issue`       | [.agents/skills/work-issue.md](.agents/skills/work-issue.md)             | Entry point | Orchestrate the full 5-phase workflow; asks to continue at each phase boundary |
 | `comprehend-issue` | [.agents/skills/comprehend-issue.md](.agents/skills/comprehend-issue.md) | Phase 1     | Understand the task, clarify requirements, activate planning lock        |
 | `plan-issue`       | [.agents/skills/plan-issue.md](.agents/skills/plan-issue.md)             | Phase 2     | Design approaches, get developer decision, produce implementation plan   |
 | `implement-issue`  | [.agents/skills/implement-issue.md](.agents/skills/implement-issue.md)   | Phase 3     | Deactivate lock, execute the plan, write code, commit                    |
