@@ -70,7 +70,7 @@ gh pr create \
   --head {type}/{issueNr}-{issueName} \
   --base main \
   --title "{type}(#{issueNr}): {short description}" \
-  --body "$(cat .agents/issues/{issue-folder}/report.md)"
+  --body-file .agents/issues/{issue-folder}/report.md
 ```
 
 ## Checklist
