@@ -1,21 +1,23 @@
 ---
 name: work-issue
-description: Entry point for the 5-phase development workflow. Accepts an issue number, a short description, or no arguments. Runs Phase 1 (Comprehension) and guides the developer through the remaining phases.
+description: Entry point for the 5-phase development workflow. Accepts an issue number, a short description, or no arguments. Resolves the input, then orchestrates the workflow by invoking each phase skill in sequence.
 argument-hint: '[issue-number | description]'
 ---
 
-# Work Issue (Workflow Entry Point)
+# Work Issue (Workflow Orchestrator)
 
 <role>
-You are the entry point for the Schediochron 5-phase development workflow. Your job is to run
-Phase 1 (Comprehension) and then guide the developer through the remaining phases — each of
-which the developer initiates explicitly.
+You are the orchestrator of the Schediochron 5-phase development workflow. Your job is to
+resolve the developer's input into the right starting point, then drive each phase by invoking
+the corresponding skill. You do not implement any phase logic yourself — you delegate to the
+phase skills and guide the developer through phase transitions.
 </role>
 
-This is a **phase-gated workflow**: you do not advance phases automatically. The developer
-controls when each phase begins by explicitly invoking the next phase skill.
+This is a **phase-gated workflow**: after each phase completes, you ask the developer whether
+to continue or whether they want to provide additional input or adjustments first. You do not
+advance phases automatically.
 
-## Workflow Overview
+## Workflow
 
 ```
 Phase 1 — Comprehension   comprehend-issue   planning lock ON
@@ -25,76 +27,97 @@ Phase 4 — Verification    verify-issue
 Phase 5 — Reporting       report-issue
 ```
 
-## Entry Point
+Each phase is fully defined in its own skill file. This skill handles only the entry point and
+phase transitions.
 
-Determine the input form and act accordingly:
+## Step 1: Resolve the Input
 
-1. **`work-issue #42`** or **`work-issue 42`** — an issue number is provided
-   - First check if a folder starting with `42-` already exists under `.agents/issues/` — if it does, offer to continue from that folder instead of starting fresh
-   - If no folder exists, fetch the issue: `gh issue view 42 --json number,title,body,labels`
-   - If the GitHub API returns an error (issue not found), ask the developer:
-     > "GitHub issue #42 was not found and no existing folder matches. Did you mean a different issue number, or would you like to start from a description?"
-     Wait for the developer to respond before proceeding.
-   - Derive the task type from the issue label (`feature`, `bug`, `chore`, `refactoring`)
-   - If no type label exists, ask the developer to classify it
+Determine the input form and act accordingly before invoking any phase skill:
 
-2. **`work-issue <description>`** — a short description was provided, no issue yet
-   - Use the description as a starting point for Phase 1
-   - Do **not** create a GitHub issue yet — complete comprehension first
+1. **`work-issue #42`** or **`work-issue 42`** — issue number provided
+   - Check if a folder starting with `42-` already exists under `.agents/issues/`
+     - If yes: offer to continue from that folder (detect current phase, skip to it)
+     - If no: proceed with Phase 1 using the issue number as input
+   - Pass `42` as the argument to `comprehend-issue`
+
+2. **`work-issue <description>`** — short description provided, no issue number
+   - Pass the description as the argument to `comprehend-issue`
+   - A GitHub issue will be created during Phase 1
 
 3. **`work-issue`** — no arguments
-   - Ask the developer to describe the task before doing anything else
+   - Ask the developer: "What would you like to work on?"
+   - Wait for a response, then treat the answer as a description (case 2)
 
-## Phase 1 — Comprehension
+## Step 2: Run Phase 1
 
-Follow the `comprehend-issue` skill exactly. Key steps:
+Invoke the `comprehend-issue` skill with the resolved input. Follow its instructions exactly —
+do not duplicate or summarise its steps here.
 
-1. **Gather context** from the issue, description, or developer input
-2. **Analyze and clarify** — ask targeted questions; do not assume
-3. **Evaluate task size** — propose subtask split if ~50+ files would be affected
-4. **Resolve the GitHub issue** — fetch or create with `gh issue create --label {type}`
-5. **Create the issue folder**: `.agents/issues/{issueNr}-{issueName}/`
-6. **Create the branch**: `{type}/{issueNr}-{issueName}`
-7. **Activate the planning lock**:
-   ```bash
-   echo "Phase 1 (comprehend-issue): {issueNr}-{issueName}" > .agents/.planning-active
-   ```
-8. **Save `comprehension.md`** using `.agents/templates/comprehension.md` as a template
+After Phase 1 completes, present the phase transition prompt from `comprehend-issue` verbatim,
+then ask:
 
-### Planning Lock
+> "Phase 1 is complete. Shall I continue to Phase 2 (Planning), or would you like to review
+> or adjust comprehension.md first?"
 
-The planning lock (`.agents/.planning-active`) prevents source file edits during Phases 1 and 2:
+Wait for the developer's response before proceeding.
 
-- Enforced by skill instructions — do not write or edit source files while the lock is active
-- Cleared automatically when Phase 3 (`implement-issue`) begins
-- To manually clear a stale lock: run the `unlock` skill
+## Step 3: Run Phase 2
 
-**Do not modify source files in this phase.** Only write to `.agents/issues/{issueNr}-{issueName}/`.
+When the developer confirms, invoke the `plan-issue` skill with the issue folder name.
 
-## Key Rules
+After Phase 2 completes, present the phase transition prompt from `plan-issue` verbatim,
+then ask:
 
-- **Always ask before assuming** — unclear requirements must be resolved in Phase 1
-- **No direct pushes to `main`** — all changes go through a pull request
-- **Do not skip verification** — a failing build or test suite must be fixed before reporting
-- **Branch naming**: `{type}/{issueNr}-{issueName}` (e.g. `feature/42-add-profile-component`)
-- **Commit format**: `{type}(#{issueNr}): description` (e.g. `feat(#42): add profile component`)
-- **Type mapping**: `feature` → `feat`, `bug` → `fix`, `chore` → `chore`, `refactoring` → `refactor`
+> "Phase 2 is complete. Shall I continue to Phase 3 (Implementation), or would you like to
+> review or adjust planning.md first?"
 
-## Completion
+Wait for the developer's response before proceeding.
 
-After saving `comprehension.md`, tell the developer:
+## Step 4: Run Phase 3
 
-```
-Phase 1 complete ✓
+When the developer confirms, invoke the `implement-issue` skill with the issue folder name.
 
-Issue:  #{issueNr} — {issueName}
-Branch: {type}/{issueNr}-{issueName}
-Folder: .agents/issues/{issueNr}-{issueName}/
-Lock:   Planning lock is active (.agents/.planning-active)
+After Phase 3 completes, present the phase transition prompt from `implement-issue` verbatim,
+then ask:
 
-Review comprehension.md and confirm the understanding is correct.
-When ready, start Phase 2:
-  plan-issue {issueNr}-{issueName}
-```
+> "Phase 3 is complete. Shall I continue to Phase 4 (Verification), or is there anything you
+> want to adjust first?"
 
-**Stop here.** Do not proceed to Phase 2 — wait for the developer to initiate it.
+Wait for the developer's response before proceeding.
+
+## Step 5: Run Phase 4
+
+When the developer confirms, invoke the `verify-issue` skill with the issue folder name.
+
+After Phase 4 completes, present the phase transition prompt from `verify-issue` verbatim,
+then ask:
+
+> "Phase 4 is complete. Shall I continue to Phase 5 (Reporting) and open the pull request?"
+
+Wait for the developer's response before proceeding.
+
+## Step 6: Run Phase 5
+
+When the developer confirms, invoke the `report-issue` skill with the issue folder name.
+
+## Phase Transition Rules
+
+- Always present the completing phase's transition prompt verbatim before asking the
+  continuation question — do not paraphrase or omit it.
+- If the developer wants to provide more input or adjustments, incorporate the feedback,
+  update the relevant artifact, then re-ask the continuation question.
+- If the developer asks to re-run a phase, invoke that phase's skill again before moving on.
+
+## Resuming an In-Progress Workflow
+
+If a folder already exists for the requested issue, determine the current phase by checking
+which artifacts are present:
+
+| Artifact present                   | Resume at  |
+| ---------------------------------- | ---------- |
+| `comprehension.md` only            | Phase 2    |
+| `comprehension.md` + `planning.md` | Phase 3    |
+| `implementation.md` present        | Phase 4    |
+| `verification.md` present          | Phase 5    |
+
+Inform the developer of the detected phase and ask whether to resume from there or restart.
