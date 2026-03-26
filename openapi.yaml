@@ -1,0 +1,1193 @@
+openapi: '3.1.0'
+
+info:
+  title: Schediochron API
+  version: '0.1.0'
+  description: |
+    REST API for Schediochron — a free, open-source, self-hostable time management platform.
+
+    All endpoints except `POST /auth/register`, `POST /auth/login`, and `POST /auth/refresh`
+    require a valid JWT access token in the `Authorization` header as `Bearer <accessToken>`.
+
+    See `docs/adr/ADR-005-rest-api-contract.md` for design decisions (versioning strategy,
+    auth scheme, error envelope, endpoint conventions, and authorisation rules).
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Auth
+    description: Authentication and token management
+  - name: Users
+    description: User management
+  - name: Time Entries
+    description: Time entry tracking (manual entries, clock-in/clock-out)
+  - name: Teams
+    description: Team management and membership
+  - name: Reports
+    description: Hours reporting
+
+# ---------------------------------------------------------------------------
+# Paths
+# ---------------------------------------------------------------------------
+
+paths:
+  # ---------- Auth ----------------------------------------------------------
+
+  /auth/register:
+    post:
+      tags: [Auth]
+      operationId: registerUser
+      summary: Register a new user account
+      description: |
+        Creates a new user account. The account is active immediately — no email
+        verification is required for MVP. Returns the created user and a token pair.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Validation failure (username format, password too short, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Username or email already taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      operationId: loginUser
+      summary: Authenticate with username and password
+      description: |
+        Authenticates an existing user with username and password. Returns the user
+        and a token pair on success.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Missing or malformed request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      operationId: refreshToken
+      summary: Exchange a refresh token for a new access token
+      description: |
+        Exchanges a valid refresh token for a new access token. The refresh token
+        may be rotated (a new one issued and the old one revoked) at the
+        implementation's discretion.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token refresh successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenPair'
+        '400':
+          description: Missing or malformed request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Refresh token not found, expired, or already revoked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logoutUser
+      summary: Revoke the current refresh token
+      description: |
+        Revokes the provided refresh token server-side. The access token is not
+        invalidated (it is stateless); its remaining TTL is the effective logout
+        grace period.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+      responses:
+        '204':
+          description: Logout successful — refresh token revoked
+        '400':
+          description: Missing or malformed request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Refresh token not found (treat as already logged out — 204 also acceptable)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ---------- Users ---------------------------------------------------------
+
+  /users:
+    get:
+      tags: [Users]
+      operationId: listUsers
+      summary: List all users
+      description: Returns all user accounts on the instance. Admin only.
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /users/{id}:
+    get:
+      tags: [Users]
+      operationId: getUser
+      summary: Get a user by ID
+      description: Returns the user with the given ID. Accessible by admins or the user themselves.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Users]
+      operationId: updateUser
+      summary: Update a user
+      description: |
+        Updates `displayName`, `email`, and/or `role` for the given user.
+        Accessible by admins or the user themselves. Only admins may change `role`.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Email already taken by another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/{id}/password:
+    patch:
+      tags: [Users]
+      operationId: adminResetPassword
+      summary: Admin password reset
+      description: |
+        Allows an admin to set a new password for any user. Requires a valid access
+        token with `role = "admin"`. All existing refresh tokens for the target user
+        are revoked on success, forcing re-authentication.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPasswordResetRequest'
+      responses:
+        '204':
+          description: Password updated — all refresh tokens for the user revoked
+        '400':
+          description: Validation failure (e.g. password too short)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ---------- Time Entries --------------------------------------------------
+
+  /time-entries:
+    get:
+      tags: [Time Entries]
+      operationId: listTimeEntries
+      summary: List time entries
+      description: |
+        Returns time entries for the authenticated user. Admins may pass a `userId`
+        query parameter to retrieve entries for a different user.
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          description: Filter by user ID (admin only)
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          description: Filter by entry status
+          schema:
+            $ref: '#/components/schemas/TimeEntryStatus'
+      responses:
+        '200':
+          description: List of time entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags: [Time Entries]
+      operationId: createTimeEntry
+      summary: Create a manual time entry
+      description: |
+        Creates a completed time entry (manual entry). Both `startTime` and `endTime`
+        are required. Validates the no-overlap rule and one-running-entry-per-user rule
+        (see ADR-001).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTimeEntryRequest'
+      responses:
+        '201':
+          description: Time entry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Overlaps an existing entry or user already has a running entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /time-entries/start:
+    post:
+      tags: [Time Entries]
+      operationId: startTimeEntry
+      summary: Clock in — start a running time entry
+      description: |
+        Creates a new running time entry for the authenticated user, starting now.
+        Blocked if the user already has a running entry (ADR-001).
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartTimeEntryRequest'
+      responses:
+        '201':
+          description: Running entry started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: User already has a running time entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /time-entries/stop:
+    post:
+      tags: [Time Entries]
+      operationId: stopTimeEntry
+      summary: Clock out — stop the running time entry
+      description: |
+        Stops the authenticated user's currently running time entry, setting `endTime`
+        to now and `status` to `"completed"`. Validates the no-overlap rule (ADR-001).
+        An optional `note` may be provided to set or overwrite the entry note at
+        clock-out time.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StopTimeEntryRequest'
+      responses:
+        '200':
+          description: Entry stopped and completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: No running entry found for this user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Resulting completed entry overlaps an existing entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /time-entries/{id}:
+    get:
+      tags: [Time Entries]
+      operationId: getTimeEntry
+      summary: Get a time entry by ID
+      description: Returns the time entry with the given ID. Accessible by the entry owner or an admin.
+      parameters:
+        - $ref: '#/components/parameters/EntryId'
+      responses:
+        '200':
+          description: Time entry found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Time Entries]
+      operationId: updateTimeEntry
+      summary: Update a time entry
+      description: |
+        Updates `note`, `startTime`, and/or `endTime` for the given entry. All fields
+        are optional. Re-validates invariants and overlap rules after update (ADR-001).
+        Accessible by the entry owner or an admin.
+      parameters:
+        - $ref: '#/components/parameters/EntryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTimeEntryRequest'
+      responses:
+        '200':
+          description: Time entry updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeEntry'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Updated entry overlaps an existing entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags: [Time Entries]
+      operationId: deleteTimeEntry
+      summary: Delete a time entry
+      description: Permanently deletes the time entry. Accessible by the entry owner or an admin.
+      parameters:
+        - $ref: '#/components/parameters/EntryId'
+      responses:
+        '204':
+          description: Time entry deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ---------- Teams ---------------------------------------------------------
+
+  /teams:
+    get:
+      tags: [Teams]
+      operationId: listTeams
+      summary: List teams
+      description: Returns all teams the authenticated user belongs to (member or admin).
+      responses:
+        '200':
+          description: List of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Teams]
+      operationId: createTeam
+      summary: Create a team
+      description: |
+        Creates a new team. The authenticated user is automatically added as both
+        the first admin and member (ADR-004).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeamRequest'
+      responses:
+        '201':
+          description: Team created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /teams/{id}:
+    get:
+      tags: [Teams]
+      operationId: getTeam
+      summary: Get a team by ID
+      description: Returns the team with the given ID. Accessible by any team member.
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      responses:
+        '200':
+          description: Team found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Teams]
+      operationId: updateTeam
+      summary: Update a team
+      description: Updates the team `name`. Team admin only.
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeamRequest'
+      responses:
+        '200':
+          description: Team updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Teams]
+      operationId: deleteTeam
+      summary: Delete a team
+      description: |
+        Permanently deletes the team. Team admin only. Blocked (`409 Conflict`) if
+        the team has members other than the requesting admin.
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      responses:
+        '204':
+          description: Team deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Team still has other members — remove them first
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /teams/{id}/members:
+    post:
+      tags: [Teams]
+      operationId: addTeamMember
+      summary: Add a member to a team
+      description: |
+        Adds the specified user to the team's `memberIds`. Team admin only. No invite
+        flow — direct assignment (ADR-004).
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTeamMemberRequest'
+      responses:
+        '200':
+          description: Member added — returns updated team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: Validation failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: User is already a member of this team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /teams/{id}/members/{userId}:
+    delete:
+      tags: [Teams]
+      operationId: removeTeamMember
+      summary: Remove a member from a team
+      description: |
+        Removes the specified user from `memberIds` (and `adminIds` if present).
+        Team admin only. Blocked if removing the user would leave the team with no
+        admins (ADR-004).
+      parameters:
+        - $ref: '#/components/parameters/TeamId'
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to remove
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Member removed — returns updated team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Cannot remove the last admin from the team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ---------- Reports -------------------------------------------------------
+
+  /reports/hours:
+    get:
+      tags: [Reports]
+      operationId: getHoursReport
+      summary: Get hours report
+      description: |
+        Returns a daily summary of hours worked. Supports filtering by user and date
+        range. Accessible by admins or the user whose data is requested.
+
+        If neither `from` nor `to` is provided, defaults to the current `range` period
+        ending today (e.g. `range=week` returns the last 7 days).
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          description: |
+            User to report on. Defaults to the authenticated user. Admins may pass
+            any user ID.
+          schema:
+            type: string
+            format: uuid
+        - name: range
+          in: query
+          required: false
+          description: Pre-set time range (shorthand for `from`/`to`)
+          schema:
+            type: string
+            enum: [day, week, month]
+        - name: from
+          in: query
+          required: false
+          description: |
+            Start of the reporting window (inclusive), ISO 8601 date (e.g. `2026-03-01`).
+            Overrides `range` if provided together.
+          schema:
+            type: string
+            format: date
+        - name: to
+          in: query
+          required: false
+          description: |
+            End of the reporting window (inclusive), ISO 8601 date (e.g. `2026-03-31`).
+            Overrides `range` if provided together.
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Hours report — daily breakdown
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HoursReportDay'
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+# ---------------------------------------------------------------------------
+# Components
+# ---------------------------------------------------------------------------
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT access token obtained from `POST /auth/login` or `POST /auth/register`.
+        Include as `Authorization: Bearer <accessToken>`.
+
+  # ---------- Reusable parameters -------------------------------------------
+
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      description: UUID v4 of the user
+      schema:
+        type: string
+        format: uuid
+
+    EntryId:
+      name: id
+      in: path
+      required: true
+      description: UUID v4 of the time entry
+      schema:
+        type: string
+        format: uuid
+
+    TeamId:
+      name: id
+      in: path
+      required: true
+      description: UUID v4 of the team
+      schema:
+        type: string
+        format: uuid
+
+  # ---------- Reusable responses --------------------------------------------
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid access token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Caller does not have permission to perform this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  # ---------- Schemas -------------------------------------------------------
+
+  schemas:
+    # --- Domain models ---
+
+    UserRole:
+      type: string
+      enum: [admin, member]
+      description: System-level role for the user (ADR-002)
+
+    User:
+      type: object
+      required: [id, username, displayName, email, role, createdAt, updatedAt]
+      description: A Schediochron user account (ADR-002). `passwordHash` is never included.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Immutable UUID v4 identifier
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          pattern: '^[a-zA-Z0-9_-]+$'
+          description: Unique system-wide; immutable after creation
+        displayName:
+          type: ['string', 'null']
+          maxLength: 100
+          description: Shown in UI instead of username when present
+        email:
+          type: ['string', 'null']
+          format: email
+          description: Optional; unique system-wide when present
+        role:
+          $ref: '#/components/schemas/UserRole'
+        createdAt:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC timestamp; set by persistence layer
+        updatedAt:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC timestamp; updated on every write
+
+    TimeEntryStatus:
+      type: string
+      enum: [running, completed]
+      description: Status of a time entry (ADR-001)
+
+    TimeEntry:
+      type: object
+      required:
+        [id, userId, startTime, endTime, status, note, createdAt, updatedAt]
+      description: A time tracking entry (ADR-001). `duration` is not stored — compute on demand.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Immutable UUID v4 identifier
+        userId:
+          type: string
+          format: uuid
+          description: UUID v4 of the owning user; immutable after creation
+        startTime:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC; seconds always zeroed (minute precision)
+        endTime:
+          type: ['string', 'null']
+          format: date-time
+          description: ISO 8601 UTC; seconds zeroed; null when entry is running
+        status:
+          $ref: '#/components/schemas/TimeEntryStatus'
+        note:
+          type: ['string', 'null']
+          maxLength: 255
+          description: Optional note; null if not provided; empty string not allowed
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Team:
+      type: object
+      required: [id, name, adminIds, memberIds, createdAt, updatedAt]
+      description: A team (ADR-004). `adminIds` is always a non-empty subset of `memberIds`.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Immutable UUID v4 identifier
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Team display name; leading/trailing whitespace trimmed
+        adminIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          description: Non-empty subset of memberIds; all have admin privileges
+        memberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          description: All team participants (regular members + admins)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TokenPair:
+      type: object
+      required: [accessToken, refreshToken]
+      description: A JWT access token and an opaque refresh token
+      properties:
+        accessToken:
+          type: string
+          description: Short-lived signed JWT; include as Authorization Bearer token
+        refreshToken:
+          type: string
+          description: Long-lived opaque token; used to obtain new access tokens
+
+    AuthResponse:
+      type: object
+      required: [user, accessToken, refreshToken]
+      description: Successful authentication response — user data + token pair
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        accessToken:
+          type: string
+          description: Short-lived signed JWT
+        refreshToken:
+          type: string
+          description: Long-lived opaque token
+
+    HoursReportDay:
+      type: object
+      required: [date, totalMinutes, entries]
+      description: Per-day summary for the hours report
+      properties:
+        date:
+          type: string
+          format: date
+          description: ISO 8601 date (e.g. "2026-03-26")
+        totalMinutes:
+          type: integer
+          minimum: 0
+          description: Sum of duration of all completed entries for this day, in minutes
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeEntry'
+          description: All completed time entries that fall on this date
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      description: Standard error envelope used for all 4xx and 5xx responses
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+        details:
+          description: Optional structured detail (e.g. field-level validation errors)
+
+    # --- Request bodies ---
+
+    RegisterRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          pattern: '^[a-zA-Z0-9_-]+$'
+          description: Unique system-wide; immutable after creation
+        password:
+          type: string
+          minLength: 8
+          description: Minimum 8 characters
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Optional display name
+        email:
+          type: string
+          format: email
+          description: Optional; enables self-service password reset in future
+
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    RefreshRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken:
+          type: string
+
+    LogoutRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken:
+          type: string
+
+    UpdateUserRequest:
+      type: object
+      description: All fields optional; at least one must be provided
+      properties:
+        displayName:
+          type: ['string', 'null']
+          maxLength: 100
+          description: Set to null to remove the display name
+        email:
+          type: ['string', 'null']
+          format: email
+          description: Set to null to remove the email address
+        role:
+          $ref: '#/components/schemas/UserRole'
+          description: Admin only — cannot be changed by the user themselves
+
+    AdminPasswordResetRequest:
+      type: object
+      required: [newPassword]
+      properties:
+        newPassword:
+          type: string
+          minLength: 8
+          description: New password; minimum 8 characters
+
+    CreateTimeEntryRequest:
+      type: object
+      required: [startTime, endTime]
+      description: Creates a completed (manual) time entry
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC; seconds will be zeroed
+        endTime:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC; seconds will be zeroed; must be after startTime
+        note:
+          type: string
+          maxLength: 255
+          description: Optional note
+
+    UpdateTimeEntryRequest:
+      type: object
+      description: All fields optional; at least one must be provided
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC; seconds will be zeroed
+        endTime:
+          type: ['string', 'null']
+          format: date-time
+          description: ISO 8601 UTC; seconds will be zeroed; must be after startTime
+        note:
+          type: ['string', 'null']
+          maxLength: 255
+          description: Set to null to remove the note
+
+    StartTimeEntryRequest:
+      type: object
+      description: Optional body for starting a time entry
+      properties:
+        note:
+          type: string
+          maxLength: 255
+          description: Optional note for the new entry
+
+    StopTimeEntryRequest:
+      type: object
+      description: Optional body for stopping a running time entry
+      properties:
+        note:
+          type: ['string', 'null']
+          maxLength: 255
+          description: Optional note to set or overwrite at clock-out
+
+    CreateTeamRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Team display name
+
+    UpdateTeamRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: New team display name
+
+    AddTeamMemberRequest:
+      type: object
+      required: [userId]
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: UUID v4 of the user to add as a member
