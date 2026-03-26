@@ -1,3 +1,2 @@
-[install.scopes]
-"@awesome.me" = { url = "https://npm.fontawesome.com/", token = "$FONTAWESOME_TOKEN" }
-"@fortawesome" = { url = "https://npm.fontawesome.com/", token = "$FONTAWESOME_TOKEN" }
+# No configuration required for contributing.
+# Pro font packages (phases 5 & 6 website only) require a token in bunfig.toml.
