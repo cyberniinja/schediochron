@@ -58,12 +58,12 @@
         "vitest": "^4.1.0",
       },
     },
-    "apps/schediochron": {
-      "name": "@schediochron/schediochron",
+    "apps/react-app": {
+      "name": "@schediochron/react-app",
       "version": "0.1.1",
     },
-    "apps/schediochron-e2e": {
-      "name": "@schediochron/schediochron-e2e",
+    "apps/react-app-e2e": {
+      "name": "@schediochron/react-app-e2e",
       "version": "0.0.1",
     },
     "packages/core": {
@@ -73,6 +73,10 @@
         "tslib": "^2.3.0",
         "zod": "^3.24.0",
       },
+    },
+    "packages/react-components": {
+      "name": "@schediochron/react-components",
+      "version": "0.0.1",
     },
   },
   "trustedDependencies": [
@@ -690,9 +694,11 @@
 
     "@schediochron/core": ["@schediochron/core@workspace:packages/core"],
 
-    "@schediochron/schediochron": ["@schediochron/schediochron@workspace:apps/schediochron"],
+    "@schediochron/react-app": ["@schediochron/react-app@workspace:apps/react-app"],
 
-    "@schediochron/schediochron-e2e": ["@schediochron/schediochron-e2e@workspace:apps/schediochron-e2e"],
+    "@schediochron/react-app-e2e": ["@schediochron/react-app-e2e@workspace:apps/react-app-e2e"],
+
+    "@schediochron/react-components": ["@schediochron/react-components@workspace:packages/react-components"],
 
     "@sinclair/typebox": ["@sinclair/typebox@0.34.48", "", {}, "sha512-kKJTNuK3AQOrgjjotVxMrCn1sUJwM76wMszfq1kdU4uYVJjvEWuFQ6HgvLt4Xz3fSmZlTOxJ/Ie13KnIcWQXFA=="],
 
