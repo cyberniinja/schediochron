@@ -13,9 +13,10 @@ export const getWeekArray = (year: number, month: number): Date[][] => {
   const lastDay = new Date(year, month + 1, 0);
   const numDays = lastDay.getDate();
 
-  // Get the day of the week for the first day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  // Native JS Date.getDay() returns 0 (Sunday) … 6 (Saturday).
+  // Re-map Sunday from 0 to 7 so that the week starts on Monday: Mon=1 … Sun=7.
   let startDay = firstDay.getDay();
-  startDay = startDay === 0 ? 7 : startDay; // Adjust so that Monday = 1, ..., Sunday = 7
+  startDay = startDay === 0 ? 7 : startDay;
 
   // Fill in the days from the previous month
   for (let i = startDay - 1; i > 0; i--) {

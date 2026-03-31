@@ -16,6 +16,8 @@ export default defineConfig(() => ({
   },
   plugins: [react()],
   resolve: {
+    // Vite resolves workspace packages from source (no node_modules symlinks in bun workspaces).
+    // TypeScript tsconfig.base.json paths point to dist/ (required for composite project rootDir constraints).
     alias: {
       '@schediochron/react-components': resolve(
         __dirname,
