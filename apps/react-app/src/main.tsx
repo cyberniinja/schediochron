@@ -1,7 +1,8 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Layout } from './components/layout/Layout';
+import { Layout } from '@schediochron/react-components';
+import { Navbar } from './components/layout/navbar/Navbar';
 import { HomePage } from './pages/HomePage';
 
 const root = ReactDOM.createRoot(
@@ -11,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <Layout footer="© 2024 Elias Mjøen">
+      <Layout nav={<Navbar />} footer="© 2024 Elias Mjøen">
         <Routes>
           <Route path="/" element={<HomePage />} />
         </Routes>

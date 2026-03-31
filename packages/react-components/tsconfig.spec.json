@@ -32,6 +32,9 @@
   "references": [
     {
       "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "../../packages/core"
     }
   ]
 }
