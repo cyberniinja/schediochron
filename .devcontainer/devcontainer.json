@@ -7,7 +7,7 @@
     "ghcr.io/devcontainers/features/git:1": {}
   },
 
-  "onCreateCommand": "curl -fsSL https://bun.sh/install | bash && echo 'export PATH=\"$HOME/.bun/bin:$PATH\"' >> ~/.bashrc",
+  "onCreateCommand": "bash .devcontainer/on-create.sh",
   "postCreateCommand": "export PATH=\"$HOME/.bun/bin:$PATH\" && bun install && bunx playwright install --with-deps chromium",
 
   "forwardPorts": [4200],
@@ -38,10 +38,9 @@
         "esbenp.prettier-vscode"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.defaultProfile.linux": "zsh",
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "task.allowAutomaticTasks": "on"
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
       }
     }
   },
