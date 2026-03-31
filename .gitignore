@@ -61,3 +61,4 @@ test-output
 # Tool-specific agent wrappers — contributors add their own locally
 .github/agents/
 .claude/
+package-lock.json
