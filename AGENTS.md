@@ -4,6 +4,31 @@ Skills live in `.agents/skills/`. Each skill is a self-contained markdown file t
 can read and follow — regardless of how you invoke it (slash command, natural language, planning
 mode, or agent mode).
 
+## GitHub Coding Agent
+
+When you are invoked as a **GitHub Copilot coding agent** (assigned to a GitHub issue), follow
+the `auto-work-issue` skill:
+
+```
+Read and follow: .agents/skills/auto-work-issue.md
+```
+
+This skill runs all 5 phases autonomously — comprehension, planning, implementation,
+verification, and reporting — without requiring human confirmation at phase boundaries.
+It posts progress updates as GitHub issue comments and opens a pull request when done.
+
+**Summary of what you do when assigned to an issue:**
+
+1. Post a start comment on the issue
+2. Run Phase 1 (`comprehend-issue`): understand requirements, create issue folder and branch
+3. Run Phase 2 (`plan-issue`): research codebase, design and select an approach
+4. Run Phase 3 (`implement-issue`): write code and commit
+5. Run Phase 4 (`verify-issue`): run typecheck, tests, lint — fix failures, retry up to 3×
+6. Run Phase 5 (`report-issue`): open a pull request
+
+See `.agents/skills/auto-work-issue.md` for the full protocol including autonomous decision
+rules and how to handle ambiguous requirements.
+
 ## How to Invoke a Skill
 
 Ask your AI tool to run a skill by name or description. Examples:
@@ -48,6 +73,7 @@ Enforced by skill instructions: **do not write or edit source files while the lo
 
 | Skill              | File                                                                     | Phase       | Description                                                                    |
 | ------------------ | ------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------ |
+| `auto-work-issue`  | [.agents/skills/auto-work-issue.md](.agents/skills/auto-work-issue.md)   | Entry point | Autonomous 5-phase workflow for GitHub coding agent assignments — no human phase gates |
 | `work-issue`       | [.agents/skills/work-issue.md](.agents/skills/work-issue.md)             | Entry point | Orchestrate the full 5-phase workflow; asks to continue at each phase boundary |
 | `comprehend-issue` | [.agents/skills/comprehend-issue.md](.agents/skills/comprehend-issue.md) | Phase 1     | Understand the task, clarify requirements, activate planning lock              |
 | `plan-issue`       | [.agents/skills/plan-issue.md](.agents/skills/plan-issue.md)             | Phase 2     | Design approaches, get developer decision, produce implementation plan         |
@@ -148,11 +174,15 @@ verify-environment
 
 Then once healthy:
 
-```
-work-issue #42
-```
+- **Interactive** (human confirms each phase):
+  ```
+  work-issue #42
+  ```
 
-The agent will run all phases, pausing at each phase boundary for your confirmation to continue.
+- **Autonomous** (all phases run automatically, progress posted to issue):
+  ```
+  auto-work-issue 42
+  ```
 
 ### Starting a Codespace
 
