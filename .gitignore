@@ -59,5 +59,6 @@ test-output
 .agents/.planning-block-count
 
 # Tool-specific agent wrappers — contributors add their own locally
-.github/agents/
+.github/agents/*
+!.github/agents/auto-work-issue.agent.md
 .claude/
