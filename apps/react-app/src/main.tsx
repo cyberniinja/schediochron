@@ -5,7 +5,7 @@ import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/HomePage';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 
 root.render(
@@ -17,5 +17,5 @@ root.render(
         </Routes>
       </Layout>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

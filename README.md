@@ -19,21 +19,21 @@ Teams shouldn't have to pay for time management software. Schediochron provides 
 
 Schediochron is composed of independently usable packages:
 
-| Package | Purpose | Status |
-|---------|---------|--------|
-| `@schediochron/core` | Data models, repository interfaces, and validation logic | 🔜 Phase 1 |
-| `@schediochron/sql` | PostgreSQL database adapter | 🔜 Phase 2 |
-| `@schediochron/mongo` | MongoDB database adapter | 🔜 Phase 4 |
-| `@schediochron/api` | REST API server | 🔜 Phase 2 |
-| `@schediochron/config` | Configuration schema and loader for composing modules | 🔜 Phase 3 |
-| `@schediochron/react-components` | Reusable React UI components (calendar, time entry, etc.) | 🔜 Phase 1 |
-| `@schediochron/react-app` | Full React frontend application | 🚧 Prototype |
-| `@schediochron/vue-components` | Reusable Vue UI components | 🔜 Phase 4 |
-| `@schediochron/vue-app` | Full Vue frontend application | 🔜 Phase 4 |
-| `@schediochron/cli` | Command-line interface | 🔜 Phase 4 |
-| `@schediochron/mcp` | MCP server for AI assistant integration | 🔜 Phase 4 |
-| `@schediochron/starter-pg` | Pre-configured bundle: PostgreSQL + API + React | 🔜 Phase 3 |
-| `@schediochron/starter-mongo` | Pre-configured bundle: MongoDB + API + React | 🔜 Phase 4 |
+| Package                          | Purpose                                                   | Status       |
+| -------------------------------- | --------------------------------------------------------- | ------------ |
+| `@schediochron/core`             | Data models, repository interfaces, and validation logic  | 🔜 Phase 1   |
+| `@schediochron/sql`              | PostgreSQL database adapter                               | 🔜 Phase 2   |
+| `@schediochron/mongo`            | MongoDB database adapter                                  | 🔜 Phase 4   |
+| `@schediochron/api`              | REST API server                                           | 🔜 Phase 2   |
+| `@schediochron/config`           | Configuration schema and loader for composing modules     | 🔜 Phase 3   |
+| `@schediochron/react-components` | Reusable React UI components (calendar, time entry, etc.) | 🔜 Phase 1   |
+| `@schediochron/react-app`        | Full React frontend application                           | 🚧 Prototype |
+| `@schediochron/vue-components`   | Reusable Vue UI components                                | 🔜 Phase 4   |
+| `@schediochron/vue-app`          | Full Vue frontend application                             | 🔜 Phase 4   |
+| `@schediochron/cli`              | Command-line interface                                    | 🔜 Phase 4   |
+| `@schediochron/mcp`              | MCP server for AI assistant integration                   | 🔜 Phase 4   |
+| `@schediochron/starter-pg`       | Pre-configured bundle: PostgreSQL + API + React           | 🔜 Phase 3   |
+| `@schediochron/starter-mongo`    | Pre-configured bundle: MongoDB + API + React              | 🔜 Phase 4   |
 
 **Starter bundles** let you run the full stack with a single command. They're organized by backend — choose PostgreSQL or MongoDB, the frontend is included and swappable.
 

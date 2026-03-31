@@ -4,10 +4,10 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/schediochron-e2e"
+      "path": "./apps/react-app-e2e"
     },
     {
-      "path": "./apps/schediochron"
+      "path": "./apps/react-app"
     },
     {
       "path": "./packages/core"

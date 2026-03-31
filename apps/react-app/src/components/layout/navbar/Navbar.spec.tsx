@@ -8,7 +8,7 @@ describe('Navbar', () => {
     const { baseElement } = render(
       <MemoryRouter>
         <Navbar />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(baseElement).toBeTruthy();
   });
