@@ -1,10 +1,10 @@
 {
-  "name": "@schediochron/schediochron-e2e",
+  "name": "@schediochron/react-app-e2e",
   "version": "0.0.1",
   "private": true,
   "nx": {
     "implicitDependencies": [
-      "@schediochron/schediochron"
+      "@schediochron/react-app"
     ]
   }
 }
