@@ -46,6 +46,7 @@
   },
 
   "remoteEnv": {
-    "PATH": "${containerEnv:PATH}:${containerEnv:HOME}/.bun/bin"
+    "PATH": "${containerEnv:PATH}:${containerEnv:HOME}/.bun/bin",
+    "SHELL": "/usr/bin/zsh"
   }
 }
