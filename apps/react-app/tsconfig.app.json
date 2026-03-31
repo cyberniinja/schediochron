@@ -13,6 +13,9 @@
     ],
     "rootDir": "src"
   },
+  "references": [
+    { "path": "../../packages/react-components" }
+  ],
   "exclude": [
     "out-tsc",
     "dist",

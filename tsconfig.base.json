@@ -16,6 +16,12 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@schediochron/source"]
+    "customConditions": ["@schediochron/source"],
+    "paths": {
+      "@schediochron/core": ["./packages/core/dist/index.d.ts"],
+      "@schediochron/react-components": [
+        "./packages/react-components/dist/index.d.ts"
+      ]
+    }
   }
 }

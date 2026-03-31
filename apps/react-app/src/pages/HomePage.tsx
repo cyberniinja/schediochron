@@ -1,4 +1,4 @@
-import Calendar from '../components/calendar/Calendar';
+import { Calendar } from '@schediochron/react-components';
 
 function HomePage() {
   return <Calendar />;

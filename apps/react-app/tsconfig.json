@@ -7,6 +7,9 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "../../packages/react-components"
     }
   ],
   "extends": "../../tsconfig.base.json"
