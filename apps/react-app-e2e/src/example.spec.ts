@@ -37,7 +37,7 @@ test.describe('Calendar', () => {
     await page.goto('/');
     for (const label of ['Day', 'Week', 'Month', 'Year']) {
       await expect(
-        page.locator('label').filter({ hasText: label })
+        page.locator('label').filter({ hasText: label }),
       ).toBeVisible();
     }
   });

@@ -11,13 +11,13 @@ All workflow skills live in `.agents/skills/` — self-contained, tool-agnostic 
 
 ## Documentation Structure
 
-| File                                       | Purpose                                                             |
-| ------------------------------------------ | ------------------------------------------------------------------- |
-| [../AGENTS.md](../AGENTS.md)               | **Central skill index** — all 14 skills with descriptions and links |
-| [workflow.md](workflow.md)                 | Phase-gate model, planning lock, workflow diagrams                  |
+| File                         | Purpose                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------ |
+| [../AGENTS.md](../AGENTS.md) | **Central skill index** — all 14 skills with descriptions and links                  |
+| [workflow.md](workflow.md)   | Phase-gate model, planning lock, workflow diagrams                                   |
 | [../AGENTS.md](../AGENTS.md) | **Also**: Agent Development Reference — commit standards, branch naming, QA commands |
-| [codebase.md](codebase.md)                 | Technical reference for the Schediochron codebase                   |
-| [config.json](config.json)                 | Machine-readable workspace configuration                            |
+| [codebase.md](codebase.md)   | Technical reference for the Schediochron codebase                                    |
+| [config.json](config.json)   | Machine-readable workspace configuration                                             |
 
 ## Workflow Overview
 

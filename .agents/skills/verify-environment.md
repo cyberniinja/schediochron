@@ -61,12 +61,12 @@ cat .agents/.planning-active 2>/dev/null && echo "LOCK_PRESENT" || echo "NO_LOCK
 
 After all checks, output a brief status table:
 
-| Check             | Status | Notes |
-| ----------------- | ------ | ----- |
-| Required tools    | ✅/❌  | ...   |
-| Dependencies      | ✅/❌  | ...   |
-| Type check        | ✅/❌  | ...   |
-| Planning lock     | ✅/❌  | ...   |
+| Check          | Status | Notes |
+| -------------- | ------ | ----- |
+| Required tools | ✅/❌  | ...   |
+| Dependencies   | ✅/❌  | ...   |
+| Type check     | ✅/❌  | ...   |
+| Planning lock  | ✅/❌  | ...   |
 
 If all checks pass:
 

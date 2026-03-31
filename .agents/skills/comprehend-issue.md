@@ -26,7 +26,7 @@ issue folder, and activate the planning lock.
    - If no folder exists, fetch the issue: `gh issue view {N} --json number,title,body,labels`
    - If the GitHub API returns an error (issue not found), ask the developer:
      > "GitHub issue #{N} was not found and no existing folder matches. Did you mean a different issue number, or would you like to start from a description?"
-     Wait for the developer to respond before proceeding.
+     > Wait for the developer to respond before proceeding.
 2. `comprehend-issue Add dark mode toggle` — short description, no issue yet
 3. `comprehend-issue` — no arguments; ask the developer to describe the task
 

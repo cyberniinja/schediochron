@@ -134,7 +134,9 @@ export function Calendar() {
                     className={`${
                       isToday && isCurrentMonth ? styles['today'] : ''
                     }`}
-                    aria-current={isToday && isCurrentMonth ? 'date' : undefined}
+                    aria-current={
+                      isToday && isCurrentMonth ? 'date' : undefined
+                    }
                   >
                     {dayNumber}
                   </span>

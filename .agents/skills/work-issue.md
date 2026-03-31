@@ -113,11 +113,11 @@ When the developer confirms, invoke the `report-issue` skill with the issue fold
 If a folder already exists for the requested issue, determine the current phase by checking
 which artifacts are present:
 
-| Artifact present                   | Resume at  |
-| ---------------------------------- | ---------- |
-| `comprehension.md` only            | Phase 2    |
-| `comprehension.md` + `planning.md` | Phase 3    |
-| `implementation.md` present        | Phase 4    |
-| `verification.md` present          | Phase 5    |
+| Artifact present                   | Resume at |
+| ---------------------------------- | --------- |
+| `comprehension.md` only            | Phase 2   |
+| `comprehension.md` + `planning.md` | Phase 3   |
+| `implementation.md` present        | Phase 4   |
+| `verification.md` present          | Phase 5   |
 
 Inform the developer of the detected phase and ask whether to resume from there or restart.
