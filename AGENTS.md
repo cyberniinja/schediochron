@@ -204,6 +204,7 @@ bun nx e2e schediochron-e2e    # End-to-end tests (Playwright)
 - **TypeScript strict mode** is enforced — always provide proper type annotations
 - **No `console.error` or `console.warn`** in production code
 - **No direct pushes to `main`** — all changes go through a pull request
+- **Never merge a pull request** — merging is a human-only action; always stop after opening the PR and wait for explicit developer instruction
 - **Always run typecheck + test + lint** before committing
 
 ### Project Structure
