@@ -95,6 +95,29 @@ brings up the API (http://localhost:3000) and the React dev server
 Stop with `docker compose down`, or `docker compose down -v` to also drop the
 database volume.
 
+#### Seed development data
+
+To get a populated environment you can log into immediately, seed the database
+once it is up (`DATABASE_URL` must point at the running PostgreSQL — use the
+value from `.env`; from the host that is `postgres://…@localhost:5432/…`):
+
+```bash
+DATABASE_URL=postgres://schediochron:schediochron@localhost:5432/schediochron \
+  bun run --filter @schediochron/sql seed
+```
+
+The seed applies any pending migrations first, then creates two users, a team
+containing both (admin as team admin), and sample time entries across several
+days — several completed and exactly one still running. It is idempotent, so
+running it again is safe. The seeded credentials are:
+
+| Username | Password      | Role   |
+| -------- | ------------- | ------ |
+| `admin`  | `password123` | admin  |
+| `member` | `password123` | member |
+
+These are development-only defaults — never use them anywhere real.
+
 ### Common Commands
 
 ```bash

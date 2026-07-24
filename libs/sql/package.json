@@ -26,7 +26,8 @@
     "build": "tsc -b tsconfig.lib.json",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "migrate": "bun run src/migrate.ts"
+    "migrate": "bun run src/migrate.ts",
+    "seed": "bun run src/seed.ts"
   },
   "dependencies": {
     "@schediochron/core": "workspace:^",
