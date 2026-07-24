@@ -188,7 +188,9 @@ async function main(): Promise<void> {
       case 'down': {
         const steps = Number(process.argv[3] ?? '1');
         if (!Number.isInteger(steps) || steps < 1) {
-          throw new Error(`down expects a positive step count, got "${process.argv[3]}"`);
+          throw new Error(
+            `down expects a positive step count, got "${process.argv[3]}"`,
+          );
         }
         const reverted = await migrateDown(sql, steps);
         console.log(
@@ -205,7 +207,9 @@ async function main(): Promise<void> {
         break;
       }
       default:
-        console.info(`Unknown command "${command}". Use: up | down [n] | status`);
+        console.info(
+          `Unknown command "${command}". Use: up | down [n] | status`,
+        );
         process.exitCode = 1;
     }
   } finally {

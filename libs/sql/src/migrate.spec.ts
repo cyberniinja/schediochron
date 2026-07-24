@@ -73,7 +73,9 @@ describe('discoverMigrations', () => {
       '0001_b.up.sql': '',
       '0001_b.down.sql': '',
     });
-    expect(() => discoverMigrations(dir)).toThrow(/Duplicate migration version/);
+    expect(() => discoverMigrations(dir)).toThrow(
+      /Duplicate migration version/,
+    );
   });
 });
 
