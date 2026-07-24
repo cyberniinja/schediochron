@@ -42,13 +42,16 @@ const operations = [
   // documented success status. Their routing, status codes, and authorisation
   // are covered end-to-end in routes/teams.spec.ts.
 
-  { id: 'getHoursReport', method: 'GET', path: '/reports/hours', status: 200 },
+  // getHoursReport is omitted here: it is a real, auth-protected endpoint (#33),
+  // so a tokenless smoke request cannot reach its documented success status. Its
+  // routing, status codes, aggregation, and authorisation are covered end-to-end
+  // in routes/reports.spec.ts.
 ] as const;
 
 describe('openapi.yaml operations', () => {
   it('covers every documented operation', () => {
     // Guards against an endpoint being dropped from the table along with its route.
-    expect(operations).toHaveLength(5);
+    expect(operations).toHaveLength(4);
   });
 
   for (const { id, method, path, status } of operations) {
