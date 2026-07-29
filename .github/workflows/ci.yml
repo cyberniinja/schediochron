@@ -11,6 +11,26 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+
+    # A throwaway PostgreSQL for the full-stack integration tests (#35). The
+    # suite reads `INTEGRATION_DATABASE_URL` (set on the test step below) and
+    # skips itself when it is absent, so this service is what makes those tests
+    # actually run in CI rather than skip.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: schediochron
+          POSTGRES_PASSWORD: schediochron
+          POSTGRES_DB: schediochron_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U schediochron -d schediochron_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - uses: actions/checkout@v4
 
@@ -36,5 +56,7 @@ jobs:
       - run: bun run lint
       - run: bun run typecheck
       - run: bun run test
+        env:
+          INTEGRATION_DATABASE_URL: postgres://schediochron:schediochron@localhost:5432/schediochron_test
       - run: bun run build
       - run: bun run e2e
